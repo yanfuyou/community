@@ -6,6 +6,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
 
+/**
+ * @Author yanfuyou
+ * @Description mvc配置类
+ * @Date 下午9:11 2022/9/8
+ */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
     @Override

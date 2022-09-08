@@ -10,11 +10,11 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
- * Swagger的配置类
+ * @Author yanfuyou
+ * @Description swagger配置类
+ * @Date 下午9:11 2022/9/8
  */
 @Configuration
 @EnableSwagger2
