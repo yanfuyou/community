@@ -34,23 +34,24 @@ spring:
       #filters通过别名的方式配置扩展插件，常用的插件有：
       #监控统计用的filter:stat 日志用的filter:log4j 防御sql注入的filter:wall
       filters: stat,wall,log4j
-      #设置访问druid监控页面的拦截路径及账号和密码,默认没有
-      stat-view-servlet:
-        enabled: true
-        url-pattern: /druid/*
-        login-username: admin
-        login-password: admin
+
     dynamic:
       primary: master
       strict: false
       datasource:
         master:
           url: jdbc:mysql://mysql.sqlpub.com:3306/community?useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
-          username: yanfuyou
-          password: d40131522f6ee578
+#          username: yanfuyou
+          username: ENC(3ACEjPDauw5sPp7sOA6S5GlRtG5TguMx)
+#          password: d40131522f6ee578
+          password: ENC(n19liLUJvACUsf/Qg9vUhzN824lQcurmK+ps3/QHmKI=)
           driver-class-name: com.mysql.cj.jdbc.Driver
 
 logging:
   config: classpath:logback-spring.xml
   level:
     root: info
+
+jasypt:
+  encryptor:
+    password: fuyou20220909
