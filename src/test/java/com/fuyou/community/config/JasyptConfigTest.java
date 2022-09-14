@@ -15,7 +15,8 @@ class JasyptConfigTest {
     public void pwdTest(){
         String yanfuyou = encryptor.encrypt("yanfuyou");
         String password = encryptor.encrypt("d40131522f6ee578");
-
-        System.out.println("pa-" +  password + "us-" +yanfuyou);
+        String fuyou = encryptor.encrypt("fuyou");
+        System.out.println("redisPwd:" + fuyou);
+//        System.out.println("pa-" +  password + "user-" +yanfuyou);
     }
 }
