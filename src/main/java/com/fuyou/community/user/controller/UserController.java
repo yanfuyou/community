@@ -28,12 +28,13 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
-    public ResultVo login(@RequestBody(required = true) LoginDto dto){
+    public ResultVo<Object> login(@RequestBody(required = true) LoginDto dto){
         System.out.println(dto);
         return userService.login(dto);
     }
 
     @GetMapping("/user/{id}")
+    @ApiOperation("根据id获取用户信息")
     public ResultVo<User> getUser(@PathVariable("id") String id, HttpServletResponse response){
         User user = userService.getUserById(id);
         log.info("查询{}用户",id);
@@ -42,7 +43,19 @@ public class UserController {
 
     @PostMapping("/signup")
     @ApiOperation("用户注册")
-    public ResultVo signUp(@RequestBody User user){
+    public ResultVo<Object> signUp(@RequestBody User user){
         return userService.signUp(user);
+    }
+
+    @PostMapping("/update")
+    @ApiOperation("根据id更新用户信息")
+    public ResultVo<Object> updateUserById(@RequestBody User user){
+        int i = userService.updateUserById(user);
+        System.out.println(user);
+        if (i > 0){
+            return ResultVo.success(2000,"用户信息更新成功。");
+        }else {
+            return ResultVo.fail(5000,"用户信息更新失败");
+        }
     }
 }

@@ -32,6 +32,10 @@ public class User extends BaseBean {
     @ApiModelProperty("密码盐值")
     private String userSalt;
 
+    @TableField("USER_AVATAR")
+    @ApiModelProperty("用户头像")
+    private String userAvatar;
+
     @TableField("USER_STATUS")
     @ApiModelProperty("用户状态 1：删除 0：正常")
     private String userStatus;

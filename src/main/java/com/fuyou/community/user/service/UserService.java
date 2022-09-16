@@ -20,6 +20,13 @@ public interface UserService {
      */
     User getUserById(String id);
 
+    /**
+     * @Author yanfuyou
+     * @Description 用户登录
+     * @Date 下午10:23 2022/9/16
+     * @Param 登录信息
+     * @Return
+     */
     ResultVo login(LoginDto dto);
 
     /**
@@ -30,4 +37,12 @@ public interface UserService {
      * @Return
      */
     ResultVo signUp(User user);
+
+    /**
+     * @Author yanfuyou
+     * @Description id更新用户信息
+     * @Date 下午10:37 2022/9/16
+     * @Return
+     */
+    int updateUserById(User user);
 }
