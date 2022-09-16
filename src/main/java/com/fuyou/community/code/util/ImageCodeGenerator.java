@@ -28,7 +28,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
             g.drawLine(x, y, x + xl, y + yl);
         }
 
-        int length = 4;
+        int length = 6;
         String sRand = "";
         for (int i = 0; i < length; i++) {
             String rand = String.valueOf(random.nextInt(10));

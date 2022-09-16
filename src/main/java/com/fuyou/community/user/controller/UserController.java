@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @CrossOrigin(allowCredentials = "true")
-@Api(value = "用户控制器",tags = "用户相关操作")
+@Api(tags = "用户相关操作")
+@RequestMapping("/user")
 @Slf4j
 public class UserController {
 
@@ -25,11 +26,11 @@ public class UserController {
     @Autowired
     RedisTemplate<String,Object> redisTemplate;
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @ApiOperation("用户登录")
-    public User login(@RequestBody(required = false) LoginDto dto){
-        redisTemplate.opsForValue().set("test","test");
-        return new User();
+    public ResultVo login(@RequestBody(required = true) LoginDto dto){
+        System.out.println(dto);
+        return userService.login(dto);
     }
 
     @GetMapping("/user/{id}")
@@ -37,5 +38,11 @@ public class UserController {
         User user = userService.getUserById(id);
         log.info("查询{}用户",id);
         return ResultVo.success(2000,"成功",user);
+    }
+
+    @PostMapping("/signup")
+    @ApiOperation("用户注册")
+    public ResultVo signUp(@RequestBody User user){
+        return userService.signUp(user);
     }
 }

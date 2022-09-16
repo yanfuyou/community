@@ -12,11 +12,11 @@ import lombok.Data;
 public class Role {
 
     @ApiModelProperty("角色id")
-    @TableField("id")
+    @TableField("ID")
     private String id;
 
     @ApiModelProperty("角色名称")
-    @TableField("role_name")
+    @TableField("ROLE_NAME")
     private String roleNAme;
 
 }

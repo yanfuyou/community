@@ -10,4 +10,6 @@ import lombok.Data;
 public class LoginDto extends User {
     @ApiModelProperty("验证码")
     private String verification;
+    @ApiModelProperty("验证码key")
+    private String codeUid;
 }
