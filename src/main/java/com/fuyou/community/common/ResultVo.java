@@ -8,7 +8,7 @@ import lombok.Data;
 public class ResultVo<T> {
     private int code;
     private String msg;
-    private T data;
+    private T records;
 
     private ResultVo() {
     }
@@ -18,18 +18,18 @@ public class ResultVo<T> {
         this.msg = msg;
     }
 
-    private ResultVo(int code, String msg, T data) {
+    private ResultVo(int code, String msg, T records) {
         this.code = code;
         this.msg = msg;
-        this.data = data;
+        this.records = records;
     }
 
     public static ResultVo<Object> success(int code, String msg) {
         return new ResultVo<>(code, msg);
     }
 
-    public static <T> ResultVo<T> success(int code, String msg, T data) {
-        return new ResultVo<>(code, msg,data);
+    public static <T> ResultVo<T> success(int code, String msg, T records) {
+        return new ResultVo<>(code, msg,records);
     }
 
     public static ResultVo<Object> fail(int code, String msg) {
