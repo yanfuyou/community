@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-    private final RedisTemplate<String,Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
 
     @Override
@@ -41,23 +41,23 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUserName, dto.getUserName()));
         String uid = IdUtil.simpleUUID();
         String tokenUid = "token:" + uid;
-        if (ObjectUtil.isEmpty(user)){
-            return ResultVo.fail(4000,"用户不存在,请先注册");
-        }else {
+        if (ObjectUtil.isEmpty(user)) {
+            return ResultVo.fail(4000, "用户不存在,请先注册");
+        } else {
             String excr = PasswordUtil.excr(dto.getUserPassword(), user.getUserSalt());
-            if (!user.getUserPassword().equals(excr)){
-                return ResultVo.fail(5000,"密码错误");
+            if (!user.getUserPassword().equals(excr)) {
+                return ResultVo.fail(5000, "密码错误");
             }
         }
-        redisTemplate.opsForValue().set(tokenUid, JSON.toJSONString(user),30, TimeUnit.MINUTES);
-        return ResultVo.success(2000,"登录成功",tokenUid);
+        redisTemplate.opsForValue().set(tokenUid, JSON.toJSONString(user), 30, TimeUnit.MINUTES);
+        return ResultVo.success(2000, "登录成功", tokenUid);
     }
 
     @Override
     public ResultVo signUp(User user) {
         User old = userMapper.selectOne(Wrappers.lambdaQuery(User.class).eq(User::getUserName, user.getUserName()));
-        if (ObjectUtil.isNotEmpty(old)){
-            return ResultVo.fail(5000,"用户名已存在");
+        if (ObjectUtil.isNotEmpty(old)) {
+            return ResultVo.fail(5000, "用户名已存在");
         }
         user.setId(IdUtil.simpleUUID());
 //        盐值
@@ -65,13 +65,11 @@ public class UserServiceImpl implements UserService {
         String excr = PasswordUtil.excr(user.getUserPassword(), salt);
         user.setUserPassword(excr);
         user.setUserSalt(salt);
-        try{
-            userMapper.insert(user);
-        }catch (Exception e){
-            log.error("用户注册异常：{}",e.getMessage());
-            throw new ServiceException(5000,"用户注册失败");
+        int insert = userMapper.insert(user);
+        if (insert < 1) {
+            return ResultVo.fail(5000, "用户注册失败");
         }
-        return ResultVo.success(2000,"注册成功");
+        return ResultVo.success(2000, "注册成功");
     }
 
     @Override
