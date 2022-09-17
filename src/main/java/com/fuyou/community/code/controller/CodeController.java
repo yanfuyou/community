@@ -48,8 +48,8 @@ public class CodeController {
         ImageCode imageCode = imageCodeGenerator.creatCode();
         Map<String,String> code = new HashMap<>();
         code.put("uid", "code:"+UUID.randomUUID().toString());
-        code.put("code",imageCode.getCode());
-        redisTemplate.opsForValue().set(code.get("uid"),code.get("code"),1, TimeUnit.MINUTES);
+        code.put("codeNum",imageCode.getCode());
+        redisTemplate.opsForValue().set(code.get("uid"),code.get("codeNum"),1, TimeUnit.MINUTES);
         return ResultVo.success(2000,"验证码获取成功",code);
     }
 

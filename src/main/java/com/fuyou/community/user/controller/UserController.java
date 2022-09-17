@@ -1,6 +1,8 @@
 package com.fuyou.community.user.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.service.UserService;
@@ -24,38 +26,47 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    RedisTemplate<String,Object> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
-    public ResultVo<Object> login(@RequestBody(required = true) LoginDto dto){
-        System.out.println(dto);
+    public ResultVo login(@RequestBody LoginDto dto) {
+        if (StrUtil.isBlank(dto.getVerification())) {
+            return ResultVo.fail(5000, "验证码不能为空");
+        }
+        String code = (String) redisTemplate.opsForValue().get(dto.getCodeUid());
+        if (StrUtil.isBlank(code)){
+            return ResultVo.fail(5000,"验证码过期");
+        }
+        if (!code.equals(dto.getVerification())) {
+            return ResultVo.fail(5000, "验证码错误");
+        }
         return userService.login(dto);
     }
 
     @GetMapping("/user/{id}")
     @ApiOperation("根据id获取用户信息")
-    public ResultVo<User> getUser(@PathVariable("id") String id, HttpServletResponse response){
+    public ResultVo<User> getUser(@PathVariable("id") String id, HttpServletResponse response) {
         User user = userService.getUserById(id);
-        log.info("查询{}用户",id);
-        return ResultVo.success(2000,"成功",user);
+        log.info("查询{}用户", id);
+        return ResultVo.success(2000, "成功", user);
     }
 
     @PostMapping("/signup")
     @ApiOperation("用户注册")
-    public ResultVo<Object> signUp(@RequestBody User user){
+    public ResultVo<Object> signUp(@RequestBody User user) {
         return userService.signUp(user);
     }
 
     @PostMapping("/update")
     @ApiOperation("根据id更新用户信息")
-    public ResultVo<Object> updateUserById(@RequestBody User user){
+    public ResultVo<Object> updateUserById(@RequestBody User user) {
         int i = userService.updateUserById(user);
         System.out.println(user);
-        if (i > 0){
-            return ResultVo.success(2000,"用户信息更新成功。");
-        }else {
-            return ResultVo.fail(5000,"用户信息更新失败");
+        if (i > 0) {
+            return ResultVo.success(2000, "用户信息更新成功。");
+        } else {
+            return ResultVo.fail(5000, "用户信息更新失败");
         }
     }
 }
