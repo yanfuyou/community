@@ -12,6 +12,7 @@ import com.fuyou.community.sys.util.PasswordUtil;
 import com.fuyou.community.user.dao.UserMapper;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.dto.LoginDto;
+import com.fuyou.community.user.model.vo.LoginVO;
 import com.fuyou.community.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,12 @@ public class UserServiceImpl implements UserService {
             }
         }
         redisTemplate.opsForValue().set(tokenUid, JSON.toJSONString(user), 30, TimeUnit.MINUTES);
-        return ResultVo.success(2000, "登录成功", tokenUid);
+        LoginVO loginVO = new LoginVO();
+        loginVO.setUserId(user.getId());
+        loginVO.setUserName(user.getUserName());
+        loginVO.setUserAlias(user.getUserAlias());
+        loginVO.setTokenId(tokenUid);
+        return ResultVo.success(2000, "登录成功", loginVO);
     }
 
     @Override

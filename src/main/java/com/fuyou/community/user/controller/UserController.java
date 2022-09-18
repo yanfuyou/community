@@ -5,6 +5,7 @@ import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.dto.LoginDto;
+import com.fuyou.community.user.model.vo.LoginVO;
 import com.fuyou.community.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -68,5 +69,10 @@ public class UserController {
         } else {
             return ResultVo.fail(5000, "用户信息更新失败");
         }
+    }
+
+    @PostMapping("/test")
+    public void test(@RequestBody User user){
+        System.out.println(user);
     }
 }

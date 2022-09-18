@@ -1,6 +1,7 @@
 package com.fuyou.community.interceptor;
 
 import cn.hutool.core.util.StrUtil;
+import com.fuyou.community.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
-@CrossOrigin(origins = "*",allowCredentials = "true")
+@CrossOrigin
 @Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -28,9 +30,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         String authorization = request.getHeader("Authorization");
         log.info("路径：{}",request.getRequestURI());
         log.info("登录拦截：{}" ,authorization);
-        redisTemplate.opsForValue().set("authorization",authorization);
-        if (StrUtil.isBlank(authorization)){
-            return false;
+        if (StrUtil.isEmpty(authorization)){
+            response.sendRedirect("/user/user/1");
         }else {
             String s = (String) redisTemplate.opsForValue().get(authorization);
         }
