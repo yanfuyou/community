@@ -8,10 +8,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @TableName("USER")
 @ApiModel(value = "用户实体类", description = "用户的基类")
-public class User extends BaseBean {
+public class User extends BaseBean implements Serializable {
     @TableId(value = "ID")
     @ApiModelProperty("用户id")
     private String id;
