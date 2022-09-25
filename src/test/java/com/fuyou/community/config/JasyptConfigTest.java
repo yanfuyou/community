@@ -13,10 +13,10 @@ class JasyptConfigTest {
 
     @Test
     public void pwdTest(){
-        String yanfuyou = encryptor.encrypt("yanfuyou");
-        String password = encryptor.encrypt("d40131522f6ee578");
-        String fuyou = encryptor.encrypt("fuyou");
-        System.out.println("redisPwd:" + fuyou);
-//        System.out.println("pa-" +  password + "user-" +yanfuyou);
+//        String yanfuyou = encryptor.encrypt("yanfuyou");
+//        String password = encryptor.encrypt("d40131522f6ee578");
+//        String fuyou = encryptor.encrypt("fuyou");
+        String name = encryptor.encrypt("fuyou");
+        System.out.println(name);
     }
 }

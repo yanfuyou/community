@@ -2,10 +2,10 @@ package com.fuyou.community.user.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.fuyou.community.common.ResultVo;
-import com.fuyou.community.exception.ServiceException;
+import com.fuyou.community.sys.util.CurrentUtil;
 import com.fuyou.community.user.model.User;
+import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.dto.LoginDto;
-import com.fuyou.community.user.model.vo.LoginVO;
 import com.fuyou.community.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,7 +45,7 @@ public class UserController {
         return userService.login(dto);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     @ApiOperation("根据id获取用户信息")
     public ResultVo<User> getUser(@PathVariable("id") String id, HttpServletResponse response) {
         User user = userService.getUserById(id);
@@ -71,8 +71,14 @@ public class UserController {
         }
     }
 
-    @PostMapping("/test")
-    public void test(@RequestBody User user){
-        System.out.println(user);
+    @PostMapping("/saveEdu")
+    @ApiOperation("保存用户教育信息")
+    public ResultVo saveEdu(@RequestBody UserEduInfo eduInfo){
+         return userService.saveEdu(eduInfo);
+    }
+
+    @GetMapping("/getCurrentUser")
+    public User getCurrentUser(){
+        return CurrentUtil.getLoginUser();
     }
 }

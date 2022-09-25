@@ -1,8 +1,7 @@
 package com.fuyou.community.exception;
 
+import com.fuyou.community.common.ResultVo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,9 +17,11 @@ public class ServiceExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<String> exception(ServiceException e){
+    public ResultVo<Object> exception(ServiceException e){
 //        记录日志
         log.error("catch exception:{}",e.getErrorMsg());
-        return new ResponseEntity<String>(e.getErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        HttpStatus.INTERNAL_SERVER_ERROR
+//        return new ResponseEntity<String>(e.getErrorMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResultVo.fail(e.getErrorCode(),e.getErrorMsg());
     }
 }

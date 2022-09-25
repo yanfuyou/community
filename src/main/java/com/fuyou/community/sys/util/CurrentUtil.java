@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 public class CurrentUtil {
 
     private final RedisTemplate<String,Object> redisTemplate;
+    /**
+     * 当登录的用户
+     */
+    private static User loginUser;
 
     /**
      * @Author yanfuyou
@@ -23,6 +27,14 @@ public class CurrentUtil {
      */
     public static String getProjectPath(){
         return System.getProperty("user.dir");
+    }
+
+    public static void setLoginUser(User user){
+        loginUser = user;
+    }
+
+    public static User getLoginUser(){
+        return loginUser;
     }
 
     public User getUserInfo(HttpServletRequest request){

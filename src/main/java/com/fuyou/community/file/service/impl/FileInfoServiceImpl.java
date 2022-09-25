@@ -1,11 +1,12 @@
-package com.fuyou.community.file.service;
+package com.fuyou.community.file.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.fuyou.community.common.ResultVo;
-import com.fuyou.community.file.controller.model.FileInfo;
+import com.fuyou.community.file.model.FileInfo;
 import com.fuyou.community.file.dao.FileInfoMapper;
+import com.fuyou.community.file.service.FileInfoService;
 import com.fuyou.community.sys.util.CurrentUtil;
 import com.fuyou.community.user.model.User;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.Result;
 import java.io.File;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.fuyou.community.file.controller.model;
+package com.fuyou.community.file.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -32,4 +32,8 @@ public class FileInfo extends BaseBean {
     @ApiModelProperty("文件状态")
     @TableField("FILE_STATUS")
     private String fileStatus;
+
+    @ApiModelProperty("文件类型")
+    @TableField("FILE_TYPE")
+    private String fileType;
 }

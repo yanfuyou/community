@@ -2,7 +2,10 @@ package com.fuyou.community.user.service;
 
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.user.model.User;
+import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.dto.LoginDto;
+
+import javax.xml.transform.Result;
 
 /**
  * @Author yanfuyou
@@ -45,4 +48,6 @@ public interface UserService {
      * @Return
      */
     int updateUserById(User user);
+
+    ResultVo saveEdu(UserEduInfo eduInfo);
 }

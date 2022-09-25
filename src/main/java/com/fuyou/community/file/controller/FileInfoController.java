@@ -1,13 +1,7 @@
 package com.fuyou.community.file.controller;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.fuyou.community.common.ResultVo;
-import com.fuyou.community.file.controller.model.FileInfo;
 import com.fuyou.community.file.service.FileInfoService;
-import com.fuyou.community.sys.util.CurrentUtil;
-import com.fuyou.community.user.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

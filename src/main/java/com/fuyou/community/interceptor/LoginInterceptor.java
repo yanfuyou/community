@@ -28,12 +28,13 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String authorization = request.getHeader("Authorization");
-        log.info("路径：{}",request.getRequestURI());
-        log.info("登录拦截：{}" ,authorization);
         if (StrUtil.isEmpty(authorization)){
-            response.sendRedirect("/user/user/1");
+            throw new ServiceException(500,"请求头异常");
         }else {
             String s = (String) redisTemplate.opsForValue().get(authorization);
+            if(StrUtil.isBlank(s)){
+                throw new ServiceException(401,"登录过期");
+            }
         }
         return true;
     }

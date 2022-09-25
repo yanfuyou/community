@@ -8,9 +8,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
+import com.fuyou.community.sys.util.CurrentUtil;
 import com.fuyou.community.sys.util.PasswordUtil;
+import com.fuyou.community.user.dao.UserEduInfoMapper;
 import com.fuyou.community.user.dao.UserMapper;
 import com.fuyou.community.user.model.User;
+import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.LoginVO;
 import com.fuyou.community.user.service.UserService;
@@ -28,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
 
     private final UserMapper userMapper;
+    private final UserEduInfoMapper userEduInfoMapper;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -56,6 +60,8 @@ public class UserServiceImpl implements UserService {
         loginVO.setUserName(user.getUserName());
         loginVO.setUserAlias(user.getUserAlias());
         loginVO.setTokenId(tokenUid);
+//        设置工具类中的用户信息
+        CurrentUtil.setLoginUser(user);
         return ResultVo.success(2000, "登录成功", loginVO);
     }
 
@@ -81,5 +87,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateUserById(User user) {
         return userMapper.updateById(user);
+    }
+
+    @Override
+    public ResultVo saveEdu(UserEduInfo eduInfo) {
+        UserEduInfo oldEduInfo = userEduInfoMapper.selectOne(Wrappers.lambdaQuery(UserEduInfo.class)
+                .eq(UserEduInfo::getUserId, eduInfo.getUserId()));
+        if (ObjectUtil.isEmpty(oldEduInfo)){
+            eduInfo.setId(IdUtil.simpleUUID());
+            userEduInfoMapper.insert(eduInfo);
+        }{
+            userEduInfoMapper.update(eduInfo,Wrappers.lambdaUpdate(UserEduInfo.class)
+                    .eq(UserEduInfo::getUserId,eduInfo.getUserId()));
+        }
+        return ResultVo.success(2000,"更新成功");
     }
 }
