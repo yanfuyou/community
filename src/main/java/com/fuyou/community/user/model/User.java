@@ -30,6 +30,18 @@ public class User extends BaseBean implements Serializable {
     @ApiModelProperty("用户密码")
     private String userPassword;
 
+    @TableField("USER_SEX")
+    @ApiModelProperty("用户性别1：男 0：女")
+    private String userSex;
+
+    @TableField("BIRTHDAY")
+    @ApiModelProperty("用户生日")
+    private String birthday;
+
+    @TableField("USER_SIGN")
+    @ApiModelProperty("想说/签名")
+    private String userSign;
+
     @TableField("USER_SALT")
     @ApiModelProperty("密码盐值")
     private String userSalt;

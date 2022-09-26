@@ -11,9 +11,14 @@ import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.sys.util.CurrentUtil;
 import com.fuyou.community.sys.util.PasswordUtil;
 import com.fuyou.community.user.dao.UserEduInfoMapper;
+import com.fuyou.community.user.dao.UserLabelinfoMapper;
 import com.fuyou.community.user.dao.UserMapper;
+import com.fuyou.community.user.dao.UserWorkinfoMapper;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.UserEduInfo;
+import com.fuyou.community.user.model.UserLabelinfo;
+import com.fuyou.community.user.model.UserWorkinfo;
+import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.LoginVO;
 import com.fuyou.community.user.service.UserService;
@@ -22,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -32,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final UserEduInfoMapper userEduInfoMapper;
+    private final UserWorkinfoMapper userWorkinfoMapper;
+    private final UserLabelinfoMapper userLabelinfoMapper;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -93,13 +101,56 @@ public class UserServiceImpl implements UserService {
     public ResultVo saveEdu(UserEduInfo eduInfo) {
         UserEduInfo oldEduInfo = userEduInfoMapper.selectOne(Wrappers.lambdaQuery(UserEduInfo.class)
                 .eq(UserEduInfo::getUserId, eduInfo.getUserId()));
-        if (ObjectUtil.isEmpty(oldEduInfo)){
+        if (ObjectUtil.isEmpty(oldEduInfo)) {
             eduInfo.setId(IdUtil.simpleUUID());
             userEduInfoMapper.insert(eduInfo);
-        }{
-            userEduInfoMapper.update(eduInfo,Wrappers.lambdaUpdate(UserEduInfo.class)
-                    .eq(UserEduInfo::getUserId,eduInfo.getUserId()));
         }
-        return ResultVo.success(2000,"更新成功");
+        {
+            userEduInfoMapper.update(eduInfo, Wrappers.lambdaUpdate(UserEduInfo.class)
+                    .eq(UserEduInfo::getUserId, eduInfo.getUserId()));
+        }
+        return ResultVo.success(2000, "更新成功");
+    }
+
+    @Override
+    public ResultVo saveWork(UserWorkinfo workinfo) {
+        UserWorkinfo userWorkinfo = userWorkinfoMapper.selectOne(Wrappers.lambdaQuery(UserWorkinfo.class)
+                .eq(UserWorkinfo::getUserId, workinfo.getUserId()));
+        if (ObjectUtil.isEmpty(userWorkinfo)) {
+            userWorkinfoMapper.insert(workinfo);
+        } else {
+            userWorkinfoMapper.update(workinfo, Wrappers.lambdaUpdate(UserWorkinfo.class)
+                    .eq(UserWorkinfo::getUserId, workinfo.getUserId()));
+        }
+        return ResultVo.success(2000, "更新成功");
+    }
+
+    @Override
+    public ResultVo saveLabel(UserLabelinfo labelinfo) {
+        int insert = userLabelinfoMapper.insert(labelinfo);
+        return insert > 0 ? ResultVo.success(2000, "保存成功") : ResultVo.fail(5000, "保存失败");
+    }
+
+    @Override
+    public ResultVo updateBaseinfo(BaseInfoDto dto) {
+        int update = userMapper.update(null, Wrappers.lambdaUpdate(User.class)
+                .eq(User::getId, dto.getId())
+                .set(User::getUserName, dto.getUserName())
+                .set(User::getUserAlias, dto.getUserAlias())
+                .set(User::getUserSex, dto.getUserSex())
+                .set(User::getUserSign, dto.getUserSign()));
+        return update > 0 ? ResultVo.success(2000, "更新成功") : ResultVo.fail(5000, "更新失败");
+    }
+
+    public ResultVo delLabel(String id){
+        userLabelinfoMapper.deleteById(id);
+        return ResultVo.success(2000,"移除成功");
+    }
+
+    @Override
+    public List<UserLabelinfo> getUserLabels(String userID) {
+        List<UserLabelinfo> userLabelinfos = userLabelinfoMapper.selectList(Wrappers.lambdaQuery(UserLabelinfo.class)
+                .eq(UserLabelinfo::getUserId, userID));
+        return userLabelinfos;
     }
 }
