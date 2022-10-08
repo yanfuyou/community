@@ -10,6 +10,7 @@ import com.fuyou.community.article.service.ArticleService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.sys.constant.Constant;
+import com.fuyou.community.sys.util.CurrentUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,7 @@ public class ArticleServiceImpl implements ArticleService {
             log.error("保存文章内容异常：{}",e.getMessage());
             throw new ServiceException(500,"保存文章内容异常",e);
         }
+        articleInfo.setUserId(CurrentUtil.getLoginUser().getId());
         articleinfoMapper.insert(articleInfo);
         return ResultVo.success(2000,"发布成功");
     }
