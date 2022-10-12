@@ -1,4 +1,4 @@
-package com.fuyou.community.config;
+package com.fuyou.community.sys.config;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.springframework.context.annotation.Configuration;

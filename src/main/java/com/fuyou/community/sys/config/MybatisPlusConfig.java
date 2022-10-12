@@ -1,4 +1,4 @@
-package com.fuyou.community.config;
+package com.fuyou.community.sys.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;

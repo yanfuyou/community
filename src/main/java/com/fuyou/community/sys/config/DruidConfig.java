@@ -1,4 +1,4 @@
-package com.fuyou.community.config;
+package com.fuyou.community.sys.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;

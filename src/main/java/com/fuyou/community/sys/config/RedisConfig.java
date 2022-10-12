@@ -1,4 +1,4 @@
-package com.fuyou.community.config;
+package com.fuyou.community.sys.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
