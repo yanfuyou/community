@@ -86,10 +86,10 @@ public class FileInfoServiceImpl implements FileInfoService {
     public ResultVo<Object> upFile(@RequestParam("files") List<MultipartFile> files, Map<String,String> paramMap) {
         String bizType = paramMap.get("bizType");
         if (StrUtil.isBlank(bizType)) {
-            throw new ServiceException(500, "请检查文件业务条线");
+            throw new ServiceException(5000, "请检查文件业务条线");
         }
         if (CollUtil.isEmpty(files)){
-            throw new ServiceException(500, "文件列表为空！");
+            throw new ServiceException(5000, "文件列表为空！");
         }
         switch (bizType) {
             case Constant.BizType.ENCL:
@@ -97,7 +97,7 @@ public class FileInfoServiceImpl implements FileInfoService {
                 FileInfo fileInfo = new FileInfo();
                 for (MultipartFile file : files) {
                     if (ObjectUtil.isEmpty(file)) {
-                        throw new ServiceException(500, "文件丢失");
+                        throw new ServiceException(5000, "文件丢失");
                     }
                     String projectPath = CurrentUtil.getProjectPath();
 //                    用户独有的目录
@@ -117,7 +117,7 @@ public class FileInfoServiceImpl implements FileInfoService {
                         file.transferTo(saveFile);
                     }catch (Exception e){
                         log.error("文件保存异常：{}",e.getMessage());
-                        throw new ServiceException(500,"文件上传失败");
+                        throw new ServiceException(5000,"文件上传失败");
                     }
 //                    建立文件和文章的引用关系
                     ArticleFileRel articleFileRel = new ArticleFileRel();
