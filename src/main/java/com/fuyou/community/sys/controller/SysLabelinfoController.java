@@ -2,6 +2,7 @@ package com.fuyou.community.sys.controller;
 
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.sys.model.SysLabelinfo;
+import com.fuyou.community.sys.model.dto.QueryDto;
 import com.fuyou.community.sys.service.SysLabelinfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,8 +21,12 @@ public class SysLabelinfoController {
 
     @PostMapping("/label/save")
     @ApiOperation("/添加系统标签")
-    public ResultVo saveSysLabel(@RequestBody SysLabelinfo labelinfo){
-        return labelinfoService.saveSysLabel(labelinfo);
+    public ResultVo saveSysLabel(@RequestBody SysLabelinfo labelInfo){
+        return labelinfoService.saveSysLabel(labelInfo);
     }
 
+    @PostMapping("/label/getSysLabels")
+    public ResultVo getSysLabels(@RequestBody QueryDto dto){
+        return labelinfoService.getSysLabels(dto);
+    }
 }
