@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.fuyou.community.article.dao.ArticleFileRelMapper;
+import com.fuyou.community.article.model.ArticleFileRel;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.file.model.FileInfo;
@@ -15,12 +17,15 @@ import com.fuyou.community.user.model.User;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.REUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +34,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 
     private final CurrentUtil currentUtil;
     private final FileInfoMapper fileInfoMapper;
+    private final ArticleFileRelMapper fileRelMapper;
 
 
     @Override
@@ -77,9 +83,13 @@ public class FileInfoServiceImpl implements FileInfoService {
     }
 
     @Override
-    public ResultVo<Object> upFile(List<MultipartFile> files, String bizType) {
+    public ResultVo<Object> upFile(@RequestParam("files") List<MultipartFile> files, Map<String,String> paramMap) {
+        String bizType = paramMap.get("bizType");
         if (StrUtil.isBlank(bizType)) {
             throw new ServiceException(500, "请检查文件业务条线");
+        }
+        if (CollUtil.isEmpty(files)){
+            throw new ServiceException(500, "文件列表为空！");
         }
         switch (bizType) {
             case Constant.BizType.ENCL:
@@ -92,12 +102,31 @@ public class FileInfoServiceImpl implements FileInfoService {
                     String projectPath = CurrentUtil.getProjectPath();
 //                    用户独有的目录
                     String savePath = projectPath + "/static/upload/files/" + CurrentUtil.getLoginUser().getId();
+                    fileInfo.setUserId(CurrentUtil.getLoginUser().getId());
                     String fileId = IdUtil.simpleUUID();
                     fileInfo.setId(fileId);
                     String originName = file.getOriginalFilename();
                     fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfo.setFileName(originName);
-                    fileInfo.setVisitPath("http://192.168.2.228:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + fileInfo.getSaveName());
+                    fileInfo.setVisitPath("http://192.168.2.228:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
+                    try{
+                        File saveFile = new File(savePath, fileInfo.getSaveName());
+                        if (!saveFile.getParentFile().exists()){
+                            saveFile.getParentFile().mkdirs();
+                        }
+                        file.transferTo(saveFile);
+                    }catch (Exception e){
+                        log.error("文件保存异常：{}",e.getMessage());
+                        throw new ServiceException(500,"文件上传失败");
+                    }
+//                    建立文件和文章的引用关系
+                    ArticleFileRel articleFileRel = new ArticleFileRel();
+                    articleFileRel.setId(IdUtil.simpleUUID());
+                    articleFileRel.setFileId(fileId);
+                    if (StrUtil.isNotBlank(paramMap.get("articleId"))){
+                        articleFileRel.setArticleId(paramMap.get("articleId"));
+                    }
+                    fileRelMapper.insert(articleFileRel);
                     int insert = fileInfoMapper.insert(fileInfo);
                     if (insert < 1) {
                         return ResultVo.fail(5000, "文件上传失败");

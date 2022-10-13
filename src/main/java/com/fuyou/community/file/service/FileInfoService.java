@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 public interface FileInfoService {
     /**
@@ -18,8 +19,8 @@ public interface FileInfoService {
     /**
      * 文件上传
      * @param files 文件
-     * @param bizType 业务条线
+     * @param paramMap 参数
      * @return
      */
-    ResultVo<Object> upFile(List<MultipartFile> files,String bizType);
+    ResultVo<Object> upFile(List<MultipartFile> files, Map<String,String> paramMap);
 }

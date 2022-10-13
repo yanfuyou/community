@@ -34,6 +34,6 @@ public class FileInfo extends BaseBean {
     private String fileStatus;
 
     @ApiModelProperty("文件类型")
-    @TableField("FILE_TYPE")
-    private String fileType;
+    @TableField("BIZ_TYPE")
+    private String bizType;
 }

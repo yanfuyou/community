@@ -1,5 +1,6 @@
 package com.fuyou.community.file.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.file.service.FileInfoService;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/file")
@@ -23,8 +26,14 @@ public class FileInfoController {
     }
 
     @PostMapping("/upFile")
-    public ResultVo<Object> upFile(@RequestParam("files") List<MultipartFile> files, String bizType){
-        bizType = "file";
-        return fileInfoService.upFile(files,bizType);
+    public ResultVo<Object> upFile(@RequestParam("files") List<MultipartFile> files,String bizType,String articleId){
+        Map<String,String> paramMap = new HashMap<>(2);
+        if (StrUtil.isNotBlank(bizType)){
+            paramMap.put("bizType",bizType);
+        }
+        if (StrUtil.isNotBlank(articleId)){
+            paramMap.put("articleId",articleId);
+        }
+        return fileInfoService.upFile(files,paramMap);
     }
 }
