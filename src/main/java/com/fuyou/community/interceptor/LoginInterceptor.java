@@ -28,6 +28,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String authorization = request.getHeader("Authorization");
+        log.info("token：{}",authorization);
         if (StrUtil.isEmpty(authorization)){
             throw new ServiceException(500,"请求头异常");
         }else {

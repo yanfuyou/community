@@ -1,6 +1,8 @@
 package com.fuyou.community.user.service;
 
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.sys.model.SysLabelinfo;
+import com.fuyou.community.sys.model.dto.DelLabelDto;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.UserLabelinfo;
@@ -83,12 +85,12 @@ public interface UserService {
      * @Description 移除用户标签
      * @Date 下午10:02 2022/9/26
      */
-    ResultVo delLabel(String id);
+    ResultVo delLabel(DelLabelDto dto);
 
     /**
      * @Author yanfuyou
      * @Description 获取用户标签
      * @Date 下午10:05 2022/9/26
      */
-    List<UserLabelinfo> getUserLabels(String userID);
+    List<SysLabelinfo> getUserLabels(String userID);
 }

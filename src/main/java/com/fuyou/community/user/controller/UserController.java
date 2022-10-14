@@ -1,14 +1,18 @@
 package com.fuyou.community.user.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.sys.model.SysLabelinfo;
+import com.fuyou.community.sys.model.dto.DelLabelDto;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.UserLabelinfo;
 import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
+import com.fuyou.community.user.model.vo.UserBasicVo;
 import com.fuyou.community.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,10 +56,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ApiOperation("根据id获取用户信息")
-    public ResultVo<User> getUser(@PathVariable("id") String id, HttpServletResponse response) {
+    public ResultVo<UserBasicVo> getUser(@PathVariable("id") String id, HttpServletResponse response) {
         User user = userService.getUserById(id);
-        log.info("查询{}用户", id);
-        return ResultVo.success(2000, "成功", user);
+        UserBasicVo vo = new UserBasicVo();
+        if(ObjectUtil.isNotEmpty(user)){
+            BeanUtil.copyProperties(user,vo);
+        }
+        return ResultVo.success(2000, "获取用户基本信息成功", vo);
     }
 
     @PostMapping("/signup")
@@ -87,10 +94,13 @@ public class UserController {
         return userService.saveWork(workinfo);
     }
 
-    @PostMapping("/saveLabel")
+    @GetMapping("/saveLabel/{userId}/{labelId}")
     @ApiOperation("保存用户标签信息")
-    public ResultVo saveLabel(@RequestBody UserLabelinfo labelinfo) {
-        return userService.saveLabel(labelinfo);
+    public ResultVo saveLabel(@PathVariable("userId")String userId,@PathVariable("labelId")String labelId) {
+        UserLabelinfo userLabelinfo = new UserLabelinfo();
+        userLabelinfo.setUserId(userId);
+        userLabelinfo.setLabelId(labelId);
+        return userService.saveLabel(userLabelinfo);
     }
 
     @PostMapping("/updateBase")
@@ -101,15 +111,16 @@ public class UserController {
 
     @PostMapping("/delLabel")
     @ApiOperation("移除用户标签")
-    public ResultVo delLabel(String labelId) {
-        return userService.delLabel(labelId);
+    public ResultVo delLabel(@RequestBody DelLabelDto dto) {
+        return userService.delLabel(dto);
     }
 
-    @PostMapping("/getUserLabels")
+    @GetMapping("/getUserLabels/{userId}")
     @ApiOperation("获取用户标签")
-    public ResultVo<List<UserLabelinfo>> getUserLabels(String userId) {
-        List<UserLabelinfo> userLabels = userService.getUserLabels(userId);
+    public ResultVo<List<SysLabelinfo>> getUserLabels(@PathVariable("userId") String userId) {
+        List<SysLabelinfo> userLabels = userService.getUserLabels(userId);
         return ResultVo.success(2000, "获取成功", userLabels);
     }
+
 
 }

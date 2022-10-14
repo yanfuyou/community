@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
+import com.fuyou.community.sys.model.SysLabelinfo;
+import com.fuyou.community.sys.model.dto.DelLabelDto;
 import com.fuyou.community.sys.util.CurrentUtil;
 import com.fuyou.community.sys.util.PasswordUtil;
 import com.fuyou.community.user.dao.UserEduInfoMapper;
@@ -142,15 +144,16 @@ public class UserServiceImpl implements UserService {
         return update > 0 ? ResultVo.success(2000, "更新成功") : ResultVo.fail(5000, "更新失败");
     }
 
-    public ResultVo delLabel(String id){
-        userLabelinfoMapper.deleteById(id);
+    public ResultVo delLabel(DelLabelDto dto){
+        userLabelinfoMapper.delete(Wrappers.lambdaQuery(UserLabelinfo.class)
+                .eq(UserLabelinfo::getUserId,dto.getUserId())
+                .eq(UserLabelinfo::getLabelId,dto.getLabelId()));
         return ResultVo.success(2000,"移除成功");
     }
 
     @Override
-    public List<UserLabelinfo> getUserLabels(String userID) {
-        List<UserLabelinfo> userLabelinfos = userLabelinfoMapper.selectList(Wrappers.lambdaQuery(UserLabelinfo.class)
-                .eq(UserLabelinfo::getUserId, userID));
+    public List<SysLabelinfo> getUserLabels(String userID) {
+        List<SysLabelinfo> userLabelinfos = userLabelinfoMapper.getUserLabels(userID);
         return userLabelinfos;
     }
 }
