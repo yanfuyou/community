@@ -93,4 +93,18 @@ public interface UserService {
      * @Date 下午10:05 2022/9/26
      */
     List<SysLabelinfo> getUserLabels(String userID);
+
+    /**
+     * @Author yanfuyou
+     * @Description 获取用户教育信息
+     * @Date 下午10:37 2022/10/14
+     */
+    UserEduInfo getEduInfo(String id);
+
+    /**
+     * @Author yanfuyou
+     * @Description 获取用户工作信息
+     * @Date 下午10:53 2022/10/14
+     */
+    UserWorkinfo getWorkInfo(String id);
 }

@@ -17,4 +17,7 @@ public class LoginVO {
     @ApiModelProperty("登录token")
     private String tokenId;
 
+    @ApiModelProperty("用户头像")
+    private String userAvatar;
+
 }

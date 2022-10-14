@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
         loginVO.setUserName(user.getUserName());
         loginVO.setUserAlias(user.getUserAlias());
         loginVO.setTokenId(tokenUid);
+        loginVO.setUserAvatar(user.getUserAvatar());
 //        设置工具类中的用户信息
         CurrentUtil.setLoginUser(user);
         return ResultVo.success(2000, "登录成功", loginVO);
@@ -155,5 +156,17 @@ public class UserServiceImpl implements UserService {
     public List<SysLabelinfo> getUserLabels(String userID) {
         List<SysLabelinfo> userLabelinfos = userLabelinfoMapper.getUserLabels(userID);
         return userLabelinfos;
+    }
+
+    @Override
+    public UserEduInfo getEduInfo(String id) {
+        return userEduInfoMapper.selectOne(Wrappers.lambdaQuery(UserEduInfo.class)
+                .eq(UserEduInfo::getUserId,id));
+    }
+
+    @Override
+    public UserWorkinfo getWorkInfo(String id) {
+        return userWorkinfoMapper.selectOne(Wrappers.lambdaQuery(UserWorkinfo.class)
+                .eq(UserWorkinfo::getUserId,id));
     }
 }

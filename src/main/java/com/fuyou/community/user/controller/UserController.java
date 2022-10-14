@@ -19,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -90,8 +89,8 @@ public class UserController {
 
     @PostMapping("/saveWork")
     @ApiOperation("保存用户工作信息")
-    public ResultVo saveWork(@RequestBody UserWorkinfo workinfo) {
-        return userService.saveWork(workinfo);
+    public ResultVo saveWork(@RequestBody UserWorkinfo workInfo) {
+        return userService.saveWork(workInfo);
     }
 
     @GetMapping("/saveLabel/{userId}/{labelId}")
@@ -122,5 +121,18 @@ public class UserController {
         return ResultVo.success(2000, "获取成功", userLabels);
     }
 
+    @GetMapping("/edu/{id}")
+    @ApiOperation("获取用户教育信息")
+    public ResultVo<UserEduInfo> getEduInfo(@PathVariable("id")String id){
+        UserEduInfo eduInfo = userService.getEduInfo(id);
+        return ResultVo.success(2000,"获取用户教育信息成功",eduInfo);
+    }
+
+    @GetMapping("/work/{id}")
+    @ApiOperation("获取用户工作信息")
+    public ResultVo<UserWorkinfo> getWork(@PathVariable("id") String id){
+        UserWorkinfo workInfo = userService.getWorkInfo(id);
+        return ResultVo.success(2000,"获取用户工作信息成功",workInfo);
+    }
 
 }

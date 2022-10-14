@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fuyou.community.article.dao.ArticleFileRelMapper;
 import com.fuyou.community.article.model.ArticleFileRel;
 import com.fuyou.community.common.ResultVo;
@@ -13,11 +14,10 @@ import com.fuyou.community.file.dao.FileInfoMapper;
 import com.fuyou.community.file.service.FileInfoService;
 import com.fuyou.community.sys.constant.Constant;
 import com.fuyou.community.sys.util.CurrentUtil;
+import com.fuyou.community.user.dao.UserMapper;
 import com.fuyou.community.user.model.User;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.REUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +35,7 @@ public class FileInfoServiceImpl implements FileInfoService {
     private final CurrentUtil currentUtil;
     private final FileInfoMapper fileInfoMapper;
     private final ArticleFileRelMapper fileRelMapper;
-
+    private final UserMapper userMapper;
 
     @Override
     public ResultVo<Object> upload(List<MultipartFile> files, HttpServletRequest request) {
@@ -135,6 +135,52 @@ public class FileInfoServiceImpl implements FileInfoService {
                 break;
             case Constant.BizType.FILE:
 //                文件上传
+                break;
+            case Constant.BizType.AVATAR:
+                if (CollUtil.isEmpty(files)) {
+                    log.info("文件信息为空");
+                    throw new ServiceException(6000,"文件信息为空");
+                }
+                FileInfo fileInfoA = new FileInfo();
+                for (MultipartFile file : files) {
+                    if (ObjectUtil.isEmpty(file)) {
+                        throw new ServiceException(5000, "文件丢失");
+                    } else {
+                        String projectPath = CurrentUtil.getProjectPath();
+                        String savePath = projectPath + "/static/upload";
+                        User userInfo = CurrentUtil.getLoginUser();
+                        if (ObjectUtil.isEmpty(userInfo)) {
+                            log.error("用户信息获取失败");
+                            return ResultVo.fail(5000, "用户信息获取失败");
+                        }
+                        String fileId = IdUtil.simpleUUID();
+                        fileInfoA.setId(fileId);
+                        fileInfoA.setUserId(userInfo.getId());
+                        String originName = file.getOriginalFilename();
+                        fileInfoA.setSaveName(fileId + "." + originName.split("\\.")[1]);
+                        String visitPath = "http://192.168.2.228:8081/community/upload/" + fileInfoA.getSaveName();
+                        fileInfoA.setVisitPath(visitPath);
+                        fileInfoA.setFileName(originName);
+                        int insert = fileInfoMapper.insert(fileInfoA);
+                        userMapper.update(null,Wrappers.lambdaUpdate(User.class)
+                                .eq(User::getId,userInfo.getId())
+                                .set(User::getUserAvatar,visitPath));
+                        if (insert < 1) {
+                            return ResultVo.fail(5000, "文件上传失败");
+                        }
+                        try {
+                            File saveFile = new File(savePath, fileInfoA.getSaveName());
+                            if (!saveFile.getParentFile().exists()) {
+                                saveFile.getParentFile().mkdir();
+                            }
+                            file.transferTo(saveFile);
+                        } catch (Exception e) {
+                            log.error("文件保存出错：{}", e.getCause());
+                            return ResultVo.fail(5000, "文件保存异常");
+                        }
+                        return ResultVo.success(2000,"头像上传成功",visitPath);
+                    }
+                }
                 break;
         }
         return ResultVo.success(2000, "上传成功");

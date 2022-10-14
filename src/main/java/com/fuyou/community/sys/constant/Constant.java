@@ -25,6 +25,11 @@ public interface Constant {
          * 独立文件
          */
         public static final String FILE = "file";
+
+        /**
+         * 用户头像
+         */
+        public static final String AVATAR = "avatar";
     }
 
 }
