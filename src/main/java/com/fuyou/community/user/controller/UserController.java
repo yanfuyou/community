@@ -3,7 +3,9 @@ package com.fuyou.community.user.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
 import com.fuyou.community.user.model.User;
@@ -12,6 +14,7 @@ import com.fuyou.community.user.model.UserLabelinfo;
 import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
+import com.fuyou.community.user.model.vo.AvatarVo;
 import com.fuyou.community.user.model.vo.UserBasicVo;
 import com.fuyou.community.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(allowCredentials = "true")
@@ -133,6 +137,12 @@ public class UserController {
     public ResultVo<UserWorkinfo> getWork(@PathVariable("id") String id){
         UserWorkinfo workInfo = userService.getWorkInfo(id);
         return ResultVo.success(2000,"获取用户工作信息成功",workInfo);
+    }
+
+    @PostMapping("/getAvatars")
+    @ApiOperation("获取用户头像")
+    public IPage<AvatarVo> getUserAvatars(@RequestBody PageDto<Set<String>> avatarDto){
+        return userService.getUserAvatars(avatarDto);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.fuyou.community.user.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
 import com.fuyou.community.user.model.User;
@@ -9,9 +11,11 @@ import com.fuyou.community.user.model.UserLabelinfo;
 import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
+import com.fuyou.community.user.model.vo.AvatarVo;
 
 import javax.xml.transform.Result;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author yanfuyou
@@ -107,4 +111,11 @@ public interface UserService {
      * @Date 下午10:53 2022/10/14
      */
     UserWorkinfo getWorkInfo(String id);
+
+    /**
+     * @Author yanfuyou
+     * @Description 获取用户头像
+     * @Date 下午9:10 2022/10/15
+     */
+    IPage<AvatarVo> getUserAvatars(PageDto<Set<String>> avatarDto);
 }

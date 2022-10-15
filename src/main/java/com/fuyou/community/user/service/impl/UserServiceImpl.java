@@ -5,9 +5,12 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
+import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
 import com.fuyou.community.sys.util.CurrentUtil;
@@ -22,6 +25,7 @@ import com.fuyou.community.user.model.UserLabelinfo;
 import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
+import com.fuyou.community.user.model.vo.AvatarVo;
 import com.fuyou.community.user.model.vo.LoginVO;
 import com.fuyou.community.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +34,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -168,5 +173,14 @@ public class UserServiceImpl implements UserService {
     public UserWorkinfo getWorkInfo(String id) {
         return userWorkinfoMapper.selectOne(Wrappers.lambdaQuery(UserWorkinfo.class)
                 .eq(UserWorkinfo::getUserId,id));
+    }
+
+    @Override
+    public IPage<AvatarVo> getUserAvatars(PageDto<Set<String>> avatarDto) {
+        Page<AvatarVo> page = new Page<>();
+        page.setCurrent(avatarDto.getCurrent());
+        page.setSize(avatarDto.getSize());
+        page.setHitCount(true);
+        return userMapper.getUserAvatars(page,avatarDto);
     }
 }

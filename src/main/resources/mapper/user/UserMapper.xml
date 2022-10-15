@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.user.dao.UserMapper">
+
+    <select id="getUserAvatars" resultType="com.fuyou.community.user.model.vo.AvatarVo">
+        select id,USER_AVATAR userAvatar from USER
+        <if test="avatarDto.params != null">
+            where ID in
+            <foreach collection="avatarDto.params" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+</mapper>
