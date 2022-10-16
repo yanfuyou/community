@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.article.dao.ArticleScoreMapper">
+
+    <select id="getSumScoreByUserId" resultType="java.lang.Integer">
+        select sum(s.SCORE) score
+        from ARTICLE_INFO a
+                 INNER JOIN ARTICLE_SCORE s ON s.ARTICLE_ID = a.id
+                 left join USER u ON u.ID = a.USER_ID
+        where u.ID = #{id};
+    </select>
+</mapper>

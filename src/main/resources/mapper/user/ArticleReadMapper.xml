@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个Dao/Mapper接口-->
+<mapper namespace="com.fuyou.community.user.dao.ArticleReadMapper">
+    <select id="getReadSumByUserId" resultType="java.lang.Integer">
+        select r.READ_COUNT
+        from ARTICLE_INFO a
+                 inner join ARTICLE_READ r on r.ARTICLE_ID = a.ID
+        where a.USER_ID =
+              #{id}
+    </select>
+</mapper>
