@@ -2,10 +2,13 @@ package com.fuyou.community.article.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fuyou.community.article.dao.ArticleCoverMapper;
 import com.fuyou.community.article.dao.ArticleFileRelMapper;
 import com.fuyou.community.article.dao.ArticleinfoMapper;
+import com.fuyou.community.article.model.ArticleCover;
 import com.fuyou.community.article.model.ArticleFileRel;
 import com.fuyou.community.article.model.ArticleInfo;
+import com.fuyou.community.article.model.vo.ArticleHotVo;
 import com.fuyou.community.article.service.ArticleService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,8 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleFileRelMapper articleFileRelMapper;
 
     private final ArticleinfoMapper articleinfoMapper;
+
+    private final ArticleCoverMapper coverMapper;
 
     @Override
     public ResultVo release(ArticleInfo articleInfo) {
@@ -58,5 +64,23 @@ public class ArticleServiceImpl implements ArticleService {
         articleInfo.setUserId(CurrentUtil.getLoginUser().getId());
         articleinfoMapper.insert(articleInfo);
         return ResultVo.success(2000,"发布成功");
+    }
+
+    @Override
+    public void addCover(ArticleCover articleCover) {
+        ArticleCover oldCover = coverMapper.selectOne(Wrappers.lambdaQuery(ArticleCover.class)
+                .eq(ArticleCover::getArticleId, articleCover.getArticleId()));
+        if (ObjectUtil.isNotEmpty(oldCover)){
+            coverMapper.update(articleCover,Wrappers.lambdaUpdate(ArticleCover.class)
+                    .eq(ArticleCover::getArticleId,articleCover.getArticleId()));
+        }else {
+            coverMapper.insert(articleCover);
+        }
+    }
+
+    @Override
+    public ResultVo<List<ArticleHotVo>> getHots(String start, String end) {
+        List<ArticleHotVo> hots = articleinfoMapper.getHots(Integer.parseInt(start), Integer.parseInt(end));
+        return ResultVo.success(2000,"获取热文成功",hots);
     }
 }

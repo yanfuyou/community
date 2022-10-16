@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.article.dao.ArticleinfoMapper">
+
+    <select id="getHots" resultType="com.fuyou.community.article.model.vo.ArticleHotVo">
+        select distinct a.*, c.COVER_PATH coverPath, (select sum(s.SCORE) from ARTICLE_SCORE s where s.ARTICLE_ID = a.ID) score
+        from ARTICLE_INFO a
+        inner join ARTICLE_COVER c on c.ARTICLE_ID = a.ID
+        left join ARTICLE_SCORE s on s.ARTICLE_ID = a.ID
+        ORDER BY score desc
+        <if test="start != null and start != '' and end != null and end != ''">
+            limit #{start,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+        </if>
+    </select>
+</mapper>
