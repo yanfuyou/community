@@ -54,4 +54,8 @@ public class User extends BaseBean implements Serializable {
     @ApiModelProperty("用户状态 1：删除 0：正常")
     private String userStatus;
 
+    @ApiModelProperty("用户邮箱")
+    @TableField("USER_EMAIL")
+    private String userEmail;
+
 }

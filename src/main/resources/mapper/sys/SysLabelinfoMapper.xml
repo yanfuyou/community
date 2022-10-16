@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个Dao/Mapper接口-->
+<mapper namespace="com.fuyou.community.sys.dao.SysLabelinfoMapper">
+
+    <select id="getLabels" resultType="com.fuyou.community.sys.model.SysLabelinfo">
+        select * from SYS_LABELINFO
+        where 1 = 1
+        <if test="dto.flag != null">
+            and FLAG = #{dto.flag}
+        </if>
+        <if test="dto.ids != null">
+            and ID in
+            <foreach collection="dto.ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+</mapper>

@@ -11,6 +11,9 @@ import lombok.Data;
 @ApiModel("文章评分")
 @Data
 public class ArticleScore extends BaseBean {
+    @ApiModelProperty("用户id")
+    @TableField("USER_ID")
+    private String userId;
     @TableField("ARTICLE_ID")
     @ApiModelProperty("文章id")
     private String ArticleId;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.article.dao.ArticleFileRelMapper">
+
+    <select id="getEnclInfo" resultType="com.fuyou.community.article.model.vo.EnclVo">
+        select rel.ARTICLE_ID articleID, f.ID fileId, f.VISIT_PATH downPath, f.FILE_NAME fileName
+        from ARTICLE_FILE_REL rel
+                 inner join FILE_INFO f on f.ID = rel.FILE_ID
+        where rel.ARTICLE_ID = #{id}
+    </select>
+</mapper>

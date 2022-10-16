@@ -146,7 +146,8 @@ public class UserServiceImpl implements UserService {
                 .set(User::getUserName, dto.getUserName())
                 .set(User::getUserAlias, dto.getUserAlias())
                 .set(User::getUserSex, dto.getUserSex())
-                .set(User::getUserSign, dto.getUserSign()));
+                .set(User::getUserSign, dto.getUserSign())
+                .set(User::getUserEmail,dto.getUserEmail()));
         return update > 0 ? ResultVo.success(2000, "更新成功") : ResultVo.fail(5000, "更新失败");
     }
 

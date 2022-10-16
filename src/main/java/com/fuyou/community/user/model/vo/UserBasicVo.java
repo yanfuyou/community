@@ -28,6 +28,9 @@ public class UserBasicVo extends BaseBean {
     @ApiModelProperty("想说/签名")
     private String userSign;
 
+    @ApiModelProperty("邮箱")
+    private String userEmail;
+
     @ApiModelProperty("用户头像")
     private String userAvatar;
 

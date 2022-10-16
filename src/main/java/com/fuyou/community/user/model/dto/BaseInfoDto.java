@@ -19,4 +19,6 @@ public class BaseInfoDto {
     private String userSex;
     @ApiModelProperty("个签")
     private String userSign;
+    @ApiModelProperty("用户邮箱")
+    private String userEmail;
 }

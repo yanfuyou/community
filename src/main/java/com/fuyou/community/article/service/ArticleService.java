@@ -3,8 +3,10 @@ package com.fuyou.community.article.service;
 import com.fuyou.community.article.model.ArticleCover;
 import com.fuyou.community.article.model.ArticleInfo;
 import com.fuyou.community.article.model.vo.ArticleHotVo;
+import com.fuyou.community.article.model.vo.EnclVo;
 import com.fuyou.community.common.ResultVo;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ArticleService {
@@ -28,4 +30,17 @@ public interface ArticleService {
      */
     ResultVo<List<ArticleHotVo>> getHots(String start, String end);
 
+    /**
+     * @Author yanfuyou
+     * @Description 根据id获取文章信息
+     * @Date 下午2:18 2022/10/16
+     */
+    ResultVo<ArticleInfo> getArticleInfo(String id) throws IOException;
+
+    /**
+     * @Author yanfuyou
+     * @Description 获取文件附件信息
+     * @Date 下午4:12 2022/10/16
+     */
+    ResultVo<EnclVo> getEnclInfo(String id);
 }

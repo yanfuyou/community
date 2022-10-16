@@ -25,8 +25,7 @@ public class SysLabelinfoServiceImpl implements SysLabelinfoService {
     @Override
     public ResultVo getSysLabels(QueryDto dto) {
 //        需要时改成xml文件添加参数
-        List<SysLabelinfo> sysLabelinfos = sysLabelinfoMapper.selectList(Wrappers.lambdaQuery(SysLabelinfo.class)
-                .eq(SysLabelinfo::getFlag, dto.getFlag()));
+        List<SysLabelinfo> sysLabelinfos = sysLabelinfoMapper.getLabels(dto);
         return ResultVo.success(2000,"获取系统参数成功",sysLabelinfos);
     }
 }

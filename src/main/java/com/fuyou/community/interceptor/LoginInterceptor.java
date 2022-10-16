@@ -30,8 +30,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         String authorization = request.getHeader("Authorization");
         log.info("token：{}",authorization);
         if (StrUtil.isEmpty(authorization)){
-            throw new ServiceException(500,"请求头异常");
+            throw new ServiceException(401,"请求头异常");
         }else {
+//            后期使用数据库排除公共api
             String s = (String) redisTemplate.opsForValue().get(authorization);
             if(StrUtil.isBlank(s)){
                 throw new ServiceException(401,"登录过期");
