@@ -2,7 +2,9 @@ package com.fuyou.community.article.controller;
 
 import com.fuyou.community.article.model.ArticleCover;
 import com.fuyou.community.article.model.ArticleInfo;
+import com.fuyou.community.article.model.dto.PageDto;
 import com.fuyou.community.article.model.vo.ArticleHotVo;
+import com.fuyou.community.article.model.vo.ArticleMiniVo;
 import com.fuyou.community.article.model.vo.EnclVo;
 import com.fuyou.community.article.service.ArticleService;
 import com.fuyou.community.common.ResultVo;
@@ -12,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.transform.Result;
 import java.io.IOException;
 import java.util.List;
 
@@ -55,5 +58,9 @@ public class ArticleController {
     @ApiOperation("获取附件信息")
     public ResultVo<EnclVo> getEnclInfo(@PathVariable String id){
         return articleService.getEnclInfo(id);
+    }
+
+    public ResultVo<ArticleMiniVo> getArticlePage(@RequestBody PageDto dto){
+        return new ResultVo<>();
     }
 }

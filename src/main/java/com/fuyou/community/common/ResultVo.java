@@ -10,7 +10,7 @@ public class ResultVo<T> {
     private String msg;
     private T records;
 
-    private ResultVo() {
+    public ResultVo() {
     }
 
     private ResultVo(int code, String msg) {
