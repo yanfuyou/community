@@ -1,6 +1,7 @@
 package com.fuyou.community.file.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fuyou.community.sys.model.BaseBean;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,7 +11,7 @@ import lombok.Data;
 @TableName("FILE_INFO")
 public class FileInfo extends BaseBean {
     @ApiModelProperty("文件id")
-    @TableField("ID")
+    @TableId("ID")
     private String id;
 
     @ApiModelProperty("用户id")
