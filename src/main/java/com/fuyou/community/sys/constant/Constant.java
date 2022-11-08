@@ -30,6 +30,27 @@ public interface Constant {
          * 用户头像
          */
         public static final String AVATAR = "avatar";
+
+        /**
+         * 评论
+         */
+        public static final String COMMENT = "1";
+
+        /**
+         * 文章
+         */
+        public static final String ARTICLE = "2";
     }
 
+    class Base{
+        /**
+         * 已删除
+         */
+        public static final String DELETED = "1";
+
+        /**
+         * 未删除
+         */
+        public static final String NOTDELETED = "0";
+    }
 }

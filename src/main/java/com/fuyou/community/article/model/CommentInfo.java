@@ -1,29 +1,33 @@
 package com.fuyou.community.article.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fuyou.community.sys.model.DelBean;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 
 @Data
-@TableName("COMMON_INFO")
+@TableName("COMMENT_INFO")
 @ApiModel("评论信息")
-public class CommonInfo extends DelBean {
-    @ApiModelProperty("引用内容id")
-    private String relId;
-
+public class CommentInfo extends DelBean {
     @ApiModelProperty("评论id")
+    @TableField("COMMENT_ID")
     private String commonId;
 
     @ApiModelProperty("父评论id")
+    @TableField("PARENT_ID")
     private String parentId;
 
     @ApiModelProperty("内容")
+    @TableField("CONTENT")
+    @NotBlank(message = "内容不能为空")
     private String Content;
 
-    @ApiModelProperty("子评论信息")
-    private List<CommonInfo> children;
+    @ApiModelProperty("业务条线")
+    @TableField("BIZ_TYPE")
+    @NotBlank(message = "参数有误")
+    private String bizType;
 }
