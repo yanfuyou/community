@@ -6,14 +6,16 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/community?useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
     #            username: yanfuyou
-    username: ENC(S//rh+y/XrH6g4GXGEdvFQ==)
+#    username: ENC(S//rh+y/XrH6g4GXGEdvFQ==)
+    username: fuyou
     #            password: d40131522f6ee578
-    password: ENC(S//rh+y/XrH6g4GXGEdvFQ==)
+#    password: ENC(S//rh+y/XrH6g4GXGEdvFQ==)
+    password: fuyou
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -87,3 +89,19 @@ logging:
 jasypt:
   encryptor:
     password: fuyou20220909
+#sa-token配置
+sa-token:
+  token-name: Authorization
+  token-prefix: Bearer
+  timeout: 2592000
+  activity-timeout: 3600
+#  是否允许同时登录
+  is-concurrent: false
+#  同时登录是否共用一个token
+  is-share: false
+  token-style: simple-uuid
+#  是否打印操作日志
+  is-log: true
+#  不使用cookie
+  is-read-cookie: false
+  is-print: false

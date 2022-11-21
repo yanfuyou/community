@@ -1,6 +1,9 @@
 package com.fuyou.community.sys.config;
 
-import com.fuyou.community.interceptor.LoginInterceptor;
+import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpUtil;
+import com.fuyou.community.sys.auth.AuthUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -25,26 +28,17 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     /**
-     * @Author yanfuyou
-     * @Description 拦截器，在此处初始化bean是为了解决redisTemplate注入报空的问题
-     * @Date 下午10:26 2022/9/12
-     * @Return 登录拦截器
-     */
-    @Bean
-    public LoginInterceptor loginInterceptor(){
-        return new LoginInterceptor();
-    }
-
-    /**
      * 拦截器配置
+     *
      * @param registry
      */
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/upload/**","/favicon.ico","/v2/**","/swagger-resources/**","/webjars/**","/doc.html","/error/**","/code/**","/user/login","/user/signup","/image/**","/file/**","article/**");
+    public void addInterceptors(InterceptorRegistry registry) {//    使用sa-token拦截器
+        registry.addInterceptor(new SaInterceptor(handle -> {
+                    SaRouter.match("/**")
+                            .notMatch("/upload/**", "/favicon.ico", "/v2/**", "/swagger-resources/**", "/webjars/**", "/doc.html", "/error/**", "/code/**", "/user/login", "/user/signup", "/image/**", "/file/**", "article/**")
+                            .check(rule -> AuthUtil.authMethod());
+                }))
+                .addPathPatterns("/**");
     }
-
-
 }

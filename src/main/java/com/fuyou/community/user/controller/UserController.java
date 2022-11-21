@@ -1,5 +1,6 @@
 package com.fuyou.community.user.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -44,17 +45,23 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation("用户登录")
     public ResultVo login(@RequestBody LoginDto dto) {
-        if (StrUtil.isBlank(dto.getVerification())) {
-            return ResultVo.fail(5000, "验证码不能为空");
-        }
-        String code = (String) redisTemplate.opsForValue().get(dto.getCodeUid());
-        if (StrUtil.isBlank(code)) {
-            return ResultVo.fail(5000, "验证码过期");
-        }
-        if (!code.equals(dto.getVerification())) {
-            return ResultVo.fail(5000, "验证码错误");
-        }
+//        if (StrUtil.isBlank(dto.getVerification())) {
+//            return ResultVo.fail(5000, "验证码不能为空");
+//        }
+//        String code = (String) redisTemplate.opsForValue().get(dto.getCodeUid());
+//        if (StrUtil.isBlank(code)) {
+//            return ResultVo.fail(5000, "验证码过期");
+//        }
+//        if (!code.equals(dto.getVerification())) {
+//            return ResultVo.fail(5000, "验证码错误");
+//        }
         return userService.login(dto);
+    }
+
+    @GetMapping("isLogin")
+    @ApiOperation("判断用户是否登录")
+    public ResultVo isLogin(){
+        return ResultVo.success(2000, "查询登录状态成功",StpUtil.isLogin());
     }
 
     @GetMapping("/{id}")

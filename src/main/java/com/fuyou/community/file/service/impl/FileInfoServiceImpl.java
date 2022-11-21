@@ -51,7 +51,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 //                文件保存流程
                 String projectPath = CurrentUtil.getProjectPath();
                 String savePath = projectPath + "/static/upload";
-                User userInfo = currentUtil.getUserInfo(request);
+                User userInfo = currentUtil.getLoginUser();
                 if (ObjectUtil.isEmpty(userInfo)) {
                     log.error("用户信息获取失败");
                     return ResultVo.fail(5000, "用户信息获取失败");

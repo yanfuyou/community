@@ -1,5 +1,7 @@
 package com.fuyou.community.user.service.impl;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
@@ -9,7 +11,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.common.ResultVo;
-import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
@@ -35,7 +36,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -59,8 +59,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVo login(LoginDto dto) {
         User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUserName, dto.getUserName()));
-        String uid = IdUtil.simpleUUID();
-        String tokenUid = "token:" + uid;
         if (ObjectUtil.isEmpty(user)) {
             return ResultVo.fail(4000, "用户不存在,请先注册");
         } else {
@@ -69,15 +67,15 @@ public class UserServiceImpl implements UserService {
                 return ResultVo.fail(5000, "密码错误");
             }
         }
-        redisTemplate.opsForValue().set(tokenUid, JSON.toJSONString(user), 30, TimeUnit.MINUTES);
+//        注入redis登录凭证
+        StpUtil.login(user.getId(),JSON.toJSONString(user));
         LoginVO loginVO = new LoginVO();
         loginVO.setUserId(user.getId());
         loginVO.setUserName(user.getUserName());
         loginVO.setUserAlias(user.getUserAlias());
-        loginVO.setTokenId(tokenUid);
+        loginVO.setTokenId(StpUtil.getTokenValue());
         loginVO.setUserAvatar(user.getUserAvatar());
-//        设置工具类中的用户信息
-        CurrentUtil.setLoginUser(user);
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return ResultVo.success(2000, "登录成功", loginVO);
     }
 

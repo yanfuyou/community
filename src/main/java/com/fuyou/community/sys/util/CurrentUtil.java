@@ -1,5 +1,6 @@
 package com.fuyou.community.sys.util;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.fuyou.community.user.model.User;
@@ -28,24 +29,8 @@ public class CurrentUtil {
     public static String getProjectPath(){
         return System.getProperty("user.dir");
     }
-
-    public static void setLoginUser(User user){
-        loginUser = user;
-    }
-
     public static User getLoginUser(){
-        return loginUser;
-    }
-
-    public User getUserInfo(HttpServletRequest request){
-        String authorization = request.getHeader("Authorization");
-        if (StrUtil.isEmpty(authorization)){
-            return null;
-        }
-        String userJson = (String)redisTemplate.opsForValue().get(authorization);
-        if (StrUtil.isEmpty(userJson)){
-            return null;
-        }
-        return JSON.parseObject(userJson, User.class);
+        String loginDevice = StpUtil.getTokenInfo().getLoginDevice();
+        return JSON.parseObject(loginDevice, User.class);
     }
 }
