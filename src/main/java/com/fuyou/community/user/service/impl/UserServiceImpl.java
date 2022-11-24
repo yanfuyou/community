@@ -88,6 +88,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResultVo logout() {
+        StpUtil.logout();
+        return ResultVo.success(2000,"退出成功");
+    }
+
+    @Override
     public ResultVo signUp(User user) {
         User old = userMapper.selectOne(Wrappers.lambdaQuery(User.class).eq(User::getUserName, user.getUserName()));
         if (ObjectUtil.isNotEmpty(old)) {

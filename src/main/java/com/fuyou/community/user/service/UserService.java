@@ -44,6 +44,13 @@ public interface UserService {
 
     /**
      * @Author yanfuyou
+     * @Description 退出
+     * @Date 上午4:21 2022/11/25
+     */
+    ResultVo logout();
+
+    /**
+     * @Author yanfuyou
      * @Description 用户注册
      * @Date 下午8:57 2022/9/16
      * @Param 用户信息

@@ -61,6 +61,11 @@ public class UserController {
         return userService.login(dto);
     }
 
+    @GetMapping("/logout")
+    @ApiOperation("退出登录")
+    public ResultVo logout(){
+        return userService.logout();
+    }
     @GetMapping("isLogin")
     @ApiOperation("判断用户是否登录")
     public ResultVo isLogin(){
