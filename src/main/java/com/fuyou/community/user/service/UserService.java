@@ -12,6 +12,7 @@ import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
+import com.fuyou.community.user.model.vo.InfoVo;
 
 import javax.xml.transform.Result;
 import java.util.List;
@@ -118,4 +119,11 @@ public interface UserService {
      * @Date 下午9:10 2022/10/15
      */
     IPage<AvatarVo> getUserAvatars(PageDto<Set<String>> avatarDto);
+
+    /**
+     * @Author yanfuyou
+     * @Description 获取用户信息
+     * @Date 上午12:05 2022/11/25
+     */
+    ResultVo<InfoVo> getInfo(String userId);
 }

@@ -36,7 +36,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {//    使用sa-token拦截器
         registry.addInterceptor(new SaInterceptor(handle -> {
                     SaRouter.match("/**")
-                            .notMatch("/upload/**", "/favicon.ico", "/v2/**", "/swagger-resources/**", "/webjars/**", "/doc.html", "/error/**", "/code/**", "/user/login", "/user/signup", "/image/**", "/file/**", "article/**")
+                            .notMatch("/user/**","/upload/**", "/favicon.ico", "/v2/**", "/swagger-resources/**", "/webjars/**", "/doc.html", "/error/**", "/code/**", "/user/login", "/user/signup", "/image/**", "/file/**", "article/**")
                             .check(rule -> AuthUtil.authMethod());
                 }))
                 .addPathPatterns("/**");

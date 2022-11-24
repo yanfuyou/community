@@ -9,8 +9,8 @@
         inner join ARTICLE_COVER c on c.ARTICLE_ID = a.ID
         left join ARTICLE_SCORE s on s.ARTICLE_ID = a.ID
         ORDER BY score desc
-        <if test="start != null and start != '' and end != null and end != ''">
-            limit #{start,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+        <if test="start != null and end != null">
+            limit #{start},#{end}
         </if>
     </select>
 </mapper>

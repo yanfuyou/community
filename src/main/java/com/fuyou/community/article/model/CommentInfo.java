@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
 @TableName("COMMENT_INFO")
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 public class CommentInfo extends DelBean {
     @ApiModelProperty("评论id")
     @TableField("COMMENT_ID")
-    private String commonId;
+    private String commentId;
 
     @ApiModelProperty("父评论id")
     @TableField("PARENT_ID")
@@ -30,4 +31,12 @@ public class CommentInfo extends DelBean {
     @TableField("BIZ_TYPE")
     @NotBlank(message = "参数有误")
     private String bizType;
+
+    @ApiModelProperty("所属内容id")
+    @TableField("ARTICLE_ID")
+    private String articleId;
+
+    @ApiModelProperty("子评论")
+    @TableField(exist = false)
+    private List<CommentInfo> children;
 }

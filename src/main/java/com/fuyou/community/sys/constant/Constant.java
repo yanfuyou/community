@@ -53,4 +53,8 @@ public interface Constant {
          */
         public static final String NOTDELETED = "0";
     }
+
+    class Tree{
+        public static final String ROOT = "0";
+    }
 }

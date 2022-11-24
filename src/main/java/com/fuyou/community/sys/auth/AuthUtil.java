@@ -15,7 +15,7 @@ public class AuthUtil {
         try {
             StpUtil.checkLogin();
         }catch (NotLoginException notLogin){
-            throw new ServiceException(401,"请登录");
+            throw new ServiceException(notLogin,401,"请登录");
         }
 //        权限校验
     }

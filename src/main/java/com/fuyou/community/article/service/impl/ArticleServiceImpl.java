@@ -85,6 +85,40 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ResultVo<List<ArticleHotVo>> getHots(String start, String end) {
         List<ArticleHotVo> hots = articleinfoMapper.getHots(Integer.parseInt(start), Integer.parseInt(end));
+        hots.stream().forEach(art -> {
+//            替换内容
+            String contentPath = art.getArticleContent();
+            File file = new File(contentPath);
+            if (!file.exists()){
+                throw new ServiceException(5000,"文件内容丢失");
+            }
+            InputStream in = null;
+            try{
+                in = new FileInputStream(file);
+                int len = 0;
+                byte[] swap = new byte[1024];
+                StringBuffer contentBuffer = new StringBuffer("");
+                while ((len = in.read(swap)) != -1){
+                    contentBuffer.append(new String(swap,0,len));
+                    if (contentBuffer.toString().length() >= 20){
+                        break;
+                    }
+                }
+                art.setArticleContent(contentBuffer.substring(0,20));
+                contentBuffer.setLength(0);
+            }catch (Exception e){
+                log.error(e.getMessage());
+                throw new ServiceException(5000,"获取文件内容失败");
+            }finally {
+                if (ObjectUtil.isNotNull(in)){
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        throw new ServiceException(5000,"文件流关闭异常");
+                    }
+                }
+            }
+        });
         return ResultVo.success(2000,"获取热文成功",hots);
     }
 
@@ -113,7 +147,9 @@ public class ArticleServiceImpl implements ArticleService {
                 log.error(e.getMessage());
                 throw new ServiceException(5000,"获取文件内容失败");
             }finally {
-                in.close();
+                if (ObjectUtil.isNotNull(in)){
+                    in.close();
+                }
             }
         }
         return ResultVo.success(2000,"获取文章信息成功",articleInfo);

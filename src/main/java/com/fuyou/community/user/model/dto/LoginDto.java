@@ -14,4 +14,6 @@ public class LoginDto extends User {
     private String verification;
     @ApiModelProperty("验证码key")
     private String codeUid;
+    @ApiModelProperty("是否需要验证码")
+    private String codeFlag;
 }

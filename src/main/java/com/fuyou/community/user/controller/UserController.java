@@ -16,6 +16,7 @@ import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
+import com.fuyou.community.user.model.vo.InfoVo;
 import com.fuyou.community.user.model.vo.UserBasicVo;
 import com.fuyou.community.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -45,16 +46,18 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation("用户登录")
     public ResultVo login(@RequestBody LoginDto dto) {
-//        if (StrUtil.isBlank(dto.getVerification())) {
-//            return ResultVo.fail(5000, "验证码不能为空");
-//        }
-//        String code = (String) redisTemplate.opsForValue().get(dto.getCodeUid());
-//        if (StrUtil.isBlank(code)) {
-//            return ResultVo.fail(5000, "验证码过期");
-//        }
-//        if (!code.equals(dto.getVerification())) {
-//            return ResultVo.fail(5000, "验证码错误");
-//        }
+        if (dto.getCodeFlag().equals("1")){
+            if (StrUtil.isBlank(dto.getVerification())) {
+                return ResultVo.fail(5000, "验证码不能为空");
+            }
+            String code = (String) redisTemplate.opsForValue().get(dto.getCodeUid());
+            if (StrUtil.isBlank(code)) {
+                return ResultVo.fail(5000, "验证码过期");
+            }
+            if (!code.equals(dto.getVerification())) {
+                return ResultVo.fail(5000, "验证码错误");
+            }
+        }
         return userService.login(dto);
     }
 
@@ -152,4 +155,15 @@ public class UserController {
         return userService.getUserAvatars(avatarDto);
     }
 
+    @PostMapping("/admin/test")
+    public ResultVo<User> test(@RequestBody User user){
+        System.out.println(user);
+        return ResultVo.success(2000,"梗死",user);
+    }
+
+    @GetMapping("/getInfo")
+    @ApiOperation("获取用户信息")
+    public ResultVo<InfoVo> getInfo(String userId){
+        return userService.getInfo(userId);
+    }
 }

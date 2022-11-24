@@ -2,15 +2,20 @@ package com.fuyou.community.user.service.impl;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.exception.ServiceException;
+import com.fuyou.community.role.model.RoleInfo;
+import com.fuyou.community.role.service.RoleInfoService;
 import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
@@ -27,6 +32,7 @@ import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
+import com.fuyou.community.user.model.vo.InfoVo;
 import com.fuyou.community.user.model.vo.LoginVO;
 import com.fuyou.community.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +41,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +56,7 @@ public class UserServiceImpl implements UserService {
     private final UserWorkinfoMapper userWorkinfoMapper;
     private final UserLabelinfoMapper userLabelinfoMapper;
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RoleInfoService roleInfoService;
 
 
     @Override
@@ -91,6 +99,8 @@ public class UserServiceImpl implements UserService {
         String excr = PasswordUtil.excr(user.getUserPassword(), salt);
         user.setUserPassword(excr);
         user.setUserSalt(salt);
+        user.setCreateBy(user.getUserName());
+        user.setUpdateBy(user.getUserName());
         int insert = userMapper.insert(user);
         if (insert < 1) {
             return ResultVo.fail(5000, "用户注册失败");
@@ -181,5 +191,29 @@ public class UserServiceImpl implements UserService {
         page.setSize(avatarDto.getSize());
         page.setHitCount(true);
         return userMapper.getUserAvatars(page,avatarDto);
+    }
+
+    @Override
+    public ResultVo<InfoVo> getInfo(String userId) {
+        User user;
+        if (StrUtil.isBlank(userId)){
+            user = CurrentUtil.getLoginUser();
+            userId = CurrentUtil.getLoginUser().getId();
+        }else{
+            user = userMapper.selectOne(Wrappers.lambdaQuery(User.class).eq(User::getId,userId));
+        }
+        List<RoleInfo> userRoleList = roleInfoService.getRoleList(userId);
+        if (ObjectUtil.isEmpty(user)){
+            throw new ServiceException(5000,"获取用户信息失败");
+        }
+        InfoVo infoVo = new InfoVo();
+        infoVo.setAvatar(user.getUserAvatar());
+        infoVo.setName(user.getUserAlias());
+        infoVo.setIntroduction(user.getUserSign());
+        if (CollUtil.isNotEmpty(userRoleList)){
+            List<String> roleList = userRoleList.stream().map(RoleInfo::getRoleName).collect(Collectors.toList());
+            infoVo.setRoles(roleList);
+        }
+        return ResultVo.success(2000,"获取用户信息成功",infoVo);
     }
 }
