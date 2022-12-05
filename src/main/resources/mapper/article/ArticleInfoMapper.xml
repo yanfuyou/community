@@ -4,7 +4,8 @@
 <mapper namespace="com.fuyou.community.article.dao.ArticleinfoMapper">
 
     <select id="getHots" resultType="com.fuyou.community.article.model.vo.ArticleHotVo">
-        select distinct a.*, c.COVER_PATH coverPath, (select sum(s.SCORE) from ARTICLE_SCORE s where s.ARTICLE_ID = a.ID) score
+        select distinct a.*, c.COVER_PATH coverPath, (select sum(s.SCORE) from ARTICLE_SCORE s where s.ARTICLE_ID =
+        a.ID) score
         from ARTICLE_INFO a
         inner join ARTICLE_COVER c on c.ARTICLE_ID = a.ID
         left join ARTICLE_SCORE s on s.ARTICLE_ID = a.ID
@@ -12,5 +13,23 @@
         <if test="start != null and end != null">
             limit #{start},#{end}
         </if>
+    </select>
+    <select id="list" resultType="com.fuyou.community.article.model.ArticleInfo">
+        select u.ID userId,info.id,info.ARTICLE_NAME,info.CREATE_TIME,info.CREATE_BY,info.UPDATE_BY,info.UPDATE_TIME,info.ENCLOSURE,info.FLAG from ARTICLE_INFO info
+        inner join USER u on u.id=info.USER_ID
+        <where>
+            <if test="pageDto.id != null and pageDto.id !=''">
+                and info.ID = #{pageDto.id}
+            </if>
+            <if test="pageDto.articleName != null and pageDto.articleName != ''">
+                and info.ARTICLE_NAME LIKE concat('%',#{pageDto.articleName},'%')
+            </if>
+            <if test="pageDto.userId != null and pageDto.userId != ''">
+                and u.USER_NAME LIKE concat('%',#{pageDto.userId},'%')
+            </if>
+            <if test="pageDto.enclosure != null and pageDto.enclosure != ''">
+                and info.ENCLOSURE = #{pageDto.enclosure}
+            </if>
+        </where>
     </select>
 </mapper>

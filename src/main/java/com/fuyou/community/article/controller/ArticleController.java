@@ -1,5 +1,6 @@
 package com.fuyou.community.article.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.article.model.ArticleCover;
 import com.fuyou.community.article.model.ArticleInfo;
 import com.fuyou.community.article.model.dto.PageDto;
@@ -27,39 +28,46 @@ public class ArticleController {
 
     @PostMapping("/release")
     @ApiOperation("发布文章")
-    public ResultVo release(@RequestBody ArticleInfo articleInfo){
+    public ResultVo release(@RequestBody ArticleInfo articleInfo) {
         return articleService.release(articleInfo);
     }
 
     @PostMapping("/addCover")
     @ApiOperation("添加文章封面")
-    public void addCover(@RequestBody ArticleCover articleCover){
+    public void addCover(@RequestBody ArticleCover articleCover) {
         articleService.addCover(articleCover);
     }
 
     @GetMapping("/getHots/{start}/{end}")
     @ApiOperation("获取热文-带封面的")
-    public ResultVo<List<ArticleHotVo>> getHots(@PathVariable("start")String start, @PathVariable("end")String end){
-        return articleService.getHots(start,end);
+    public ResultVo<List<ArticleHotVo>> getHots(@PathVariable("start") String start, @PathVariable("end") String end) {
+        return articleService.getHots(start, end);
     }
 
     @GetMapping("/getArticleInfo/{id}")
     @ApiOperation("获取文章信息")
-    public ResultVo<ArticleInfo> getArticleInfo(@PathVariable String id){
+    public ResultVo<ArticleInfo> getArticleInfo(@PathVariable String id) {
         try {
             return articleService.getArticleInfo(id);
-        }catch (IOException e){
-            throw new ServiceException(5000,"获取文章内容失败！");
+        } catch (IOException e) {
+            throw new ServiceException(5000, "获取文章内容失败！");
         }
     }
 
     @GetMapping("/enclInfo/{id}")
     @ApiOperation("获取附件信息")
-    public ResultVo<EnclVo> getEnclInfo(@PathVariable String id){
+    public ResultVo<EnclVo> getEnclInfo(@PathVariable String id) {
         return articleService.getEnclInfo(id);
     }
 
-    public ResultVo<ArticleMiniVo> getArticlePage(@RequestBody PageDto dto){
+    @ApiOperation("文章缩略视图")
+    public ResultVo<ArticleMiniVo> getArticlePage(@RequestBody PageDto dto) {
         return new ResultVo<>();
+    }
+
+    @PostMapping("/admin/list")
+    @ApiOperation("列表查询")
+    public ResultVo<Page<ArticleInfo>> list(@RequestBody PageDto pageDto){
+        return articleService.list(pageDto);
     }
 }

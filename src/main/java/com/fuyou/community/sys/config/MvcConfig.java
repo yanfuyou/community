@@ -1,8 +1,10 @@
 package com.fuyou.community.sys.config;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.sys.auth.AuthUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,11 +36,15 @@ public class MvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {//    使用sa-token拦截器
-        registry.addInterceptor(new SaInterceptor(handle -> {
-                    SaRouter.match("/**")
-                            .notMatch("/user/**","/upload/**", "/favicon.ico", "/v2/**", "/swagger-resources/**", "/webjars/**", "/doc.html", "/error/**", "/code/**", "/user/login", "/user/signup", "/image/**", "/file/**", "article/**")
-                            .check(rule -> AuthUtil.authMethod());
-                }))
-                .addPathPatterns("/**");
+        try {
+            registry.addInterceptor(new SaInterceptor(handle -> {
+                        SaRouter.match("/**")
+                                .notMatch("/user/**", "/upload/**", "/favicon.ico", "/v2/**", "/swagger-resources/**", "/webjars/**", "/doc.html", "/error/**", "/code/**", "/user/login", "/user/signup", "/image/**", "/file/**", "article/**")
+                                .check(rule -> AuthUtil.authMethod());
+                    }))
+                    .addPathPatterns("/**");
+        }catch (NotLoginException e){
+            throw new ServiceException(401,"请登录");
+        }
     }
 }

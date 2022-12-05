@@ -1,6 +1,7 @@
 package com.fuyou.community.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
@@ -23,7 +24,7 @@ import java.util.Set;
  * @Description 用户相关业务
  * @Date 下午8:59 2022/9/8
  */
-public interface UserService {
+public interface UserService extends IService<User> {
 
     /**
      * @Author yanfuyou

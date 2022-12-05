@@ -1,15 +1,19 @@
 package com.fuyou.community.article.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.fuyou.community.article.model.ArticleCover;
 import com.fuyou.community.article.model.ArticleInfo;
+import com.fuyou.community.article.model.dto.PageDto;
 import com.fuyou.community.article.model.vo.ArticleHotVo;
+import com.fuyou.community.article.model.vo.ArticleMiniVo;
 import com.fuyou.community.article.model.vo.EnclVo;
 import com.fuyou.community.common.ResultVo;
 
 import java.io.IOException;
 import java.util.List;
 
-public interface ArticleService {
+public interface ArticleService extends IService<ArticleInfo> {
     /**
      * @Author yanfuyou
      * @Description 发布文章
@@ -43,4 +47,10 @@ public interface ArticleService {
      * @Date 下午4:12 2022/10/16
      */
     ResultVo<EnclVo> getEnclInfo(String id);
+    /**
+     * @Author yanfuyou
+     * @Description 列表查询
+     * @Date 下午11:47 2022/11/27
+     */
+    ResultVo<Page<ArticleInfo>> list(PageDto pageDto);
 }

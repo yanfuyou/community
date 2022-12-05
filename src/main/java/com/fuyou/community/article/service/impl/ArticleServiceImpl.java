@@ -2,13 +2,17 @@ package com.fuyou.community.article.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.article.dao.ArticleCoverMapper;
 import com.fuyou.community.article.dao.ArticleFileRelMapper;
 import com.fuyou.community.article.dao.ArticleinfoMapper;
 import com.fuyou.community.article.model.ArticleCover;
 import com.fuyou.community.article.model.ArticleFileRel;
 import com.fuyou.community.article.model.ArticleInfo;
+import com.fuyou.community.article.model.dto.PageDto;
 import com.fuyou.community.article.model.vo.ArticleHotVo;
 import com.fuyou.community.article.model.vo.EnclVo;
 import com.fuyou.community.article.service.ArticleService;
@@ -20,13 +24,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.xml.transform.Result;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ArticleServiceImpl implements ArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInfo> implements ArticleService {
     private final ArticleFileRelMapper articleFileRelMapper;
 
     private final ArticleinfoMapper articleinfoMapper;
@@ -158,5 +164,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ResultVo<EnclVo> getEnclInfo(String id) {
         return ResultVo.success(2000,"获取附件成功",articleFileRelMapper.getEnclInfo(id));
+    }
+
+    @Override
+    public ResultVo<Page<ArticleInfo>> list(PageDto pageDto) {
+        Page<ArticleInfo> articleInfoPage = new Page<ArticleInfo>();
+        articleInfoPage.setOptimizeCountSql(true);
+        articleInfoPage.setCurrent(pageDto.getCurrent());
+        articleInfoPage.setSize(pageDto.getSize());
+        articleInfoPage.setOrders(pageDto.getOrders());
+        Page<ArticleInfo> list = articleinfoMapper.list(articleInfoPage,pageDto);
+        return ResultVo.success(2000,"查询成功",list);
     }
 }

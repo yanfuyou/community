@@ -3,6 +3,7 @@ package com.fuyou.community.article.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fuyou.community.sys.model.BaseBean;
+import com.fuyou.community.sys.model.DelBean;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 @Data
 @ApiModel("文章信息")
 @TableName("ARTICLE_INFO")
-public class ArticleInfo extends BaseBean implements Serializable {
+public class ArticleInfo extends DelBean implements Serializable {
     private static final long serialVersionUID = -5604742465445529984L;
 
     @TableField("ID")

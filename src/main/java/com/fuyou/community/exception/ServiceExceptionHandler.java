@@ -1,5 +1,6 @@
 package com.fuyou.community.exception;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import com.fuyou.community.common.ResultVo;
 import com.sun.org.apache.xpath.internal.objects.XObject;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.util.List;
 @Slf4j
 public class ServiceExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(ServiceException.class)
     @ResponseBody
     public ResultVo<Object> exception(ServiceException e) {
 //        记录日志
@@ -37,5 +38,11 @@ public class ServiceExceptionHandler {
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
         log.error("参数有误{}", fieldErrors.get(0).getField());
         return ResultVo.fail(5000, fieldErrors.get(0).getDefaultMessage());
+    }
+
+    @ExceptionHandler(NotLoginException.class)
+    public ResultVo notLogin(NotLoginException notLoginException){
+        log.info("用户未登录！");
+        return ResultVo.fail(401,"请登录");
     }
 }

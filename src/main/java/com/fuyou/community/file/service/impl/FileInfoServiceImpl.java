@@ -5,6 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.article.dao.ArticleFileRelMapper;
 import com.fuyou.community.article.model.ArticleFileRel;
 import com.fuyou.community.common.ResultVo;
@@ -30,7 +31,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FileInfoServiceImpl implements FileInfoService {
+public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> implements FileInfoService {
 
     private final CurrentUtil currentUtil;
     private final FileInfoMapper fileInfoMapper;
@@ -61,7 +62,7 @@ public class FileInfoServiceImpl implements FileInfoService {
                 fileInfo.setUserId(userInfo.getId());
                 String originName = file.getOriginalFilename();
                 fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
-                fileInfo.setVisitPath("http://192.168.199.72:8081/community/upload/" + fileInfo.getSaveName());
+                fileInfo.setVisitPath("http://192.168.191.72:8081/community/upload/" + fileInfo.getSaveName());
                 fileInfo.setFileName(originName);
                 int insert = fileInfoMapper.insert(fileInfo);
                 if (insert < 1) {
@@ -108,7 +109,7 @@ public class FileInfoServiceImpl implements FileInfoService {
                     String originName = file.getOriginalFilename();
                     fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfo.setFileName(originName);
-                    fileInfo.setVisitPath("http://192.168.199.72:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
+                    fileInfo.setVisitPath("http://192.168.191.72:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
                     try{
                         File saveFile = new File(savePath, fileInfo.getSaveName());
                         if (!saveFile.getParentFile().exists()){
@@ -158,7 +159,7 @@ public class FileInfoServiceImpl implements FileInfoService {
                         fileInfoA.setUserId(userInfo.getId());
                         String originName = file.getOriginalFilename();
                         fileInfoA.setSaveName(fileId + "." + originName.split("\\.")[1]);
-                        String visitPath = "http://192.168.199.72:8081/community/upload/" + fileInfoA.getSaveName();
+                        String visitPath = "http://192.168.191.72:8081/community/upload/" + fileInfoA.getSaveName();
                         fileInfoA.setVisitPath(visitPath);
                         fileInfoA.setFileName(originName);
                         int insert = fileInfoMapper.insert(fileInfoA);

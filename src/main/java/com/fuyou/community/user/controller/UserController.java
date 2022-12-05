@@ -160,12 +160,6 @@ public class UserController {
         return userService.getUserAvatars(avatarDto);
     }
 
-    @PostMapping("/admin/test")
-    public ResultVo<User> test(@RequestBody User user){
-        System.out.println(user);
-        return ResultVo.success(2000,"梗死",user);
-    }
-
     @GetMapping("/getInfo")
     @ApiOperation("获取用户信息")
     public ResultVo<InfoVo> getInfo(String userId){
