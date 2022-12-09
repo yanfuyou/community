@@ -3,6 +3,7 @@ package com.fuyou.community.article.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.article.dao.ArticleScoreMapper;
 import com.fuyou.community.article.model.ArticleScore;
 import com.fuyou.community.article.service.ArticleScoreService;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AriticleScoreServiceImpl implements ArticleScoreService {
+public class AriticleScoreServiceImpl extends ServiceImpl<ArticleScoreMapper,ArticleScore> implements ArticleScoreService {
     private final ArticleScoreMapper scoreMapper;
 
     @Override
@@ -45,5 +46,10 @@ public class AriticleScoreServiceImpl implements ArticleScoreService {
             scoreMapper.insert(score);
         }
         return ResultVo.success(2000, "评分成功");
+    }
+
+    @Override
+    public int getScoreSum(String id) {
+        return 0;
     }
 }

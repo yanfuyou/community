@@ -10,4 +10,9 @@
                  left join USER u ON u.ID = a.USER_ID
         where u.ID = #{id};
     </select>
+    <select id="getScoreSum" resultType="java.lang.Integer">
+        select sum(s.SCORE)
+        from ARTICLE_SCORE s
+        where s.ARTICLE_ID = #{articleId}
+    </select>
 </mapper>

@@ -19,4 +19,6 @@ import java.util.Set;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     IPage<AvatarVo> getUserAvatars(Page<AvatarVo> page,@Param("avatarDto") PageDto<Set<String>> avatarDto);
+
+    int score(@Param("userId") String userId,@Param("month") String month);
 }

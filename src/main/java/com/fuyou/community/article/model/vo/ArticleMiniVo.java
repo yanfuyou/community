@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 public class ArticleMiniVo extends ArticleInfo {
     @ApiModelProperty("阅读量")
-    private String readCount;
+    private int readCount;
     @ApiModelProperty("总得分")
-    private String scoreCount;
+    private int scoreCount;
     @ApiModelProperty("评论数")
-    private String commCount;
+    private int commCount;
 }

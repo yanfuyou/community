@@ -3,6 +3,7 @@ package com.fuyou.community.user.service.impl;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
@@ -35,12 +36,15 @@ import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
 import com.fuyou.community.user.model.vo.InfoVo;
 import com.fuyou.community.user.model.vo.LoginVO;
+import com.fuyou.community.user.model.vo.UserScoreVo;
 import com.fuyou.community.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.INTERNAL;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -222,5 +226,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
             infoVo.setRoles(roleList);
         }
         return ResultVo.success(2000,"获取用户信息成功",infoVo);
+    }
+
+    @Override
+    public ResultVo<UserScoreVo> score(String userId) {
+        int all = userMapper.score(userId, null);
+        String month = DateUtil.format(new Date(), "yyyyMM");
+        Integer thisMonth = userMapper.score(userId, month);
+        UserScoreVo userScoreVo = new UserScoreVo();
+        userScoreVo.setAll(all);
+        userScoreVo.setThisMonth(Optional.of(thisMonth).orElse(0));
+        return ResultVo.success(2000,"查询成功",userScoreVo);
     }
 }

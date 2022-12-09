@@ -12,13 +12,18 @@ import com.fuyou.community.article.dao.ArticleinfoMapper;
 import com.fuyou.community.article.model.ArticleCover;
 import com.fuyou.community.article.model.ArticleFileRel;
 import com.fuyou.community.article.model.ArticleInfo;
+import com.fuyou.community.article.model.CommentInfo;
 import com.fuyou.community.article.model.dto.PageDto;
 import com.fuyou.community.article.model.vo.ArticleHotVo;
+import com.fuyou.community.article.model.vo.ArticleMiniVo;
 import com.fuyou.community.article.model.vo.EnclVo;
+import com.fuyou.community.article.service.ArticleScoreService;
 import com.fuyou.community.article.service.ArticleService;
+import com.fuyou.community.article.service.CommentService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.sys.constant.Constant;
+import com.fuyou.community.sys.util.ArticleContentUtil;
 import com.fuyou.community.sys.util.CurrentUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +39,10 @@ import java.util.List;
 @Slf4j
 public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInfo> implements ArticleService {
     private final ArticleFileRelMapper articleFileRelMapper;
-
     private final ArticleinfoMapper articleinfoMapper;
-
     private final ArticleCoverMapper coverMapper;
+    private final ArticleScoreService scoreService;
+    private final CommentService commentService;
 
     @Override
     public ResultVo release(ArticleInfo articleInfo) {
@@ -175,5 +180,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
         articleInfoPage.setOrders(pageDto.getOrders());
         Page<ArticleInfo> list = articleinfoMapper.list(articleInfoPage,pageDto);
         return ResultVo.success(2000,"查询成功",list);
+    }
+
+    @Override
+    public ResultVo<Page<ArticleMiniVo>> miniList(PageDto pageDto) {
+        Page<ArticleMiniVo> page = new Page<>();
+        page.setSize(pageDto.getSize());
+        page.setCurrent(pageDto.getCurrent());
+        page.setOrders(pageDto.getOrders());
+        Page<ArticleMiniVo> list = articleinfoMapper.miniList(page, pageDto);
+        List<ArticleMiniVo> records = list.getRecords();
+        records.forEach(article -> {
+//            填充获得分数和评论数
+            int scoreSum = scoreService.getScoreSum(article.getId());
+            int commentSum = commentService.count(Wrappers.lambdaQuery(CommentInfo.class)
+                    .eq(CommentInfo::getArticleId, article.getId()));
+            article.setCommCount(commentSum);
+            article.setScoreCount(scoreSum);
+//            替换内容
+            String content = ArticleContentUtil.getContent(article.getArticleContent());
+            article.setArticleContent(content);
+        });
+        return ResultVo.success(2000,"查询自己的文章列表成功",list);
     }
 }

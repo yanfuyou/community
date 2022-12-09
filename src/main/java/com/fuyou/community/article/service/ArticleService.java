@@ -53,4 +53,11 @@ public interface ArticleService extends IService<ArticleInfo> {
      * @Date 下午11:47 2022/11/27
      */
     ResultVo<Page<ArticleInfo>> list(PageDto pageDto);
+
+    /**
+     * @Author yanfuyou
+     * @Description 获取mini视图列表
+     * @Date 上午1:06 2022/12/10
+     */
+    ResultVo<Page<ArticleMiniVo>> miniList(PageDto pageDto);
 }

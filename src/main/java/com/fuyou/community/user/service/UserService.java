@@ -14,6 +14,7 @@ import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
 import com.fuyou.community.user.model.vo.InfoVo;
+import com.fuyou.community.user.model.vo.UserScoreVo;
 
 import javax.xml.transform.Result;
 import java.util.List;
@@ -134,4 +135,11 @@ public interface UserService extends IService<User> {
      * @Date 上午12:05 2022/11/25
      */
     ResultVo<InfoVo> getInfo(String userId);
+
+    /**
+     * @Author yanfuyou
+     * @Description 获取用户得分
+     * @Date 上午12:15 2022/12/10
+     */
+    ResultVo<UserScoreVo> score(String userId);
 }

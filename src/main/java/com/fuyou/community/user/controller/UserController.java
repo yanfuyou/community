@@ -18,6 +18,7 @@ import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
 import com.fuyou.community.user.model.vo.InfoVo;
 import com.fuyou.community.user.model.vo.UserBasicVo;
+import com.fuyou.community.user.model.vo.UserScoreVo;
 import com.fuyou.community.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -164,5 +165,11 @@ public class UserController {
     @ApiOperation("获取用户信息")
     public ResultVo<InfoVo> getInfo(String userId){
         return userService.getInfo(userId);
+    }
+
+    @PostMapping("/score")
+    @ApiOperation("获取得分信息")
+    public ResultVo<UserScoreVo> score(String userId){
+        return userService.score(userId);
     }
 }

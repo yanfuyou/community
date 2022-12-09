@@ -13,6 +13,7 @@ import com.fuyou.community.exception.ServiceException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/article")
-@Api(tags = "文章的控制类")
+@Api(tags = "文章的操作")
 @RequiredArgsConstructor
 public class ArticleController {
 
@@ -60,9 +61,10 @@ public class ArticleController {
         return articleService.getEnclInfo(id);
     }
 
-    @ApiOperation("文章缩略视图")
-    public ResultVo<ArticleMiniVo> getArticlePage(@RequestBody PageDto dto) {
-        return new ResultVo<>();
+    @PostMapping("/miniList")
+    @ApiOperation("文章mini视图列表")
+    public ResultVo<Page<ArticleMiniVo>> getArticlePage(@Validated @RequestBody PageDto dto) {
+        return articleService.miniList(dto);
     }
 
     @PostMapping("/admin/list")

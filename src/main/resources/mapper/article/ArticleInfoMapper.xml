@@ -15,7 +15,9 @@
         </if>
     </select>
     <select id="list" resultType="com.fuyou.community.article.model.ArticleInfo">
-        select u.ID userId,info.id,info.ARTICLE_NAME,info.CREATE_TIME,info.CREATE_BY,info.UPDATE_BY,info.UPDATE_TIME,info.ENCLOSURE,info.FLAG from ARTICLE_INFO info
+        select u.ID
+        userId,info.id,info.ARTICLE_NAME,info.CREATE_TIME,info.CREATE_BY,info.UPDATE_BY,info.UPDATE_TIME,info.ENCLOSURE,info.FLAG
+        from ARTICLE_INFO info
         inner join USER u on u.id=info.USER_ID
         <where>
             <if test="pageDto.id != null and pageDto.id !=''">
@@ -31,5 +33,11 @@
                 and info.ENCLOSURE = #{pageDto.enclosure}
             </if>
         </where>
+    </select>
+    <select id="miniList" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">
+        select i.ID, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
+        from ARTICLE_INFO i
+                 left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
+        where i.USER_ID = #{pageDto.userId}
     </select>
 </mapper>

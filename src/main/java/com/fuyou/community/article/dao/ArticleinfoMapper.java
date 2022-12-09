@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.article.model.ArticleInfo;
 import com.fuyou.community.article.model.dto.PageDto;
 import com.fuyou.community.article.model.vo.ArticleHotVo;
+import com.fuyou.community.article.model.vo.ArticleMiniVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,5 +18,12 @@ public interface ArticleinfoMapper extends BaseMapper<ArticleInfo> {
      */
     List<ArticleHotVo> getHots(@Param("start") int start,@Param("end") int end);
 
+    /**
+     * @Author yanfuyou
+     * @Description 文章列表
+     * @Date 上午1:07 2022/12/10
+     */
     Page<ArticleInfo> list(Page<ArticleInfo> page, @Param("pageDto")PageDto pageDto);
+
+    Page<ArticleMiniVo> miniList(Page<ArticleMiniVo> page,@Param("pageDto") PageDto pageDto);
 }

@@ -12,4 +12,14 @@
             </foreach>
         </if>
     </select>
+    <select id="score" resultType="java.lang.Integer">
+        select IFNULL(sum(SCORE),0)
+        from ARTICLE_SCORE s
+                 inner join ARTICLE_INFO i on i.ID = s.ARTICLE_ID
+                 left join USER u on u.ID = i.USER_ID
+        where u.ID = #{userId}
+        <if test="month != null and month != ''">
+            and s.CREATE_TIME like concat(#{month},'%')
+        </if>
+    </select>
 </mapper>
