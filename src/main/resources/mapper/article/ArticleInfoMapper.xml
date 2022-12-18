@@ -35,9 +35,9 @@
         </where>
     </select>
     <select id="miniList" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">
-        select i.ID, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
+        select i.ID, i.ARTICLE_NAME, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
         from ARTICLE_INFO i
                  left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
-        where i.USER_ID = #{pageDto.userId}
+        where i.USER_ID = #{pageDto.userId} and (flag = 0 or flag = 5);
     </select>
 </mapper>

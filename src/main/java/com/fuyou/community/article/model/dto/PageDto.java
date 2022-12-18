@@ -3,10 +3,8 @@ package com.fuyou.community.article.model.dto;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.fuyou.community.article.model.ArticleInfo;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 

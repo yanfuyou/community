@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.hole.dao.TreeHoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.fuyou.community.hole.model.TreeHole">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="msg" column="MSG" jdbcType="VARCHAR"/>
+        <result property="flag" column="FLAG" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID id
+        ,MSG msg,CREATE_TIME createTime
+    </sql>
+    <select id="holePage" resultType="com.fuyou.community.hole.model.vo.HoleVo">
+        select t.ID id,t.MSG msg,t.CREATE_TIME createTime,u.USER_AVATAR avatar
+        from TREE_HOLE t left join USER u on u.USER_NAME=t.CREATE_BY
+        <where>
+            <if test="hole.queryParam.flag != null and hole.queryParam.flag != ''">
+                and t.FLAG = #{hole.queryParam.flag}
+            </if>
+            <if test="hole.queryParam.createBy != null and hole.queryParam.createBy != ''">
+                and t.CREATE_BY = #{hole.queryParam.createBy}
+            </if>
+        </where>
+    </select>
+</mapper>

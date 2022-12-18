@@ -16,8 +16,8 @@ public class BaseBeanHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("createTime", DateUtil.format(new Date(), "yyyyMMddhhmmss"), metaObject);
         if (ObjectUtil.isNotEmpty(CurrentUtil.getLoginUser())){
-            this.setFieldValByName("createBy", CurrentUtil.getLoginUser().getUserAlias(), metaObject);
-            this.setFieldValByName("updateBy", CurrentUtil.getLoginUser().getUserAlias(), metaObject);
+            this.setFieldValByName("createBy", CurrentUtil.getLoginUser().getUserName(), metaObject);
+            this.setFieldValByName("updateBy", CurrentUtil.getLoginUser().getUserName(), metaObject);
         }
         this.setFieldValByName("updateTime", DateUtil.format(new Date(), "yyyyMMddhhmmss"), metaObject);
     }
@@ -26,7 +26,7 @@ public class BaseBeanHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         this.setFieldValByName("updateTime", DateUtil.format(new Date(), "yyyyMMddhhmmss"), metaObject);
         if (ObjectUtil.isNotEmpty(CurrentUtil.getLoginUser())) {
-            this.setFieldValByName("updateBy", CurrentUtil.getLoginUser().getUserAlias(), metaObject);
+            this.setFieldValByName("updateBy", CurrentUtil.getLoginUser().getUserName(), metaObject);
         }
     }
 }
