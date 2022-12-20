@@ -15,7 +15,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        ID id
+        ID
+        id
         ,MSG msg,CREATE_TIME createTime
     </sql>
     <select id="holePage" resultType="com.fuyou.community.hole.model.vo.HoleVo">
@@ -27,6 +28,9 @@
             </if>
             <if test="hole.queryParam.createBy != null and hole.queryParam.createBy != ''">
                 and t.CREATE_BY = #{hole.queryParam.createBy}
+            </if>
+            <if test="hole.queryParam.pub != null and hole.queryParam.pub != ''">
+                and t.pub = #{hole.queryParam.pub}
             </if>
         </where>
     </select>
