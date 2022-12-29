@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AriticleScoreServiceImpl extends ServiceImpl<ArticleScoreMapper,ArticleScore> implements ArticleScoreService {
+public class AriticleScoreServiceImpl extends ServiceImpl<ArticleScoreMapper, ArticleScore> implements ArticleScoreService {
     private final ArticleScoreMapper scoreMapper;
 
     @Override
@@ -42,7 +43,7 @@ public class AriticleScoreServiceImpl extends ServiceImpl<ArticleScoreMapper,Art
             scoreMapper.update(score, Wrappers.lambdaUpdate(ArticleScore.class)
                     .eq(ArticleScore::getArticleId, score.getArticleId())
                     .eq(ArticleScore::getUserId, score.getUserId()));
-        }else{
+        } else {
             scoreMapper.insert(score);
         }
         return ResultVo.success(2000, "评分成功");
@@ -50,6 +51,6 @@ public class AriticleScoreServiceImpl extends ServiceImpl<ArticleScoreMapper,Art
 
     @Override
     public int getScoreSum(String id) {
-        return 0;
+        return Optional.ofNullable(scoreMapper.getScoreSum(id)).orElse(0);
     }
 }

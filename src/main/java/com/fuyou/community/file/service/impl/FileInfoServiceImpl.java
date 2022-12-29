@@ -52,7 +52,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
 //                文件保存流程
                 String projectPath = CurrentUtil.getProjectPath();
                 String savePath = projectPath + "/static/upload";
-                User userInfo = currentUtil.getLoginUser();
+                User userInfo = CurrentUtil.getLoginUser();
                 if (ObjectUtil.isEmpty(userInfo)) {
                     log.error("用户信息获取失败");
                     return ResultVo.fail(5000, "用户信息获取失败");
@@ -62,7 +62,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
                 fileInfo.setUserId(userInfo.getId());
                 String originName = file.getOriginalFilename();
                 fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
-                fileInfo.setVisitPath("http://192.168.191.72:8081/community/upload/" + fileInfo.getSaveName());
+                fileInfo.setVisitPath("http://192.168.10.100:8081/community/upload/" + fileInfo.getSaveName());
                 fileInfo.setFileName(originName);
                 int insert = fileInfoMapper.insert(fileInfo);
                 if (insert < 1) {
@@ -109,7 +109,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
                     String originName = file.getOriginalFilename();
                     fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfo.setFileName(originName);
-                    fileInfo.setVisitPath("http://192.168.191.72:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
+                    fileInfo.setVisitPath("http://192.168.10.100:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
                     try{
                         File saveFile = new File(savePath, fileInfo.getSaveName());
                         if (!saveFile.getParentFile().exists()){
@@ -159,7 +159,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
                         fileInfoA.setUserId(userInfo.getId());
                         String originName = file.getOriginalFilename();
                         fileInfoA.setSaveName(fileId + "." + originName.split("\\.")[1]);
-                        String visitPath = "http://192.168.191.72:8081/community/upload/" + fileInfoA.getSaveName();
+                        String visitPath = "http://192.168.10.100:8081/community/upload/" + fileInfoA.getSaveName();
                         fileInfoA.setVisitPath(visitPath);
                         fileInfoA.setFileName(originName);
                         int insert = fileInfoMapper.insert(fileInfoA);

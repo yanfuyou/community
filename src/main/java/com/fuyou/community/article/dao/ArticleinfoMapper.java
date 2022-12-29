@@ -26,4 +26,14 @@ public interface ArticleinfoMapper extends BaseMapper<ArticleInfo> {
     Page<ArticleInfo> list(Page<ArticleInfo> page, @Param("pageDto")PageDto pageDto);
 
     Page<ArticleMiniVo> miniList(Page<ArticleMiniVo> page,@Param("pageDto") PageDto pageDto);
+    /**
+     * @Author yanfuyou
+     * @Description 阅读量增加
+     * @Date 下午5:00 2022/12/29
+     */
+    int readPlusOne(String id);
+
+    int getRead(String id);
+
+    int insertNewRead(String id);
 }

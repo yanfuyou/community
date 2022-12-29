@@ -203,4 +203,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
         });
         return ResultVo.success(2000,"查询自己的文章列表成功",list);
     }
+
+    @Override
+    public ResultVo<Object> readPlusOne(String id) {
+        int read = articleinfoMapper.getRead(id);
+        if (read > 0){
+            articleinfoMapper.readPlusOne(id);
+        }else {
+            articleinfoMapper.insertNewRead(id);
+        }
+        return ResultVo.success(2000,"成功");
+    }
 }

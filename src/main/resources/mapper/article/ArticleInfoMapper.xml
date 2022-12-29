@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fuyou.community.article.dao.ArticleinfoMapper">
+    <insert id="insertNewRead">
+        insert into article_read values(#{id},'1');
+    </insert>
+    <update id="readPlusOne">
+        update article_read set READ_COUNT = READ_COUNT+1 where ARTICLE_ID=#{id};
+    </update>
 
     <select id="getHots" resultType="com.fuyou.community.article.model.vo.ArticleHotVo">
         select distinct a.*, c.COVER_PATH coverPath, (select sum(s.SCORE) from ARTICLE_SCORE s where s.ARTICLE_ID =
@@ -37,7 +43,15 @@
     <select id="miniList" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">
         select i.ID, i.ARTICLE_NAME, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
         from ARTICLE_INFO i
-                 left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
-        where i.USER_ID = #{pageDto.userId} and (flag = 0 or flag = 5);
+        left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
+        <where>
+            <if test="pageDto.userId != null and pageDto.userId != ''">
+                i.USER_ID = #{pageDto.userId}
+            </if>
+            and (flag = 0 or flag = 5)
+        </where>
+    </select>
+    <select id="getRead" resultType="java.lang.Integer">
+        select count(*) from article_read where ARTICLE_ID=#{id}
     </select>
 </mapper>

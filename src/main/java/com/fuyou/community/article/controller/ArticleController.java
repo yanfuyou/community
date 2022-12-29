@@ -67,9 +67,16 @@ public class ArticleController {
         return articleService.miniList(dto);
     }
 
+    @GetMapping("/readPlusOne/{id}")
+    @ApiOperation("增加阅读量")
+    public ResultVo<Object> readPlusOne(@PathVariable String id){
+        return articleService.readPlusOne(id);
+    }
+
     @PostMapping("/admin/list")
     @ApiOperation("列表查询")
     public ResultVo<Page<ArticleInfo>> list(@RequestBody PageDto pageDto){
         return articleService.list(pageDto);
     }
+
 }
