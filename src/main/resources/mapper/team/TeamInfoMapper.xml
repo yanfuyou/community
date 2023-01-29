@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.team.dao.TeamInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.fuyou.community.team.model.TeamInfo">
+            <id property="id" column="ID" jdbcType="VARCHAR"/>
+            <result property="name" column="NAME" jdbcType="VARCHAR"/>
+            <result property="url" column="URL" jdbcType="VARCHAR"/>
+            <result property="startTime" column="START_TIME" jdbcType="VARCHAR"/>
+            <result property="endTime" column="END_TIME" jdbcType="VARCHAR"/>
+            <result property="online" column="ONLINE" jdbcType="VARCHAR"/>
+            <result property="num" column="NUM" jdbcType="VARCHAR"/>
+            <result property="descr" column="DESCR" jdbcType="VARCHAR"/>
+            <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
+            <result property="createTime" column="CREATE_TIME" jdbcType="VARCHAR"/>
+            <result property="updateBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="UPDATE_TIME" jdbcType="VARCHAR"/>
+            <result property="flag" column="FLAG" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,NAME,URL,
+        START_TIME,END_TIME,ONLINE,
+        NUM,DESCR,CREATE_BY,
+        CREATE_TIME,UPDATE_BY,UPDATE_TIME,
+        FLAG
+    </sql>
+</mapper>

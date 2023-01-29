@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.team.dao.TeamUserRelMapper">
+
+    <select id="getMyTeam" resultType="com.fuyou.community.team.model.vo.UserTeam">
+        select rel.ID                                                        rel_id,
+               t.id                                                          team_id,
+               t.NAME,
+               t.DESCR,
+               t.NUM,
+               t.END_TIME,
+               t.ONLINE,
+               (select count(*) from team_user_rel r where r.TEAM_ID = t.id) en_num
+        from team_user_rel rel
+                 left join team_info t on t.id = rel.TEAM_ID
+        where rel.USER_ID = #{userId}
+    </select>
+    <select id="getTeamer" resultType="com.fuyou.community.team.model.TeamUserRel">
+        select rel.*, user.USER_NAME name
+        from team_user_rel rel
+                 left join user on user.id = rel.USER_ID
+        where rel.TEAM_ID = #{teamId}
+    </select>
+</mapper>
