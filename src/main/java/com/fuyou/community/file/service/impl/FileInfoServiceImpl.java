@@ -31,7 +31,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> implements FileInfoService {
+public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> implements FileInfoService {
 
     private final CurrentUtil currentUtil;
     private final FileInfoMapper fileInfoMapper;
@@ -84,12 +84,12 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
     }
 
     @Override
-    public ResultVo<Object> upFile(@RequestParam("files") List<MultipartFile> files, Map<String,String> paramMap) {
+    public ResultVo<Object> upFile(@RequestParam("files") List<MultipartFile> files, Map<String, String> paramMap) {
         String bizType = paramMap.get("bizType");
         if (StrUtil.isBlank(bizType)) {
             throw new ServiceException(5000, "请检查文件业务条线");
         }
-        if (CollUtil.isEmpty(files)){
+        if (CollUtil.isEmpty(files)) {
             throw new ServiceException(5000, "文件列表为空！");
         }
         switch (bizType) {
@@ -110,21 +110,21 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
                     fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfo.setFileName(originName);
                     fileInfo.setVisitPath("http://192.168.10.100:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
-                    try{
+                    try {
                         File saveFile = new File(savePath, fileInfo.getSaveName());
-                        if (!saveFile.getParentFile().exists()){
+                        if (!saveFile.getParentFile().exists()) {
                             saveFile.getParentFile().mkdirs();
                         }
                         file.transferTo(saveFile);
-                    }catch (Exception e){
-                        log.error("文件保存异常：{}",e.getMessage());
-                        throw new ServiceException(5000,"文件上传失败");
+                    } catch (Exception e) {
+                        log.error("文件保存异常：{}", e.getMessage());
+                        throw new ServiceException(5000, "文件上传失败");
                     }
 //                    建立文件和文章的引用关系
                     ArticleFileRel articleFileRel = new ArticleFileRel();
                     articleFileRel.setId(IdUtil.simpleUUID());
                     articleFileRel.setFileId(fileId);
-                    if (StrUtil.isNotBlank(paramMap.get("articleId"))){
+                    if (StrUtil.isNotBlank(paramMap.get("articleId"))) {
                         articleFileRel.setArticleId(paramMap.get("articleId"));
                     }
                     fileRelMapper.insert(articleFileRel);
@@ -135,12 +135,42 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
                 }
                 break;
             case Constant.BizType.FILE:
-//                文件上传
-                break;
+//                文件上传,需要返回文件id
+//                资料
+                FileInfo fileInfoM = new FileInfo();
+                String resultId = null;
+                for (MultipartFile file : files) {
+                    if (ObjectUtil.isEmpty(file)) {
+                        throw new ServiceException(5000, "文件丢失");
+                    }
+                    String projectPath = CurrentUtil.getProjectPath();
+//                    用户独有的目录
+                    String savePath = projectPath + "/static/upload/files/" + CurrentUtil.getLoginUser().getId();
+                    fileInfoM.setUserId(CurrentUtil.getLoginUser().getId());
+                    String fileId = IdUtil.simpleUUID();
+                    resultId = fileId;
+                    fileInfoM.setId(fileId);
+                    String originName = file.getOriginalFilename();
+                    fileInfoM.setSaveName(fileId + "." + originName.split("\\.")[1]);
+                    fileInfoM.setFileName(originName);
+                    fileInfoM.setVisitPath("http://192.168.3.7:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfoM.getSaveName());
+                    fileInfoMapper.insert(fileInfoM);
+                    try {
+                        File saveFile = new File(savePath, fileInfoM.getSaveName());
+                        if (!saveFile.getParentFile().exists()) {
+                            saveFile.getParentFile().mkdirs();
+                        }
+                        file.transferTo(saveFile);
+                    } catch (Exception e) {
+                        log.error("文件保存异常：{}", e.getMessage());
+                        throw new ServiceException(5000, "文件上传失败");
+                    }
+                }
+                return ResultVo.success(2000, "文件上传成功!", resultId);
             case Constant.BizType.AVATAR:
                 if (CollUtil.isEmpty(files)) {
                     log.info("文件信息为空");
-                    throw new ServiceException(6000,"文件信息为空");
+                    throw new ServiceException(6000, "文件信息为空");
                 }
                 FileInfo fileInfoA = new FileInfo();
                 for (MultipartFile file : files) {
@@ -163,9 +193,9 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
                         fileInfoA.setVisitPath(visitPath);
                         fileInfoA.setFileName(originName);
                         int insert = fileInfoMapper.insert(fileInfoA);
-                        userMapper.update(null,Wrappers.lambdaUpdate(User.class)
-                                .eq(User::getId,userInfo.getId())
-                                .set(User::getUserAvatar,visitPath));
+                        userMapper.update(null, Wrappers.lambdaUpdate(User.class)
+                                .eq(User::getId, userInfo.getId())
+                                .set(User::getUserAvatar, visitPath));
                         if (insert < 1) {
                             return ResultVo.fail(5000, "文件上传失败");
                         }
@@ -179,7 +209,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper,FileInfo> im
                             log.error("文件保存出错：{}", e.getCause());
                             return ResultVo.fail(5000, "文件保存异常");
                         }
-                        return ResultVo.success(2000,"头像上传成功",visitPath);
+                        return ResultVo.success(2000, "头像上传成功", visitPath);
                     }
                 }
                 break;

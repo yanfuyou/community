@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.material.dao.MaterialMapper">
+
+    <resultMap id="BaseResultMap" type="com.fuyou.community.material.model.Material">
+        <id property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="descr" column="DESCR" jdbcType="VARCHAR"/>
+        <result property="fileId" column="FILE_ID" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="VARCHAR"/>
+        <result property="flag" column="FLAG" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID
+        ,DESCR,FILE_ID,
+        CREATE_BY,CREATE_TIME,UPDATE_BY,
+        UPDATE_TIME,FLAG
+    </sql>
+    <select id="myMaterial" resultType="com.fuyou.community.material.model.Material">
+        select m.*, f.FILE_NAME, f.VISIT_PATH
+        from material m
+        left join file_info f on f.ID = m.FILE_ID
+        <where>
+            <if test="userName != null and userName != ''">
+                m.CREATE_BY = #{userName}
+            </if>
+            <if test="flag != null and flag != ''">
+                and m.FLAG = #{flag}
+            </if>
+        </where>
+    </select>
+</mapper>
