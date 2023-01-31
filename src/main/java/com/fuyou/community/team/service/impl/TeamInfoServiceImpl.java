@@ -1,5 +1,6 @@
 package com.fuyou.community.team.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -57,14 +58,14 @@ public class TeamInfoServiceImpl extends ServiceImpl<TeamInfoMapper, TeamInfo>
 
     @Override
     public ResultVo<Page<TeamInfo>> list(PageQueryDto<TeamInfo> teamDto) {
-        if (ObjectUtil.isNull(teamDto)){
-            throw new ServiceException(5000,"参数异常！");
+        if (ObjectUtil.isNull(teamDto)) {
+            throw new ServiceException(5000, "参数异常！");
         }
         Page<TeamInfo> page = new Page<>();
         page.setCurrent(teamDto.getCurrent());
         page.setSize(teamDto.getSize());
         page.setOrders(teamDto.getOrders());
-        Page<TeamInfo> teamInfoPage = teamInfoMapper.selectPage(page, Wrappers.lambdaQuery(TeamInfo.class).eq(TeamInfo::getFlag, teamDto.getQueryParam().getFlag()) );
+        Page<TeamInfo> teamInfoPage = teamInfoMapper.selectPage(page, Wrappers.lambdaQuery(TeamInfo.class).eq(TeamInfo::getFlag, teamDto.getQueryParam().getFlag()));
         return ResultVo.success(2000, "查询成功", teamInfoPage);
     }
 
@@ -75,9 +76,10 @@ public class TeamInfoServiceImpl extends ServiceImpl<TeamInfoMapper, TeamInfo>
         }
         Integer integer = teamUserRelMapper.selectCount(Wrappers.lambdaQuery(TeamUserRel.class)
                 .eq(TeamUserRel::getUserId, teamUserRel.getUserId())
-                .eq(TeamUserRel::getTeamId, teamUserRel.getTeamId()));
-        if (integer > 0){
-            throw new ServiceException(5000,"你已报名当前队伍！");
+                .eq(TeamUserRel::getTeamId, teamUserRel.getTeamId())
+                .eq(TeamUserRel::getFlag,'0'));
+        if (integer > 0) {
+            throw new ServiceException(5000, "你已报名当前队伍！");
         }
         teamUserRel.setId(IdUtil.simpleUUID());
         teamUserRelMapper.insert(teamUserRel);

@@ -12,10 +12,12 @@
                t.NUM,
                t.END_TIME,
                t.ONLINE,
-               (select count(*) from team_user_rel r where r.TEAM_ID = t.id) en_num
-        from team_user_rel rel
-                 left join team_info t on t.id = rel.TEAM_ID
-        where rel.USER_ID = #{userId}
+               t.CREATE_BY,
+               (select count(*) from team_user_rel r where r.TEAM_ID = t.id and r.FLAG = '0') en_num
+        from team_info t
+                 left join team_user_rel rel on rel.TEAM_ID = t.ID
+                 left join user u on u.USER_NAME = t.CREATE_BY
+        where (rel.USER_ID = #{userId} or u.ID = #{userId}) and (rel.FLAG = '0' or rel.FLAG IS NULL)
     </select>
     <select id="getTeamer" resultType="com.fuyou.community.team.model.TeamUserRel">
         select rel.*, user.USER_NAME name
