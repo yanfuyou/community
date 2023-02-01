@@ -48,13 +48,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
     public ResultVo release(ArticleInfo articleInfo) {
         String id = articleInfo.getId();
 //        附件判断
-        ArticleFileRel articleFileRel = articleFileRelMapper.selectOne(Wrappers.lambdaQuery(ArticleFileRel.class)
-                .eq(ArticleFileRel::getArticleId,id));
-        if (ObjectUtil.isNotEmpty(articleFileRel)){
-            articleInfo.setEnclosure(Constant.ArticleEnc.HAS_ENC);
-        }else {
-            articleInfo.setEnclosure(Constant.ArticleEnc.NO_ENC);
-        }
+//        ArticleFileRel articleFileRel = articleFileRelMapper.selectOne(Wrappers.lambdaQuery(ArticleFileRel.class)
+//                .eq(ArticleFileRel::getArticleId,id));
+//        if (ObjectUtil.isNotEmpty(articleFileRel)){
+//            articleInfo.setEnclosure(Constant.ArticleEnc.HAS_ENC);
+//        }else {
+//            articleInfo.setEnclosure(Constant.ArticleEnc.NO_ENC);
+//        }
 //        替换文件内容
         /**
          * 暂时去掉了使用文件存储内容信息的需求

@@ -105,3 +105,6 @@ sa-token:
 #  不使用cookie
   is-read-cookie: false
   is-print: false
+
+community:
+  fileHost: http://192.168.3.7

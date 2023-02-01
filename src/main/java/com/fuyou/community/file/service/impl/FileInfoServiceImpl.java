@@ -19,6 +19,7 @@ import com.fuyou.community.user.dao.UserMapper;
 import com.fuyou.community.user.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +34,8 @@ import java.util.Map;
 @Slf4j
 public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> implements FileInfoService {
 
-    private final CurrentUtil currentUtil;
+    @Value("${community.fileHost}")
+    private String fileHost;
     private final FileInfoMapper fileInfoMapper;
     private final ArticleFileRelMapper fileRelMapper;
     private final UserMapper userMapper;
@@ -62,7 +64,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                 fileInfo.setUserId(userInfo.getId());
                 String originName = file.getOriginalFilename();
                 fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
-                fileInfo.setVisitPath("http://192.168.10.100:8081/community/upload/" + fileInfo.getSaveName());
+                fileInfo.setVisitPath(this.fileHost +":8081/community/upload/" + fileInfo.getSaveName());
                 fileInfo.setFileName(originName);
                 int insert = fileInfoMapper.insert(fileInfo);
                 if (insert < 1) {
@@ -109,7 +111,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                     String originName = file.getOriginalFilename();
                     fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfo.setFileName(originName);
-                    fileInfo.setVisitPath("http://192.168.10.100:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
+                    fileInfo.setVisitPath(this.fileHost +":8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
                     try {
                         File saveFile = new File(savePath, fileInfo.getSaveName());
                         if (!saveFile.getParentFile().exists()) {
@@ -153,7 +155,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                     String originName = file.getOriginalFilename();
                     fileInfoM.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfoM.setFileName(originName);
-                    fileInfoM.setVisitPath("http://192.168.3.7:8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfoM.getSaveName());
+                    fileInfoM.setVisitPath(this.fileHost + ":8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfoM.getSaveName());
                     fileInfoMapper.insert(fileInfoM);
                     try {
                         File saveFile = new File(savePath, fileInfoM.getSaveName());
@@ -189,7 +191,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                         fileInfoA.setUserId(userInfo.getId());
                         String originName = file.getOriginalFilename();
                         fileInfoA.setSaveName(fileId + "." + originName.split("\\.")[1]);
-                        String visitPath = "http://192.168.10.100:8081/community/upload/" + fileInfoA.getSaveName();
+                        String visitPath = this.fileHost + ":8081/community/upload/" + fileInfoA.getSaveName();
                         fileInfoA.setVisitPath(visitPath);
                         fileInfoA.setFileName(originName);
                         int insert = fileInfoMapper.insert(fileInfoA);
@@ -215,5 +217,13 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                 break;
         }
         return ResultVo.success(2000, "上传成功");
+    }
+
+    public String getFileHost() {
+        return fileHost;
+    }
+
+    public void setFileHost(String fileHost) {
+        this.fileHost = fileHost;
     }
 }
