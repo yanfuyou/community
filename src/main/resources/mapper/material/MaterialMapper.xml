@@ -21,6 +21,11 @@
         CREATE_BY,CREATE_TIME,UPDATE_BY,
         UPDATE_TIME,FLAG
     </sql>
+    <update id="downloadCount">
+        update material
+        set DOWNLOAD_NUM = DOWNLOAD_NUM + 1
+        where ID = #{id};
+    </update>
     <select id="myMaterial" resultType="com.fuyou.community.material.model.Material">
         select m.*, f.FILE_NAME, f.VISIT_PATH
         from material m
@@ -31,6 +36,19 @@
             </if>
             <if test="flag != null and flag != ''">
                 and m.FLAG = #{flag}
+            </if>
+        </where>
+    </select>
+    <select id="page" resultType="com.fuyou.community.material.model.Material">
+        select m.*, f.FILE_NAME, f.VISIT_PATH
+        from material m
+        left join file_info f on f.ID = m.FILE_ID
+        <where>
+            <if test="material.queryParam.descr != null and material.queryParam.descr != ''">
+                and m.DESCR like concat('%',#{material.queryParam.descr},'%')
+            </if>
+            <if test="material.queryParam.flag != null and material.queryParam.flag != ''">
+                and m.FLAG = #{material.queryParam.flag}
             </if>
         </where>
     </select>

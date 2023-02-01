@@ -6,6 +6,7 @@ import com.fuyou.community.article.model.ArticleInfo;
 import com.fuyou.community.article.model.dto.PageDto;
 import com.fuyou.community.article.model.vo.ArticleHotVo;
 import com.fuyou.community.article.model.vo.ArticleMiniVo;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -36,4 +37,7 @@ public interface ArticleinfoMapper extends BaseMapper<ArticleInfo> {
     int getRead(String id);
 
     int insertNewRead(String id);
+
+
+    Page<ArticleMiniVo> pageSearch(Page<ArticleMiniVo> page, @Param("dto") PageQueryDto<ArticleMiniVo> dto);
 }

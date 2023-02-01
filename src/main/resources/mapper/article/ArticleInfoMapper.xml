@@ -18,6 +18,7 @@
         from ARTICLE_INFO a
         inner join ARTICLE_COVER c on c.ARTICLE_ID = a.ID
         left join ARTICLE_SCORE s on s.ARTICLE_ID = a.ID
+        where a.flag = '0'
         ORDER BY score desc
         <if test="start != null and end != null">
             limit #{start},#{end}
@@ -55,7 +56,7 @@
             <if test="pageDto.articleLabels != null and pageDto.articleLabels != ''">
                 and i.ARTICLE_LABELS like concat('%',#{pageDto.articleLabels},'%')
             </if>
-            and (flag = 0 or flag = 5)
+            and (i.flag = 0 or i.flag = 5)
         </where>
     </select>
     <select id="getRead" resultType="java.lang.Integer">
@@ -63,4 +64,23 @@
         from article_read
         where ARTICLE_ID = #{id}
     </select>
+    <select id="pageSearch" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">
+        select i.ID, i.ARTICLE_NAME, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
+        from ARTICLE_INFO i
+        left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
+        <where>
+            <if test="dto.queryParam.articleContent != null and dto.queryParam.articleContent != ''">
+                i.ARTICLE_CONTENT like concat('%',#{dto.queryParam.articleContent},'%')
+            </if>
+            <if test="dto.queryParam.labelForSearch != null and dto.queryParam.labelForSearch.size != 0">
+                and
+                <foreach collection="dto.queryParam.labelForSearch" item="lab" separator="or" open="(" close=")">
+                    i.ARTICLE_LABELS like concat('%',#{lab},'%')
+                </foreach>
+            </if>
+            and (i.flag = 0 or i.flag = 5)
+        </where>
+    </select>
+
+
 </mapper>

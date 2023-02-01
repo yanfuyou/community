@@ -48,6 +48,10 @@ public class Material extends DelBean implements Serializable {
     @TableField(exist = false)
     private String fileName;
 
+    @ApiModelProperty("下载量")
+    @TableField("DOWNLOAD_NUM")
+    private String downloadNum;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

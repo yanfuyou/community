@@ -23,6 +23,7 @@ import com.fuyou.community.article.service.CommentService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.sys.constant.Constant;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import com.fuyou.community.sys.util.ArticleContentUtil;
 import com.fuyou.community.sys.util.CurrentUtil;
 import lombok.RequiredArgsConstructor;
@@ -83,6 +84,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
         articleInfo.setUserId(userId);
         articleinfoMapper.insert(articleInfo);
         return ResultVo.success(2000,"发布成功");
+    }
+
+    @Override
+    public ResultVo remove(String id) {
+        articleinfoMapper.update(null,Wrappers.lambdaUpdate(ArticleInfo.class)
+                .eq(ArticleInfo::getId,id)
+                .set(ArticleInfo::getFlag,"1"));
+        return ResultVo.success(2000,"删除成功");
     }
 
     @Override
@@ -217,5 +226,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
             articleinfoMapper.insertNewRead(id);
         }
         return ResultVo.success(2000,"成功");
+    }
+
+    @Override
+    public ResultVo<Page<ArticleMiniVo>> pageSearch(PageQueryDto<ArticleMiniVo> dto) {
+        Page<ArticleMiniVo> page = new Page<>();
+        page.setCurrent(dto.getCurrent()).setSize(dto.getSize()).setOrders(dto.getOrders());
+        return ResultVo.success(2000,"成功",articleinfoMapper.pageSearch(page,dto));
     }
 }

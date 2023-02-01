@@ -1,8 +1,10 @@
 package com.fuyou.community.material.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.material.model.Material;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 
 import java.util.List;
 
@@ -17,5 +19,9 @@ public interface MaterialService extends IService<Material> {
 
     ResultVo remove(String id);
 
+    ResultVo downloadCount(String id);
+
     ResultVo<List<Material>> myMaterial(String userName,String flag);
+
+    ResultVo<Page<Material>> page(PageQueryDto<Material> pageQueryDto);
 }

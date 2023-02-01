@@ -10,6 +10,7 @@ import com.fuyou.community.article.model.vo.EnclVo;
 import com.fuyou.community.article.service.ArticleService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,11 @@ public class ArticleController {
     @ApiOperation("发布文章")
     public ResultVo release(@RequestBody ArticleInfo articleInfo) {
         return articleService.release(articleInfo);
+    }
+
+    @GetMapping("/remove/{id}")
+    public ResultVo remove(@PathVariable String id){
+        return articleService.remove(id);
     }
 
     @PostMapping("/addCover")
@@ -77,6 +83,11 @@ public class ArticleController {
     @ApiOperation("列表查询")
     public ResultVo<Page<ArticleInfo>> list(@RequestBody PageDto pageDto){
         return articleService.list(pageDto);
+    }
+
+    @PostMapping("/search")
+    public ResultVo<Page<ArticleMiniVo>> pageSearch(@RequestBody PageQueryDto<ArticleMiniVo> dto){
+        return articleService.pageSearch(dto);
     }
 
 }

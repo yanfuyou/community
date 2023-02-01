@@ -9,6 +9,7 @@ import com.fuyou.community.article.model.vo.ArticleHotVo;
 import com.fuyou.community.article.model.vo.ArticleMiniVo;
 import com.fuyou.community.article.model.vo.EnclVo;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +21,13 @@ public interface ArticleService extends IService<ArticleInfo> {
      * @Date 下午10:27 2022/10/15
      */
     ResultVo release(ArticleInfo articleInfo);
+
+    /**
+     * @Author yanfuyou
+     * @Description 删除文章
+     * @Date 下午8:53 2023/2/1
+     */
+    ResultVo remove(String id);
 
     /**
      * @Author yanfuyou
@@ -67,4 +75,6 @@ public interface ArticleService extends IService<ArticleInfo> {
      * @Date 下午4:58 2022/12/29
      */
     ResultVo<Object> readPlusOne(String id);
+
+    ResultVo<Page<ArticleMiniVo>> pageSearch(PageQueryDto<ArticleMiniVo> dto);
 }

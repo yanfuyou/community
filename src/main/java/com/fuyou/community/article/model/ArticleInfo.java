@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @ApiModel("文章信息")
@@ -39,4 +40,7 @@ public class ArticleInfo extends DelBean implements Serializable {
     @TableField("USER_ID")
     @ApiModelProperty("发表者")
     private String userId;
+
+    @TableField(exist = false)
+    private List<String> labelForSearch;
 }

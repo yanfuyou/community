@@ -3,12 +3,14 @@ package com.fuyou.community.material.service.impl;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.material.model.Material;
 import com.fuyou.community.material.service.MaterialService;
 import com.fuyou.community.material.dao.MaterialMapper;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +49,20 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material>
     }
 
     @Override
+    public ResultVo downloadCount(String id) {
+        return ResultVo.success(2000,"下载量加一",materialMapper.downloadCount(id));
+    }
+
+    @Override
     public ResultVo<List<Material>> myMaterial(String userName,String flag) {
         return ResultVo.success(2000,"资料列表获取成功",materialMapper.myMaterial(userName,flag));
+    }
+
+    @Override
+    public ResultVo<Page<Material>> page(PageQueryDto<Material> pageQueryDto) {
+        Page<Material> page = new Page<>();
+        page.setCurrent(pageQueryDto.getCurrent()).setSize(pageQueryDto.getSize()).setOrders(pageQueryDto.getOrders());
+        return ResultVo.success(2000,"查询成功", materialMapper.page(page,pageQueryDto));
     }
 }
 

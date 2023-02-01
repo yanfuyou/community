@@ -27,13 +27,18 @@ public class MaterialController {
         return materialService.remove(id);
     }
 
+    @GetMapping("/downloadCount/{id}")
+    public ResultVo downloadCount(@PathVariable String id){
+        return materialService.downloadCount(id);
+    }
     @GetMapping("/myMaterial/{userName}/{flag}")
     public ResultVo<List<Material>> myMaterial(@PathVariable String userName, @PathVariable String flag){
         return materialService.myMaterial(userName, flag);
     }
 
-    public ResultVo list(PageQueryDto<Material> maDto){
-        return null;
+    @PostMapping("/list")
+    public ResultVo list(@RequestBody PageQueryDto<Material> maDto){
+        return materialService.page(maDto);
     }
 
 }
