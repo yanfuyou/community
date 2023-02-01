@@ -4,6 +4,8 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fuyou.community.article.model.vo.ArticleMiniVo;
 import com.fuyou.community.collect.model.Collect;
 import com.fuyou.community.collect.service.CollectService;
 import com.fuyou.community.common.ResultVo;
@@ -29,13 +31,13 @@ public class CollectController {
             collect.setId(IdUtil.simpleUUID());
         }
         boolean b = collectService.saveOrUpdate(collect);
-        return b ? ResultVo.success(2000,"收藏成功") : ResultVo.fail(5000,"收藏失败");
+        return b ? ResultVo.success(2000, "收藏成功") : ResultVo.fail(5000, "收藏失败");
     }
 
     @PostMapping("/page")
     @ApiOperation("获取用户收藏信息")
-    public void page(@RequestBody PageQueryDto<Collect> collectPageQueryDto) {
-
+    public ResultVo<Page<ArticleMiniVo>> page(@RequestBody PageQueryDto<ArticleMiniVo> collectPageQueryDto) {
+        return ResultVo.success(2000, "查询收藏成功", collectService.myCollect(collectPageQueryDto));
     }
 
     @GetMapping("/collected/{userId}/{relId}")

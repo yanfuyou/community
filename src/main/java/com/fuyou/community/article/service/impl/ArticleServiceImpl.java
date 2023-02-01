@@ -56,6 +56,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
             articleInfo.setEnclosure(Constant.ArticleEnc.NO_ENC);
         }
 //        替换文件内容
+        /**
+         * 暂时去掉了使用文件存储内容信息的需求
         String projectPath = System.getProperty("user.dir");
         String savePath = projectPath + "/static/articles/";
         File file = new File(savePath, articleInfo.getId() + ".md");
@@ -72,6 +74,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
             log.error("保存文章内容异常：{}",e.getMessage());
             throw new ServiceException(5000,"保存文章内容异常",e);
         }
+         */
+
         String userId = CurrentUtil.getLoginUser().getId();
         if (StrUtil.isBlank(userId)){
             throw new ServiceException(401,"用户登录信息丢失");
@@ -98,37 +102,37 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
         List<ArticleHotVo> hots = articleinfoMapper.getHots(Integer.parseInt(start), Integer.parseInt(end));
         hots.stream().forEach(art -> {
 //            替换内容
-            String contentPath = art.getArticleContent();
-            File file = new File(contentPath);
-            if (!file.exists()){
-                throw new ServiceException(5000,"文件内容丢失");
-            }
-            InputStream in = null;
-            try{
-                in = new FileInputStream(file);
-                int len = 0;
-                byte[] swap = new byte[1024];
-                StringBuffer contentBuffer = new StringBuffer("");
-                while ((len = in.read(swap)) != -1){
-                    contentBuffer.append(new String(swap,0,len));
-                    if (contentBuffer.toString().length() >= 20){
-                        break;
-                    }
-                }
-                art.setArticleContent(contentBuffer.substring(0,20));
-                contentBuffer.setLength(0);
-            }catch (Exception e){
-                log.error(e.getMessage());
-                throw new ServiceException(5000,"获取文件内容失败");
-            }finally {
-                if (ObjectUtil.isNotNull(in)){
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        throw new ServiceException(5000,"文件流关闭异常");
-                    }
-                }
-            }
+//            String contentPath = art.getArticleContent();
+//            File file = new File(contentPath);
+//            if (!file.exists()){
+//                throw new ServiceException(5000,"文件内容丢失");
+//            }
+//            InputStream in = null;
+//            try{
+//                in = new FileInputStream(file);
+//                int len = 0;
+//                byte[] swap = new byte[1024];
+//                StringBuffer contentBuffer = new StringBuffer("");
+//                while ((len = in.read(swap)) != -1){
+//                    contentBuffer.append(new String(swap,0,len));
+//                    if (contentBuffer.toString().length() >= 20){
+//                        break;
+//                    }
+//                }
+//                art.setArticleContent(contentBuffer.substring(0,20));
+//                contentBuffer.setLength(0);
+//            }catch (Exception e){
+//                log.error(e.getMessage());
+//                throw new ServiceException(5000,"获取文件内容失败");
+//            }finally {
+//                if (ObjectUtil.isNotNull(in)){
+//                    try {
+//                        in.close();
+//                    } catch (IOException e) {
+//                        throw new ServiceException(5000,"文件流关闭异常");
+//                    }
+//                }
+//            }
         });
         return ResultVo.success(2000,"获取热文成功",hots);
     }
@@ -137,32 +141,32 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
     public ResultVo<ArticleInfo> getArticleInfo(String id) throws IOException {
         ArticleInfo articleInfo = articleinfoMapper.selectById(id);
 //        覆盖文件内容
-        if (ObjectUtil.isNotEmpty(articleInfo)){
-            String contentPath = articleInfo.getArticleContent();
-            File file = new File(contentPath);
-            if (!file.exists()){
-                throw new ServiceException(5000,"文件内容丢失");
-            }
-            InputStream in = null;
-            try{
-                in = new FileInputStream(file);
-                int len = 0;
-                byte[] swap = new byte[1024];
-                StringBuffer contentBuffer = new StringBuffer("");
-                while ((len = in.read(swap)) != -1){
-                    contentBuffer.append(new String(swap,0,len));
-                }
-                articleInfo.setArticleContent(contentBuffer.toString());
-                contentBuffer.setLength(0);
-            }catch (Exception e){
-                log.error(e.getMessage());
-                throw new ServiceException(5000,"获取文件内容失败");
-            }finally {
-                if (ObjectUtil.isNotNull(in)){
-                    in.close();
-                }
-            }
-        }
+//        if (ObjectUtil.isNotEmpty(articleInfo)){
+//            String contentPath = articleInfo.getArticleContent();
+//            File file = new File(contentPath);
+//            if (!file.exists()){
+//                throw new ServiceException(5000,"文件内容丢失");
+//            }
+//            InputStream in = null;
+//            try{
+//                in = new FileInputStream(file);
+//                int len = 0;
+//                byte[] swap = new byte[1024];
+//                StringBuffer contentBuffer = new StringBuffer("");
+//                while ((len = in.read(swap)) != -1){
+//                    contentBuffer.append(new String(swap,0,len));
+//                }
+//                articleInfo.setArticleContent(contentBuffer.toString());
+//                contentBuffer.setLength(0);
+//            }catch (Exception e){
+//                log.error(e.getMessage());
+//                throw new ServiceException(5000,"获取文件内容失败");
+//            }finally {
+//                if (ObjectUtil.isNotNull(in)){
+//                    in.close();
+//                }
+//            }
+//        }
         return ResultVo.success(2000,"获取文章信息成功",articleInfo);
     }
 
@@ -198,8 +202,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleinfoMapper,ArticleInf
             article.setCommCount(commentSum);
             article.setScoreCount(scoreSum);
 //            替换内容
-            String content = ArticleContentUtil.getContent(article.getArticleContent());
-            article.setArticleContent(content);
+//            String content = ArticleContentUtil.getContent(article.getArticleContent());
+//            article.setArticleContent(content);
         });
         return ResultVo.success(2000,"查询自己的文章列表成功",list);
     }

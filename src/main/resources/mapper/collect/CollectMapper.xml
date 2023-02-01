@@ -21,4 +21,18 @@
         BIZ_TYPE,FLAG,CREATE_BY,
         CREATE_TIME,UPDATE_BY,UPDATE_TIME
     </sql>
+    <select id="myCollect" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">
+        select i.ID, i.ARTICLE_NAME, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
+        from ARTICLE_INFO i
+        left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
+        left join collect c on c.REL_ID = i.ID
+        <where>
+            <if test="article.queryParam.userId != null and article.queryParam.userId != ''">
+                and c.USER_ID = #{article.queryParam.userId}
+            </if>
+            <if test="article.queryParam.flag != null and article.queryParam!= ''">
+                and c.flag = #{article.queryParam.flag} and i.flag = #{article.queryParam.flag}
+            </if>
+        </where>
+    </select>
 </mapper>
