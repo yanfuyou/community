@@ -1,11 +1,13 @@
 package com.fuyou.community.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.UserLabelinfo;
@@ -142,4 +144,6 @@ public interface UserService extends IService<User> {
      * @Date 上午12:15 2022/12/10
      */
     ResultVo<UserScoreVo> score(String userId);
+
+    ResultVo<Page<User>> userMini(PageQueryDto<User> dto);
 }

@@ -1,8 +1,10 @@
 package com.fuyou.community.file.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.file.model.FileInfo;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,4 +27,11 @@ public interface FileInfoService extends IService<FileInfo> {
      * @return
      */
     ResultVo<Object> upFile(List<MultipartFile> files, Map<String,String> paramMap);
+
+    /**
+     * 视频文件列表
+     * @param dto
+     * @return
+     */
+    ResultVo<Page<FileInfo>> videoList(PageQueryDto<FileInfo> dto);
 }

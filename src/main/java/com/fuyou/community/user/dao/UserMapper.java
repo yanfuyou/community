@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.sys.model.PageDto;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.vo.AvatarVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,6 @@ public interface UserMapper extends BaseMapper<User> {
     IPage<AvatarVo> getUserAvatars(Page<AvatarVo> page,@Param("avatarDto") PageDto<Set<String>> avatarDto);
 
     int score(@Param("userId") String userId,@Param("month") String month);
+
+    Page<User> userMini(Page<User> page, @Param("dto")PageQueryDto<User> dto);
 }

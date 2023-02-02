@@ -21,6 +21,7 @@ import com.fuyou.community.role.service.RoleInfoService;
 import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import com.fuyou.community.sys.util.CurrentUtil;
 import com.fuyou.community.sys.util.PasswordUtil;
 import com.fuyou.community.user.dao.UserEduInfoMapper;
@@ -237,5 +238,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         userScoreVo.setAll(all);
         userScoreVo.setThisMonth(Optional.of(thisMonth).orElse(0));
         return ResultVo.success(2000,"查询成功",userScoreVo);
+    }
+
+    @Override
+    public ResultVo<Page<User>> userMini(PageQueryDto<User> dto) {
+        Page<User> page = new Page<>();
+        page.setCurrent(dto.getCurrent()).setSize(dto.getSize()).setOrders(dto.getOrders());
+        return ResultVo.success(2000,"获取成功",userMapper.userMini(page,dto));
     }
 }

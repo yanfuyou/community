@@ -1,8 +1,11 @@
 package com.fuyou.community.file.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.file.model.FileInfo;
 import com.fuyou.community.file.service.FileInfoService;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,5 +40,10 @@ public class FileInfoController {
             paramMap.put("articleId",articleId);
         }
         return fileInfoService.upFile(files,paramMap);
+    }
+
+    @PostMapping("/videoList")
+    public ResultVo<Page<FileInfo>> videoList(@RequestBody PageQueryDto<FileInfo> dto){
+        return fileInfoService.videoList(dto);
     }
 }

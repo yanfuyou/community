@@ -15,11 +15,31 @@
     <select id="score" resultType="java.lang.Integer">
         select IFNULL(sum(SCORE),0)
         from ARTICLE_SCORE s
-                 inner join ARTICLE_INFO i on i.ID = s.ARTICLE_ID
-                 left join USER u on u.ID = i.USER_ID
+        inner join ARTICLE_INFO i on i.ID = s.ARTICLE_ID
+        left join USER u on u.ID = i.USER_ID
         where u.ID = #{userId}
         <if test="month != null and month != ''">
             and s.CREATE_TIME like concat(#{month},'%')
         </if>
+    </select>
+    <select id="userMini" resultType="com.fuyou.community.user.model.User">
+        select u.ID,
+        u.USER_ALIAS,
+        u.USER_NAME,
+        u.USER_SIGN,
+        u.CREATE_TIME,
+        u.USER_AVATAR,
+        (select COUNT(*)
+        from article_info a
+        where a.CREATE_BY = u.USER_NAME) articleCount,
+        (select COUNT(*)
+        from comment_info c
+        where c.CREATE_BY = u.USER_NAME) commentCount
+        from user u
+        <where>
+            <if test="dto.queryParam.flag != null and dto.queryParam.flag != ''">
+                u.FLAG = #{dto.queryParam.flag}
+            </if>
+        </where>
     </select>
 </mapper>

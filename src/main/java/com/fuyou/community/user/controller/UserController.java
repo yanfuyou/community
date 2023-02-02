@@ -5,10 +5,12 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.UserLabelinfo;
@@ -171,5 +173,10 @@ public class UserController {
     @ApiOperation("获取得分信息")
     public ResultVo<UserScoreVo> score(String userId){
         return userService.score(userId);
+    }
+
+    @PostMapping("/userMini")
+    public ResultVo<Page<User>> userMini(@RequestBody PageQueryDto<User> dto){
+        return userService.userMini(dto);
     }
 }

@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fuyou.community.sys.model.BaseBean;
+import com.fuyou.community.sys.model.DelBean;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 @TableName("FILE_INFO")
-public class FileInfo extends BaseBean {
+public class FileInfo extends DelBean {
     @ApiModelProperty("文件id")
     @TableId("ID")
     private String id;

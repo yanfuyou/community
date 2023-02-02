@@ -5,6 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.article.dao.ArticleFileRelMapper;
 import com.fuyou.community.article.model.ArticleFileRel;
@@ -14,6 +15,7 @@ import com.fuyou.community.file.model.FileInfo;
 import com.fuyou.community.file.dao.FileInfoMapper;
 import com.fuyou.community.file.service.FileInfoService;
 import com.fuyou.community.sys.constant.Constant;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import com.fuyou.community.sys.util.CurrentUtil;
 import com.fuyou.community.user.dao.UserMapper;
 import com.fuyou.community.user.model.User;
@@ -215,8 +217,49 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                     }
                 }
                 break;
+            case Constant.BizType.VIDEO:
+//                资料
+                FileInfo fileInfoV = new FileInfo();
+                for (MultipartFile file : files) {
+                    if (ObjectUtil.isEmpty(file)) {
+                        throw new ServiceException(5000, "文件丢失");
+                    }
+                    String projectPath = CurrentUtil.getProjectPath();
+//                    用户独有的目录
+                    String savePath = projectPath + "/static/upload/files/" + CurrentUtil.getLoginUser().getId();
+                    fileInfoV.setUserId(CurrentUtil.getLoginUser().getId());
+                    String fileId = IdUtil.simpleUUID();
+                    fileInfoV.setId(fileId);
+                    String originName = file.getOriginalFilename();
+                    fileInfoV.setSaveName(fileId + "." + originName.split("\\.")[1]);
+                    fileInfoV.setFileName(originName);
+                    fileInfoV.setVisitPath(this.fileHost + ":8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfoV.getSaveName());
+                    fileInfoV.setBizType(Constant.BizType.VIDEO);
+                    fileInfoMapper.insert(fileInfoV);
+                    try {
+                        File saveFile = new File(savePath, fileInfoV.getSaveName());
+                        if (!saveFile.getParentFile().exists()) {
+                            saveFile.getParentFile().mkdirs();
+                        }
+                        file.transferTo(saveFile);
+                    } catch (Exception e) {
+                        log.error("文件保存异常：{}", e.getMessage());
+                        throw new ServiceException(5000, "文件上传失败");
+                    }
+                }
+                return ResultVo.success(2000, "文件上传成功!");
         }
         return ResultVo.success(2000, "上传成功");
+    }
+
+    @Override
+    public ResultVo<Page<FileInfo>> videoList(PageQueryDto<FileInfo> dto) {
+        Page<FileInfo> page = new Page<>();
+        page.setCurrent(dto.getCurrent()).setSize(dto.getSize()).setOrders(dto.getOrders());
+        Page<FileInfo> fileInfoPage = fileInfoMapper.selectPage(page, Wrappers.lambdaQuery(FileInfo.class)
+                .eq(FileInfo::getFlag, dto.getQueryParam().getFlag())
+                .eq(FileInfo::getBizType, dto.getQueryParam().getBizType()));
+        return ResultVo.success(2000,"视频获取成功",fileInfoPage);
     }
 
     public String getFileHost() {

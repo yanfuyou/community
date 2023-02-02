@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fuyou.community.sys.model.BaseBean;
+import com.fuyou.community.sys.model.DelBean;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @Data
 @TableName("USER")
 @ApiModel(value = "用户实体类", description = "用户的基类")
-public class User extends BaseBean implements Serializable {
+public class User extends DelBean implements Serializable {
     @TableId(value = "ID")
     @ApiModelProperty("用户id")
     private String id;
@@ -57,5 +58,13 @@ public class User extends BaseBean implements Serializable {
     @ApiModelProperty("用户邮箱")
     @TableField("USER_EMAIL")
     private String userEmail;
+
+    @ApiModelProperty("文章数")
+    @TableField(exist = false)
+    private String articleCount;
+
+    @ApiModelProperty("评论数")
+    @TableField(exist = false)
+    private String commentCount;
 
 }
