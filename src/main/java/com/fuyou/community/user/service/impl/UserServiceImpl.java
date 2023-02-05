@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
+import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.role.model.RoleInfo;
 import com.fuyou.community.role.service.RoleInfoService;
 import com.fuyou.community.sys.model.PageDto;
@@ -45,10 +46,7 @@ import org.omg.CORBA.INTERNAL;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -225,7 +223,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         if (CollUtil.isNotEmpty(userRoleList)){
             List<String> roleList = userRoleList.stream().map(RoleInfo::getRoleName).collect(Collectors.toList());
             infoVo.setRoles(roleList);
+            //        获取角色路由
+            Map<String,List<String>> map = new HashMap<>();
+            userRoleList.stream().forEach(role->{
+                List<MenuInfo> menuInfos = roleInfoService.roleMenu(role.getRoleId());
+                if (CollUtil.isNotEmpty(menuInfos)){
+                    List<String> collect = menuInfos.stream().map(MenuInfo::getPermission).collect(Collectors.toList());
+                    map.put(role.getRoleName(),collect);
+                }
+            });
+            infoVo.setPermission(map);
         }
+
+
         return ResultVo.success(2000,"获取用户信息成功",infoVo);
     }
 

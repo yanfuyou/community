@@ -2,8 +2,10 @@ package com.fuyou.community.role.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.role.model.RoleInfo;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -19,4 +21,6 @@ public interface RoleInfoService extends IService<RoleInfo> {
      * @Date 下午11:41 2022/11/24
      */
     List<RoleInfo> getRoleList(String userId);
+
+    List<MenuInfo> roleMenu(String roleId);
 }

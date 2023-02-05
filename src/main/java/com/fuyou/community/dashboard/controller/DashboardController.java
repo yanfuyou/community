@@ -2,7 +2,6 @@ package com.fuyou.community.dashboard.controller;
 
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.io.unit.DataUnit;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fuyou.community.article.model.ArticleInfo;
 import com.fuyou.community.article.model.CommentInfo;
@@ -37,7 +36,7 @@ public class DashboardController {
     private final FileInfoService fileInfoService;
 
     @GetMapping("/total")
-    public ResultVo<TotalVo> getTotal(){
+    public ResultVo<TotalVo> getTotal() {
         int totalA = articleService.count();
         int totalU = userService.count();
         int totalC = commentService.count();
@@ -47,11 +46,11 @@ public class DashboardController {
         vo.setUserTotal(totalU);
         vo.setCommentTotal(totalC);
         vo.setFileTotal(totalF);
-        return ResultVo.success(2000,"获取成功",vo);
+        return ResultVo.success(2000, "获取成功", vo);
     }
 
     @GetMapping("/lineData")
-    private ResultVo<LineDataVo> lineData(){
+    private ResultVo<LineDataVo> lineData() {
         List<Integer> listA = new ArrayList<>(7);
         List<Integer> listC = new ArrayList<>(7);
         List<Integer> listF = new ArrayList<>(7);
@@ -61,7 +60,7 @@ public class DashboardController {
         List<String> dateList = new ArrayList<>(7);
         int offset = 1;
         while (offset <= 7) {
-            dateList.add(DateUtil.format(temp,"yyyyMMdd"));
+            dateList.add(DateUtil.format(temp, "yyyyMMdd"));
             temp = DateUtil.offset(temp, DateField.DAY_OF_MONTH, -1);
             offset++;
         }
@@ -81,7 +80,7 @@ public class DashboardController {
         });
         ArrayList<String> dates = new ArrayList<>();
         dateList.stream().forEach(date -> {
-            dates.add(DateUtil.format(DateUtil.parse(date),"yyyy年MM月dd日"));
+            dates.add(DateUtil.format(DateUtil.parse(date), "yyyy年MM月dd日"));
         });
         LineDataVo lineDataVo = new LineDataVo();
         lineDataVo.setCommentData(listC);
@@ -89,6 +88,15 @@ public class DashboardController {
         lineDataVo.setFileData(listF);
         lineDataVo.setUserData(listU);
         lineDataVo.setDateList(dates);
-        return ResultVo.success(2000,"折线数据获取成功",lineDataVo);
+        return ResultVo.success(2000, "折线数据获取成功", lineDataVo);
+    }
+
+    @GetMapping("/count")
+    public ResultVo<List<Integer>> count() {
+        List<Integer> counts = new ArrayList<>();
+        counts.add(articleService.count());
+        counts.add(commentService.count());
+        counts.add(fileInfoService.count());
+        return ResultVo.success(2000,"获取成功",counts);
     }
 }

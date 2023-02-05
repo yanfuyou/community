@@ -1,12 +1,14 @@
 package com.fuyou.community.role.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.role.model.RoleInfo;
 import com.fuyou.community.role.service.RoleInfoService;
 import com.fuyou.community.role.dao.RoleInfoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -22,5 +24,10 @@ public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
     @Override
     public List<RoleInfo> getRoleList(String userId) {
         return roleInfoMapper.getRoleList(userId);
+    }
+
+    @Override
+    public List<MenuInfo> roleMenu(String roleId) {
+        return roleInfoMapper.roleMenu(roleId);
     }
 }

@@ -27,4 +27,7 @@
             AND rel.USER_ID = #{userId} AND rel.FLAG = '0'
         </if>
     </select>
+    <select id="roleMenu" resultType="com.fuyou.community.menu.model.MenuInfo">
+        select * from menu_info m left join role_menu_rel r on r.MENU_ID = m.ID where r.ROLE_ID = #{roleId}
+    </select>
 </mapper>

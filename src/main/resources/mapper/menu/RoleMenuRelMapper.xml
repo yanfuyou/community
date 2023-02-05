@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fuyou.community.menu.dao.RoleMenuRelMapper">
+
+    <resultMap id="BaseResultMap" type="com.fuyou.community.menu.model.RoleMenuRel">
+            <result property="menuId" column="MENU_ID" jdbcType="VARCHAR"/>
+            <result property="roleId" column="ROLE_ID" jdbcType="VARCHAR"/>
+            <result property="flag" column="FLAG" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        MENU_ID,ROLE_ID,FLAG
+    </sql>
+</mapper>

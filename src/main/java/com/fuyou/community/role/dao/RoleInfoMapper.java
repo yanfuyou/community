@@ -1,6 +1,8 @@
 package com.fuyou.community.role.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fuyou.community.menu.model.MenuInfo;
+import com.fuyou.community.menu.model.RoleMenuRel;
 import com.fuyou.community.role.model.RoleInfo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,4 +16,6 @@ import java.util.List;
 */
 public interface RoleInfoMapper extends BaseMapper<RoleInfo> {
     List<RoleInfo> getRoleList(String userId);
+
+    List<MenuInfo> roleMenu(String roleId);
 }
