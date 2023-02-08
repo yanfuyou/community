@@ -1,6 +1,8 @@
 package com.fuyou.community.role.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.role.model.RoleInfo;
 import com.fuyou.community.role.service.RoleInfoService;
@@ -29,5 +31,21 @@ public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
     @Override
     public List<MenuInfo> roleMenu(String roleId) {
         return roleInfoMapper.roleMenu(roleId);
+    }
+
+    @Override
+    public ResultVo<Object> add(RoleInfo roleInfo) {
+        roleInfo.setRoleId(IdUtil.simpleUUID());
+        roleInfoMapper.insert(roleInfo);
+        return ResultVo.success(2000,"添加成功");
+    }
+
+    @Override
+    public ResultVo<Object> addRoleMenu(String roleId,List<String> menuIds) {
+//        删除旧的引用数据
+        roleInfoMapper.delRel(roleId);
+//        重新添加引用
+        roleInfoMapper.addRoleMenu(roleId,menuIds);
+        return ResultVo.success(2000,"设置成功");
     }
 }

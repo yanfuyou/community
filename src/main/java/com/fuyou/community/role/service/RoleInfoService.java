@@ -23,4 +23,9 @@ public interface RoleInfoService extends IService<RoleInfo> {
     List<RoleInfo> getRoleList(String userId);
 
     List<MenuInfo> roleMenu(String roleId);
+
+    ResultVo<Object> add(RoleInfo roleInfo);
+
+    ResultVo<Object> addRoleMenu(String roleId,List<String> menuIds);
+
 }

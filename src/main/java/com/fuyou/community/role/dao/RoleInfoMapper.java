@@ -5,6 +5,7 @@ import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.menu.model.RoleMenuRel;
 import com.fuyou.community.role.model.RoleInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface RoleInfoMapper extends BaseMapper<RoleInfo> {
     List<RoleInfo> getRoleList(String userId);
 
     List<MenuInfo> roleMenu(String roleId);
+
+    int delRel(String roleId);
+
+    int addRoleMenu(@Param("roleId") String roleId,@Param("menuIds") List<String> menuIds);
 }

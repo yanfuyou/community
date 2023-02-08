@@ -1,6 +1,7 @@
 package com.fuyou.community.role.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
@@ -17,11 +18,13 @@ public class RoleInfo extends DelBean implements Serializable {
     /**
      * 角色id
      */
+    @TableId("ROLE_ID")
     private String roleId;
 
     /**
      * 角色名称
      */
+    @TableField("ROLE_NAME")
     private String roleName;
 
     @TableField(exist = false)

@@ -20,14 +20,28 @@
         CREATE_BY,CREATE_TIME,UPDATE_BY,
         UPDATE_TIME
     </sql>
+    <insert id="addRoleMenu">
+        insert into role_menu_rel(MENU_ID,ROLE_ID) values
+        <foreach collection="menuIds" item="menuId" separator=",">
+                                                           (#{menuId},#{roleId})
+        </foreach>
+    </insert>
+    <delete id="delRel">
+        delete
+        from role_menu_rel
+        where ROLE_ID = #{roleId}
+    </delete>
     <select id="getRoleList" resultType="com.fuyou.community.role.model.RoleInfo">
-        select info.* from ROLE_INFO info LEFT JOIN  USER_ROLE_REL rel ON rel.ROLE_ID = info.ROLE_ID
-                                                                              WHERE info.FLAG='0'
+        select info.* from ROLE_INFO info LEFT JOIN USER_ROLE_REL rel ON rel.ROLE_ID = info.ROLE_ID
+        WHERE info.FLAG='0'
         <if test="userId != null and userId !=''">
             AND rel.USER_ID = #{userId} AND rel.FLAG = '0'
         </if>
     </select>
     <select id="roleMenu" resultType="com.fuyou.community.menu.model.MenuInfo">
-        select * from menu_info m left join role_menu_rel r on r.MENU_ID = m.ID where r.ROLE_ID = #{roleId}
+        select *
+        from menu_info m
+                 left join role_menu_rel r on r.MENU_ID = m.ID
+        where r.ROLE_ID = #{roleId}
     </select>
 </mapper>
