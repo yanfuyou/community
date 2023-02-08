@@ -26,10 +26,19 @@
                                                            (#{menuId},#{roleId})
         </foreach>
     </insert>
+    <insert id="addRel">
+        insert into user_role_rel(USER_ID,ROLE_ID,FLAG) value(#{userId},#{roleId},'0')
+    </insert>
+    <insert id="beAdmin">
+        insert into user_role_rel(USER_ID,ROLE_ID) value(#{userId},'test')
+    </insert>
     <delete id="delRel">
         delete
         from role_menu_rel
         where ROLE_ID = #{roleId}
+    </delete>
+    <delete id="delUserRoleRel">
+        delete from user_role_rel where USER_ID=#{userId} and ROLE_ID != 'f695ab4049294c818ab806a1ffa0af93'
     </delete>
     <select id="getRoleList" resultType="com.fuyou.community.role.model.RoleInfo">
         select info.* from ROLE_INFO info LEFT JOIN USER_ROLE_REL rel ON rel.ROLE_ID = info.ROLE_ID
@@ -43,5 +52,8 @@
         from menu_info m
                  left join role_menu_rel r on r.MENU_ID = m.ID
         where r.ROLE_ID = #{roleId}
+    </select>
+    <select id="existed" resultType="java.lang.Integer">
+        select 1 from user_role_rel where USER_ID=#{userId} and ROLE_ID!='f695ab4049294c818ab806a1ffa0af93'
     </select>
 </mapper>

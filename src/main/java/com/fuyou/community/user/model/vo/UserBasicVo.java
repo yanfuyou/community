@@ -34,4 +34,10 @@ public class UserBasicVo extends BaseBean {
     @ApiModelProperty("用户头像")
     private String userAvatar;
 
+    @ApiModelProperty("用户状态")
+    private String userStatus;
+
+    @ApiModelProperty("用户角色")
+    private String roleId;
+
 }

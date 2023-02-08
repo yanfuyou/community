@@ -62,4 +62,9 @@ public interface Constant {
     class Tree{
         public static final String ROOT = "0";
     }
+
+    class Status{
+        public static final String disable = "1";
+        public static final String enable = "0";
+    }
 }

@@ -5,6 +5,7 @@ import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.role.model.RoleInfo;
 
+import javax.xml.transform.Result;
 import java.awt.*;
 import java.util.List;
 
@@ -28,4 +29,7 @@ public interface RoleInfoService extends IService<RoleInfo> {
 
     ResultVo<Object> addRoleMenu(String roleId,List<String> menuIds);
 
+    ResultVo<Object> addUserRoleRel(String userId,String roleId);
+
+    ResultVo<Object> beAdmin(String userId);
 }

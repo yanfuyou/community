@@ -7,6 +7,7 @@ import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.dto.PageQueryDto;
 import com.fuyou.community.user.model.User;
 import com.fuyou.community.user.model.vo.AvatarVo;
+import com.fuyou.community.user.model.vo.UserBasicVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +25,6 @@ public interface UserMapper extends BaseMapper<User> {
     int score(@Param("userId") String userId,@Param("month") String month);
 
     Page<User> userMini(Page<User> page, @Param("dto")PageQueryDto<User> dto);
+
+    Page<UserBasicVo> list(Page<UserBasicVo> page,@Param("dto") PageQueryDto<UserBasicVo> dto);
 }

@@ -16,6 +16,7 @@ import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
 import com.fuyou.community.user.model.vo.InfoVo;
+import com.fuyou.community.user.model.vo.UserBasicVo;
 import com.fuyou.community.user.model.vo.UserScoreVo;
 
 import javax.xml.transform.Result;
@@ -146,4 +147,6 @@ public interface UserService extends IService<User> {
     ResultVo<UserScoreVo> score(String userId);
 
     ResultVo<Page<User>> userMini(PageQueryDto<User> dto);
+
+    ResultVo<Page<UserBasicVo>> list(PageQueryDto<UserBasicVo> dto);
 }

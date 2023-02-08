@@ -35,10 +35,7 @@ import com.fuyou.community.user.model.UserLabelinfo;
 import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
 import com.fuyou.community.user.model.dto.LoginDto;
-import com.fuyou.community.user.model.vo.AvatarVo;
-import com.fuyou.community.user.model.vo.InfoVo;
-import com.fuyou.community.user.model.vo.LoginVO;
-import com.fuyou.community.user.model.vo.UserScoreVo;
+import com.fuyou.community.user.model.vo.*;
 import com.fuyou.community.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -255,5 +252,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         Page<User> page = new Page<>();
         page.setCurrent(dto.getCurrent()).setSize(dto.getSize()).setOrders(dto.getOrders());
         return ResultVo.success(2000,"获取成功",userMapper.userMini(page,dto));
+    }
+
+    @Override
+    public ResultVo<Page<UserBasicVo>> list(PageQueryDto<UserBasicVo> dto) {
+        Page<UserBasicVo> page = new Page<>();
+        page.setCurrent(dto.getCurrent()).setSize(dto.getSize()).setOrders(dto.getOrders());
+        Page<UserBasicVo> list = userMapper.list(page, dto);
+        return ResultVo.success(2000,"用户列表获取成功",list);
     }
 }

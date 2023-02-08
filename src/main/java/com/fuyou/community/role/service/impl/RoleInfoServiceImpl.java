@@ -1,8 +1,10 @@
 package com.fuyou.community.role.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.role.model.RoleInfo;
 import com.fuyou.community.role.service.RoleInfoService;
@@ -46,6 +48,23 @@ public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
         roleInfoMapper.delRel(roleId);
 //        重新添加引用
         roleInfoMapper.addRoleMenu(roleId,menuIds);
+        return ResultVo.success(2000,"设置成功");
+    }
+
+    @Override
+    public ResultVo<Object> addUserRoleRel(String userId, String roleId) {
+        roleInfoMapper.delUserRoleRel(userId,roleId);
+        roleInfoMapper.addRel(userId,roleId);
+        return ResultVo.success(2000,"添加成功");
+    }
+
+    @Override
+    public ResultVo<Object> beAdmin(String userId) {
+        Integer existed = roleInfoMapper.existed(userId);
+        if (ObjectUtil.isNotEmpty(existed) && existed > 0){
+            throw new ServiceException(5000,"该用户已在管理员行列");
+        }
+        roleInfoMapper.beAdmin(userId);
         return ResultVo.success(2000,"设置成功");
     }
 }

@@ -23,4 +23,12 @@ public interface RoleInfoMapper extends BaseMapper<RoleInfo> {
     int delRel(String roleId);
 
     int addRoleMenu(@Param("roleId") String roleId,@Param("menuIds") List<String> menuIds);
+
+    int addRel(@Param("userId") String userId,@Param("roleId") String roleId);
+
+    int delUserRoleRel(@Param("userId") String userId,@Param("roleId") String roleId);
+
+    int beAdmin(String userId);
+
+    Integer existed(String userId);
 }

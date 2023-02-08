@@ -52,7 +52,7 @@ public class User extends DelBean implements Serializable {
     private String userAvatar;
 
     @TableField("USER_STATUS")
-    @ApiModelProperty("用户状态 1：删除 0：正常")
+    @ApiModelProperty("用户状态 1：禁用 0：正常")
     private String userStatus;
 
     @ApiModelProperty("用户邮箱")

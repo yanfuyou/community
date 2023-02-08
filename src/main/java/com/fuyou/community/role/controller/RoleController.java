@@ -11,10 +11,12 @@ import com.fuyou.community.role.model.dto.RoleMenuDto;
 import com.fuyou.community.role.service.RoleInfoService;
 import com.fuyou.community.sys.model.dto.PageQueryDto;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,5 +59,17 @@ public class RoleController {
         }
         roleInfoService.addRoleMenu(dto.getRoleId(), dto.getMenuIds());
         return ResultVo.success(2000,"添加成功");
+    }
+
+    @GetMapping("/rel/change/{userId}/{roleId}")
+    @ApiOperation("修改用户角色引用")
+    public ResultVo<Object> changeRel(@PathVariable @NotNull String userId,@PathVariable @NotNull String roleId){
+        return roleInfoService.addUserRoleRel(userId,roleId);
+    }
+
+    @GetMapping("/beAdmin/{userId}")
+    @ApiOperation("设置为管理员")
+    public ResultVo<Object> beAdmin(@PathVariable @NotNull String userId){
+        return roleInfoService.beAdmin(userId);
     }
 }

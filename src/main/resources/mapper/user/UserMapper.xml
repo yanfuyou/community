@@ -42,4 +42,26 @@
             </if>
         </where>
     </select>
+    <select id="list" resultType="com.fuyou.community.user.model.vo.UserBasicVo">
+        select distinct u.ID,u.USER_NAME,u.USER_ALIAS,u.USER_SEX,u.BIRTHDAY,u.CREATE_BY,u.CREATE_TIME,u.USER_EMAIL,u.USER_STATUS,rel.ROLE_ID
+        from user u left join user_role_rel rel on rel.USER_ID = u.ID
+        <where>
+            <if test="dto.queryParam.userName != null and dto.queryParam.userName != ''">
+                u.USER_NAME like concat('%',#{dto.queryParam.userName},'%')
+            </if>
+            <if test="dto.queryParam.userSex != null and dto.queryParam.userSex != ''">
+                and u.USER_SEX = #{dto.queryParam.userSex}
+            </if>
+            <if test="dto.queryParam.userAlias != null and dto.queryParam.userAlias != ''">
+                or u.USER_ALIAS like concat('%',#{dto.queryParam.userAlias},'%')
+            </if>
+            <if test="dto.queryParam.roleId != null and dto.queryParam.roleId != ''">
+                and rel.ROLE_ID = #{dto.queryParam.roleId}
+            </if>
+            <if test="dto.queryParam.roleId == null or dto.queryParam.roleId == ''">
+                and rel.ROLE_ID != 'f695ab4049294c818ab806a1ffa0af93'
+            </if>
+            and u.FLAG = '0'
+        </where>
+    </select>
 </mapper>
