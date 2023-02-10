@@ -1,9 +1,12 @@
 package com.fuyou.community.article.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fuyou.community.article.model.CommentInfo;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 
+import javax.xml.transform.Result;
 import java.util.List;
 
 /**
@@ -47,4 +50,11 @@ public interface CommentService extends IService<CommentInfo> {
      * @Date 上午1:32 2022/11/13
      */
     ResultVo updateComment(CommentInfo commentInfo);
+
+    /**
+     * @Author yanfuyou
+     * @Description 获取评论列表
+     * @Date 下午11:35 2023/2/9
+     */
+    ResultVo<Page<CommentInfo>> pageList(PageQueryDto<CommentInfo> dto);
 }

@@ -3,4 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fuyou.community.article.dao.CommentInfoMapper">
 
+    <select id="pageList" resultType="com.fuyou.community.article.model.CommentInfo">
+        select * from comment_info
+        <where>
+            <if test="dto.queryParam.content != null and dto.queryParam.content != ''">
+                CONTENT like concat('%',#{dto.queryParam.content},'%')
+            </if>
+            <if test="dto.queryParam.flag != null and dto.queryParam.flag != ''">
+                and FLAG = #{dto.queryParam.flag}
+            </if>
+        </where>
+        order by ARTICLE_ID
+    </select>
 </mapper>

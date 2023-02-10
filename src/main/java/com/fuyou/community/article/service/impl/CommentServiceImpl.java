@@ -4,14 +4,17 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.article.dao.CommentInfoMapper;
 import com.fuyou.community.article.model.CommentInfo;
 import com.fuyou.community.article.service.CommentService;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.sys.constant.Constant;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import com.sun.org.apache.bcel.internal.generic.FADD;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,5 +84,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentInfoMapper, CommentIn
                 buildTreeByParentId(child,commentInfos);
             });
         }
+    }
+
+    @Override
+    public ResultVo<Page<CommentInfo>> pageList(PageQueryDto<CommentInfo> dto) {
+        Page<CommentInfo> page = new Page<>();
+        page.setCurrent(dto.getCurrent()).setSize(dto.getSize()).setOrders(dto.getOrders());
+        Page<CommentInfo> commentInfoPage = commentInfoMapper.pageList(page, dto);
+        return ResultVo.success(2000,"评论信息获取成功",commentInfoPage);
     }
 }

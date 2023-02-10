@@ -42,7 +42,6 @@
             <if test="pageDto.enclosure != null and pageDto.enclosure != ''">
                 and info.ENCLOSURE = #{pageDto.enclosure}
             </if>
-            and info.FLAG='0'
         </where>
     </select>
     <select id="miniList" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">

@@ -1,5 +1,6 @@
 package com.fuyou.community.article.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.article.model.ArticleCover;
 import com.fuyou.community.article.model.ArticleInfo;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
@@ -90,4 +92,11 @@ public class ArticleController {
         return articleService.pageSearch(dto);
     }
 
+    @GetMapping("/enable/{id}")
+    public ResultVo<Object> enable(@PathVariable @NotNull String id){
+        articleService.update(Wrappers.lambdaUpdate(ArticleInfo.class)
+                .eq(ArticleInfo::getId,id)
+                .set(ArticleInfo::getFlag,'0'));
+        return ResultVo.success(2000,"操作成功");
+    }
 }

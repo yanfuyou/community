@@ -1,8 +1,11 @@
 package com.fuyou.community.article.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.article.model.CommentInfo;
 import com.fuyou.community.article.service.CommentService;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.sys.model.dto.PageQueryDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +43,18 @@ public class CommentController {
     @GetMapping("/del/{commentId}")
     public ResultVo delComment(@PathVariable String commentId){
         return commentService.delComment(commentId);
+    }
+
+    @PostMapping("/pageList")
+    @ApiOperation("获取评论列表")
+    public ResultVo<Page<CommentInfo>> pageList(@RequestBody PageQueryDto<CommentInfo> dto){
+        return commentService.pageList(dto);
+    }
+
+    @PostMapping("/update")
+    public ResultVo<Object> update(@RequestBody CommentInfo commentInfo){
+        commentService.update(commentInfo, Wrappers.lambdaUpdate(CommentInfo.class)
+                .eq(CommentInfo::getCommentId,commentInfo.getCommentId()));
+        return ResultVo.success(2000,"更新成功");
     }
 }

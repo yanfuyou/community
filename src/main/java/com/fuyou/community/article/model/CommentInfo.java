@@ -25,7 +25,7 @@ public class CommentInfo extends DelBean {
     @ApiModelProperty("内容")
     @TableField("CONTENT")
     @NotBlank(message = "内容不能为空")
-    private String Content;
+    private String content;
 
     @ApiModelProperty("业务条线")
     @TableField("BIZ_TYPE")
