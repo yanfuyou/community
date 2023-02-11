@@ -20,7 +20,7 @@
         ,MSG msg,CREATE_TIME createTime
     </sql>
     <select id="holePage" resultType="com.fuyou.community.hole.model.vo.HoleVo">
-        select t.ID id,t.MSG msg,t.CREATE_TIME createTime,u.USER_AVATAR avatar
+        select t.ID id,t.MSG msg,t.CREATE_TIME createTime,t.CREATE_BY createBy,t.PUB pub,t.FLAG flag,u.USER_AVATAR avatar
         from TREE_HOLE t left join USER u on u.USER_NAME=t.CREATE_BY
         <where>
             <if test="hole.queryParam.flag != null and hole.queryParam.flag != ''">
@@ -31,6 +31,9 @@
             </if>
             <if test="hole.queryParam.pub != null and hole.queryParam.pub != ''">
                 and t.pub = #{hole.queryParam.pub}
+            </if>
+            <if test="hole.queryParam.msg != null and hole.queryParam.msg != ''">
+                and t.msg like concat('%',#{hole.queryParam.msg},'%')
             </if>
         </where>
     </select>

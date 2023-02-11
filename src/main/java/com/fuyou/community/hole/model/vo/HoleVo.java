@@ -12,4 +12,7 @@ public class HoleVo {
     private String time;
     private String barrageStyle;
     private String createTime;
+    private String createBy;
+    private String pub;
+    private String flag;
 }
