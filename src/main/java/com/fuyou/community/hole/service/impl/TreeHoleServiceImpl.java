@@ -34,7 +34,7 @@ public class TreeHoleServiceImpl extends ServiceImpl<TreeHoleMapper, TreeHole>
         List<HoleVo> records = holeVoPage.getRecords();
         records.forEach(h -> {
 //            填充屏幕显示时间
-            h.setTime(String.valueOf(RandomUtil.randomInt(3,8)));
+            h.setTime(String.valueOf(RandomUtil.randomInt(10,20)));
         });
         holeVoPage.setRecords(records);
         return ResultVo.success(2000,"获取成功",holeVoPage);
