@@ -57,4 +57,11 @@ public class CommentController {
                 .eq(CommentInfo::getCommentId,commentInfo.getCommentId()));
         return ResultVo.success(2000,"更新成功");
     }
+
+    @GetMapping("/getCommentInfo/{id}")
+    public ResultVo<CommentInfo> getCommentInfo(@PathVariable String id) {
+        CommentInfo one = commentService.getOne(Wrappers.lambdaQuery(CommentInfo.class)
+                .eq(CommentInfo::getCommentId, id));
+        return ResultVo.success(2000,"获取成功",one);
+    }
 }

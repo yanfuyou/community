@@ -39,12 +39,17 @@ public interface Constant {
         /**
          * 评论
          */
-        public static final String COMMENT = "1";
+        public static final String COMMENT = "comment";
 
         /**
          * 文章
          */
-        public static final String ARTICLE = "2";
+        public static final String ARTICLE = "article";
+
+        /**
+         * 队伍
+         */
+        public static final String TEAM = "team";
     }
 
     class Base{

@@ -1,5 +1,6 @@
 package com.fuyou.community.team.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.sys.model.dto.PageQueryDto;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.transform.Result;
 import java.util.List;
 
 @RestController
@@ -68,5 +70,12 @@ public class TeamController {
     public ResultVo<List<TeamUserRel>> getTeamer(@PathVariable String teamId){
         List<TeamUserRel> teamer = teamInfoService.getTeamer(teamId);
         return ResultVo.success(2000,"查询成功",teamer);
+    }
+
+    @GetMapping("/getTeamInfo/{teamId}")
+    public ResultVo<TeamInfo> getTeamInfo(@PathVariable String teamId) {
+        TeamInfo one = teamInfoService.getOne(Wrappers.lambdaQuery(TeamInfo.class)
+                .eq(TeamInfo::getId, teamId));
+        return ResultVo.success(2000,"获取成功", one);
     }
 }

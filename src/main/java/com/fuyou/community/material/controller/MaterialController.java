@@ -2,6 +2,8 @@ package com.fuyou.community.material.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fuyou.community.common.ResultVo;
+import com.fuyou.community.file.model.FileInfo;
+import com.fuyou.community.file.service.FileInfoService;
 import com.fuyou.community.material.model.Material;
 import com.fuyou.community.material.service.MaterialService;
 import com.fuyou.community.sys.model.dto.PageQueryDto;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping("/material")
 public class MaterialController {
     private final MaterialService materialService;
+    private final FileInfoService fileInfoService;
 
     @PostMapping("/upload")
     public ResultVo upload(@RequestBody Material material){
@@ -47,5 +50,15 @@ public class MaterialController {
         materialService.update(material, Wrappers.lambdaUpdate(Material.class)
                 .eq(Material::getId,material.getId()));
         return ResultVo.success(2000,"更新成功");
+    }
+
+    @GetMapping("/getMaterialInfo/{id}")
+    public ResultVo<Material> getMaterialInfo(@PathVariable String id) {
+        Material one = materialService.getOne(Wrappers.lambdaQuery(Material.class)
+                .eq(Material::getId, id));
+        FileInfo file = fileInfoService.getOne(Wrappers.lambdaQuery(FileInfo.class)
+                .eq(FileInfo::getId, one.getFileId()));
+        one.setVisitPath(file.getVisitPath()).setFileName(file.getFileName());
+        return ResultVo.success(2000,"查询成功",one);
     }
 }
