@@ -1,5 +1,6 @@
 package com.fuyou.community.material.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.material.model.Material;
 import com.fuyou.community.material.service.MaterialService;
@@ -41,4 +42,10 @@ public class MaterialController {
         return materialService.page(maDto);
     }
 
+    @PostMapping("/update")
+    public ResultVo<Object> update(@RequestBody Material material){
+        materialService.update(material, Wrappers.lambdaUpdate(Material.class)
+                .eq(Material::getId,material.getId()));
+        return ResultVo.success(2000,"更新成功");
+    }
 }

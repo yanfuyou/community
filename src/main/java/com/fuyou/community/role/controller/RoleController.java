@@ -54,9 +54,10 @@ public class RoleController {
 
     @PostMapping("/addRoleMenu")
     public ResultVo addRoleMenu(@RequestBody RoleMenuDto dto){
-        if (CollUtil.isEmpty(dto.getMenuIds())){
-            throw new ServiceException(5000,"参数异常");
-        }
+//        为空则剔除所有菜单
+//        if (CollUtil.isEmpty(dto.getMenuIds())){
+//            throw new ServiceException(5000,"参数异常");
+//        }
         roleInfoService.addRoleMenu(dto.getRoleId(), dto.getMenuIds());
         return ResultVo.success(2000,"添加成功");
     }

@@ -1,5 +1,6 @@
 package com.fuyou.community.role.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -47,7 +48,9 @@ public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
 //        删除旧的引用数据
         roleInfoMapper.delRel(roleId);
 //        重新添加引用
-        roleInfoMapper.addRoleMenu(roleId,menuIds);
+        if(CollUtil.isNotEmpty(menuIds)){
+            roleInfoMapper.addRoleMenu(roleId,menuIds);
+        }
         return ResultVo.success(2000,"设置成功");
     }
 
