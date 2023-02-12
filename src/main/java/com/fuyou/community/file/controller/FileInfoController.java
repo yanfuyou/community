@@ -46,4 +46,10 @@ public class FileInfoController {
     public ResultVo<Page<FileInfo>> videoList(@RequestBody PageQueryDto<FileInfo> dto){
         return fileInfoService.videoList(dto);
     }
+
+    @PostMapping("/update")
+    public ResultVo<Object> update(@RequestBody FileInfo fileInfo){
+        fileInfoService.updateById(fileInfo);
+        return ResultVo.success(2000,"更新成功");
+    }
 }

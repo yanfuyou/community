@@ -66,16 +66,16 @@ public class DashboardController {
         }
         dateList.stream().forEach(date -> {
             int a = articleService.count(Wrappers.lambdaQuery(ArticleInfo.class)
-                    .like(ArticleInfo::getCreateTime, date));
+                    .likeRight(ArticleInfo::getCreateTime, date));
             listA.add(a);
             int u = userService.count(Wrappers.lambdaQuery(User.class)
-                    .like(User::getCreateTime, date));
+                    .likeRight(User::getCreateTime, date));
             listU.add(u);
             int f = fileInfoService.count(Wrappers.lambdaQuery(FileInfo.class)
-                    .like(FileInfo::getCreateTime, date));
+                    .likeRight(FileInfo::getCreateTime, date));
             listF.add(f);
             int c = commentService.count(Wrappers.lambdaQuery(CommentInfo.class)
-                    .like(CommentInfo::getCreateTime, date));
+                    .likeRight(CommentInfo::getCreateTime, date));
             listC.add(c);
         });
         ArrayList<String> dates = new ArrayList<>();

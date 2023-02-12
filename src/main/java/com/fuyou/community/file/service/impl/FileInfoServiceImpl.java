@@ -2,6 +2,7 @@ package com.fuyou.community.file.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -256,9 +257,15 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
     public ResultVo<Page<FileInfo>> videoList(PageQueryDto<FileInfo> dto) {
         Page<FileInfo> page = new Page<>();
         page.setCurrent(dto.getCurrent()).setSize(dto.getSize()).setOrders(dto.getOrders());
-        Page<FileInfo> fileInfoPage = fileInfoMapper.selectPage(page, Wrappers.lambdaQuery(FileInfo.class)
-                .eq(FileInfo::getFlag, dto.getQueryParam().getFlag())
-                .eq(FileInfo::getBizType, dto.getQueryParam().getBizType()));
+        Page<FileInfo> fileInfoPage = null;
+        if(ObjectUtil.isNotNull((dto.getQueryParam().getFlag()))){
+            fileInfoPage = fileInfoMapper.selectPage(page, Wrappers.lambdaQuery(FileInfo.class)
+                    .eq(FileInfo::getFlag, dto.getQueryParam().getFlag())
+                    .eq(FileInfo::getBizType, dto.getQueryParam().getBizType()));
+        }else {
+            fileInfoPage = fileInfoMapper.selectPage(page, Wrappers.lambdaQuery(FileInfo.class)
+                    .eq(FileInfo::getBizType, dto.getQueryParam().getBizType()));
+        }
         return ResultVo.success(2000,"视频获取成功",fileInfoPage);
     }
 
