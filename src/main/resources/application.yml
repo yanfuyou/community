@@ -105,10 +105,38 @@ sa-token:
   is-share: false
   token-style: simple-uuid
 #  是否打印操作日志
-  is-log: true
+#  is-log: true
 #  不使用cookie
   is-read-cookie: false
   is-print: false
 
 community:
   fileHost: http://192.168.3.7
+#  忽略拦截目录
+not-match-path:
+  path-list:
+    - /user/login
+    - /user/signup
+    - /favicon.ico
+    - /code/num
+    - /article/miniList
+    - /material/list
+    - /user/userMini
+    - /file/videoList
+    - /article/getHots/**
+    - /material/downloadCount
+    - /hole/page
+    - /team/list
+    - /upload/files/**
+    - /article/search
+    - /sys/label/getSysLabels
+    - /article/getArticleInfo/**
+    - /article/readPlusOne/**
+    - /user/**
+    - /comment/getCommentTree/**
+    - /material/myMaterial/**
+    - /collect/page
+    - /team/getMyTeam/**
+    - /article/enclInfo/**
+    - /userArt/getReport/**
+    - /upload/**

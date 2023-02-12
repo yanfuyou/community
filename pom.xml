@@ -42,7 +42,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<!--        使用undertow容器-->
+        <!--        使用undertow容器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
@@ -132,7 +132,7 @@
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>2.1.1</version>
         </dependency>
-<!--        工具类-->
+        <!--        工具类-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -147,7 +147,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-<!--        sa-token 依赖-->
+        <!--        sa-token 依赖-->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
@@ -158,6 +158,11 @@
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-dao-redis-jackson</artifactId>
             <version>1.33.0</version>
+        </dependency>
+        <!-- 配置文件依赖       -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
     </dependencies>
 
