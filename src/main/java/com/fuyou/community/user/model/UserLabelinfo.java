@@ -7,7 +7,7 @@ import com.fuyou.community.sys.model.BaseBean;
 import lombok.Data;
 
 
-@TableName("USER_LABELINFO")
+@TableName("user_labelinfo")
 @Data
 public class UserLabelinfo extends BaseBean {
     @TableId("ID")

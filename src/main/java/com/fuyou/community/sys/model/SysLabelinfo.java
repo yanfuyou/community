@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@TableName("SYS_LABELINFO")
+@TableName("sys_labelinfo")
 @Data
 @ApiModel("系统标签")
 public class SysLabelinfo extends BaseBean{

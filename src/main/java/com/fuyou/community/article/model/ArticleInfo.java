@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @ApiModel("文章信息")
-@TableName("ARTICLE_INFO")
+@TableName("article_info")
 public class ArticleInfo extends DelBean implements Serializable {
     private static final long serialVersionUID = -5604742465445529984L;
 

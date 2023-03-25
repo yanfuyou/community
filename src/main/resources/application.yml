@@ -13,13 +13,15 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
   datasource:
-    url: jdbc:mysql://mysql.sqlpub.com:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+#    url: jdbc:mysql://mysql.sqlpub.com:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
     #            username: yanfuyou
 #    username: ENC(S//rh+y/XrH6g4GXGEdvFQ==)
-    username: yanfuyou
+    username: fuyou
     #            password: d40131522f6ee578
 #    password: ENC(S//rh+y/XrH6g4GXGEdvFQ==)
-    password: d40131522f6ee578
+#    password: d40131522f6ee578
+    password: fuyou
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -111,7 +113,8 @@ sa-token:
   is-print: false
 
 community:
-  fileHost: http://192.168.3.7
+  fileHost: http://localhost
+#  fileHost: http://20.100.202.162
 #  忽略拦截目录
 not-match-path:
   path-list:
@@ -140,3 +143,5 @@ not-match-path:
     - /article/enclInfo/**
     - /userArt/getReport/**
     - /upload/**
+    - /material/downloadCount/**
+    - /upload/files/**

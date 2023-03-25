@@ -6,7 +6,7 @@ import com.fuyou.community.sys.model.BaseBean;
 import lombok.Data;
 
 @Data
-@TableName("ARTICLE_FILE_REL")
+@TableName("article_file_rel")
 public class ArticleFileRel extends BaseBean {
     @TableField("ID")
     private String id;

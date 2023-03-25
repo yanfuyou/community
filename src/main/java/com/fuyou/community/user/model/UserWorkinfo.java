@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fuyou.community.sys.model.BaseBean;
 import lombok.Data;
 
-@TableName("USER_WORKINFO")
+@TableName("user_workinfo")
 @Data
 public class UserWorkinfo extends BaseBean {
     @TableId("ID")

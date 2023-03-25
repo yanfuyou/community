@@ -6,7 +6,7 @@
 <mapper namespace="com.fuyou.community.user.dao.UserLabelinfoMapper">
     <select id="getUserLabels" resultType="com.fuyou.community.sys.model.SysLabelinfo">
         SELECT sl.*
-        FROM USER_LABELINFO ul
-                 LEFT JOIN SYS_LABELINFO sl ON sl.ID = ul.LABEL_ID where sl.flag = '0'
+        FROM user_labelinfo ul
+                 LEFT JOIN sys_labelinfo sl ON sl.ID = ul.LABEL_ID where sl.flag = '0'
     </select>
 </mapper>

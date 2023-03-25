@@ -6,7 +6,7 @@
 <mapper namespace="com.fuyou.community.sys.dao.SysLabelinfoMapper">
 
     <select id="getLabels" resultType="com.fuyou.community.sys.model.SysLabelinfo">
-        select * from SYS_LABELINFO
+        select * from sys_labelinfo
         where 1 = 1
         <if test="dto.flag != null">
             and FLAG = #{dto.flag}

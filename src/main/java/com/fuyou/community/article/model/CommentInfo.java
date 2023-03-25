@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
-@TableName("COMMENT_INFO")
+@TableName("comment_info")
 @ApiModel("评论信息")
 public class CommentInfo extends DelBean {
     @ApiModelProperty("评论id")

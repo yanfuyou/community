@@ -4,7 +4,7 @@
 <mapper namespace="com.fuyou.community.user.dao.UserMapper">
 
     <select id="getUserAvatars" resultType="com.fuyou.community.user.model.vo.AvatarVo">
-        select id,USER_AVATAR userAvatar from USER
+        select id,USER_AVATAR userAvatar from user
         <if test="avatarDto.params != null">
             where ID in
             <foreach collection="avatarDto.params" item="id" open="(" separator="," close=")">
@@ -14,9 +14,9 @@
     </select>
     <select id="score" resultType="java.lang.Integer">
         select IFNULL(sum(SCORE),0)
-        from ARTICLE_SCORE s
-        inner join ARTICLE_INFO i on i.ID = s.ARTICLE_ID
-        left join USER u on u.ID = i.USER_ID
+        from article_score s
+        inner join article_info i on i.ID = s.ARTICLE_ID
+        left join user u on u.ID = i.USER_ID
         where u.ID = #{userId}
         <if test="month != null and month != ''">
             and s.CREATE_TIME like concat(#{month},'%')

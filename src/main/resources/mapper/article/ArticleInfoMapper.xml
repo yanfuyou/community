@@ -13,11 +13,11 @@
     </update>
 
     <select id="getHots" resultType="com.fuyou.community.article.model.vo.ArticleHotVo">
-        select distinct a.*, c.COVER_PATH coverPath, (select sum(s.SCORE) from ARTICLE_SCORE s where s.ARTICLE_ID =
+        select distinct a.*, c.COVER_PATH coverPath, (select sum(s.SCORE) from article_score s where s.ARTICLE_ID =
         a.ID) score
-        from ARTICLE_INFO a
-        inner join ARTICLE_COVER c on c.ARTICLE_ID = a.ID
-        left join ARTICLE_SCORE s on s.ARTICLE_ID = a.ID
+        from article_info a
+        inner join article_cover c on c.ARTICLE_ID = a.ID
+        left join article_score s on s.ARTICLE_ID = a.ID
         where a.flag = '0'
         ORDER BY score desc
         <if test="start != null and end != null">
@@ -27,8 +27,8 @@
     <select id="list" resultType="com.fuyou.community.article.model.ArticleInfo">
         select u.ID
         userId,info.id,info.ARTICLE_NAME,info.CREATE_TIME,info.CREATE_BY,info.UPDATE_BY,info.UPDATE_TIME,info.ENCLOSURE,info.FLAG
-        from ARTICLE_INFO info
-        inner join USER u on u.id=info.USER_ID
+        from article_info info
+        inner join user u on u.id=info.USER_ID
         <where>
             <if test="pageDto.id != null and pageDto.id !=''">
                 and info.ID = #{pageDto.id}
@@ -46,8 +46,8 @@
     </select>
     <select id="miniList" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">
         select i.ID, i.ARTICLE_NAME, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
-        from ARTICLE_INFO i
-        left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
+        from article_info i
+        left join article_read r on r.ARTICLE_ID = i.ID
         <where>
             <if test="pageDto.userId != null and pageDto.userId != ''">
                 i.USER_ID = #{pageDto.userId}
@@ -65,8 +65,8 @@
     </select>
     <select id="pageSearch" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">
         select i.ID, i.ARTICLE_NAME, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
-        from ARTICLE_INFO i
-        left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
+        from article_info i
+        left join article_read r on r.ARTICLE_ID = i.ID
         <where>
             <if test="dto.queryParam.articleContent != null and dto.queryParam.articleContent != ''">
                 i.ARTICLE_CONTENT like concat('%',#{dto.queryParam.articleContent},'%')

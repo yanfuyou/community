@@ -41,7 +41,7 @@
         delete from user_role_rel where USER_ID=#{userId} and ROLE_ID != 'f695ab4049294c818ab806a1ffa0af93'
     </delete>
     <select id="getRoleList" resultType="com.fuyou.community.role.model.RoleInfo">
-        select info.* from ROLE_INFO info LEFT JOIN USER_ROLE_REL rel ON rel.ROLE_ID = info.ROLE_ID
+        select info.* from role_info info LEFT JOIN user_role_rel rel ON rel.ROLE_ID = info.ROLE_ID
         WHERE info.FLAG='0'
         <if test="userId != null and userId !=''">
             AND rel.USER_ID = #{userId} AND rel.FLAG = '0'

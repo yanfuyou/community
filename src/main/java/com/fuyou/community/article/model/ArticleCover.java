@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @ApiModel("文章封面")
-@TableName("ARTICLE_COVER")
+@TableName("article_cover")
 @Data
 public class ArticleCover extends BaseBean {
     @TableField("ARTICLE_ID")

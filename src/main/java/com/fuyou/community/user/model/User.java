@@ -12,7 +12,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("USER")
+@TableName("user")
 @ApiModel(value = "用户实体类", description = "用户的基类")
 public class User extends DelBean implements Serializable {
     @TableId(value = "ID")

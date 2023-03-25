@@ -6,8 +6,8 @@
 <mapper namespace="com.fuyou.community.user.dao.ArticleReadMapper">
     <select id="getReadSumByUserId" resultType="java.lang.Integer">
         select sum(r.READ_COUNT)
-        from ARTICLE_INFO a
-                 inner join ARTICLE_READ r on r.ARTICLE_ID = a.ID
+        from article_info a
+                 inner join article_read r on r.ARTICLE_ID = a.ID
         where a.USER_ID =
               #{id}
     </select>

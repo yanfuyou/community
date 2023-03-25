@@ -21,7 +21,7 @@
     </sql>
     <select id="holePage" resultType="com.fuyou.community.hole.model.vo.HoleVo">
         select t.ID id,t.MSG msg,t.CREATE_TIME createTime,t.CREATE_BY createBy,t.PUB pub,t.FLAG flag,u.USER_AVATAR avatar
-        from TREE_HOLE t left join USER u on u.USER_NAME=t.CREATE_BY
+        from tree_hole t left join user u on u.USER_NAME=t.CREATE_BY
         <where>
             <if test="hole.queryParam.flag != null and hole.queryParam.flag != ''">
                 and t.FLAG = #{hole.queryParam.flag}

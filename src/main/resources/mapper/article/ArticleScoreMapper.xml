@@ -5,14 +5,14 @@
 
     <select id="getSumScoreByUserId" resultType="java.lang.Integer">
         select sum(s.SCORE) score
-        from ARTICLE_INFO a
-                 INNER JOIN ARTICLE_SCORE s ON s.ARTICLE_ID = a.id
-                 left join USER u ON u.ID = a.USER_ID
+        from article_info a
+                 INNER JOIN article_score s ON s.ARTICLE_ID = a.id
+                 left join user u ON u.ID = a.USER_ID
         where u.ID = #{id};
     </select>
     <select id="getScoreSum" resultType="java.lang.Integer">
         select sum(s.SCORE)
-        from ARTICLE_SCORE s
+        from article_score s
         where s.ARTICLE_ID = #{articleId}
     </select>
 </mapper>

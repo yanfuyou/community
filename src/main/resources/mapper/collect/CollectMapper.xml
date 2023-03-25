@@ -23,8 +23,8 @@
     </sql>
     <select id="myCollect" resultType="com.fuyou.community.article.model.vo.ArticleMiniVo">
         select i.ID, i.ARTICLE_NAME, i.CREATE_TIME, i.ARTICLE_CONTENT, r.READ_COUNT
-        from ARTICLE_INFO i
-        left join ARTICLE_READ r on r.ARTICLE_ID = i.ID
+        from article_info i
+        left join article_read r on r.ARTICLE_ID = i.ID
         left join collect c on c.REL_ID = i.ID
         <where>
             <if test="article.queryParam.userId != null and article.queryParam.userId != ''">

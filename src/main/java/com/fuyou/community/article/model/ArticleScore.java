@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@TableName("ARTICLE_SCORE")
+@TableName("article_score")
 @ApiModel("文章评分")
 @Data
 public class ArticleScore extends BaseBean {

@@ -10,7 +10,7 @@ import lombok.Data;
  * 
  * @TableName TREE_HOLE
  */
-@TableName("TREE_HOLE")
+@TableName("tree_hole")
 @Data
 public class TreeHole extends DelBean implements Serializable {
     /**

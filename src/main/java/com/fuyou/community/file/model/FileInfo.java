@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@TableName("FILE_INFO")
+@TableName("file_info")
 public class FileInfo extends DelBean {
     @ApiModelProperty("文件id")
     @TableId("ID")

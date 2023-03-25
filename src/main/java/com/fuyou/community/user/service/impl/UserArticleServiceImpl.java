@@ -7,9 +7,7 @@ import com.fuyou.community.article.model.ArticleInfo;
 import com.fuyou.community.collect.model.Collect;
 import com.fuyou.community.collect.service.CollectService;
 import com.fuyou.community.common.ResultVo;
-import com.fuyou.community.user.dao.ArticleFollowMapper;
 import com.fuyou.community.user.dao.ArticleReadMapper;
-import com.fuyou.community.user.model.ArticleFollow;
 import com.fuyou.community.user.model.vo.ReportVo;
 import com.fuyou.community.user.service.UserArticleService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserArticleServiceImpl implements UserArticleService {
-    private final ArticleFollowMapper followMapper;
-
     private final CollectService collectService;
     private final ArticleReadMapper readMapper;
     private final ArticleinfoMapper articleinfoMapper;

@@ -5,8 +5,8 @@
 
     <select id="getEnclInfo" resultType="com.fuyou.community.article.model.vo.EnclVo">
         select rel.ARTICLE_ID articleID, f.ID fileId, f.VISIT_PATH downPath, f.FILE_NAME fileName
-        from ARTICLE_FILE_REL rel
-                 inner join FILE_INFO f on f.ID = rel.FILE_ID
+        from article_file_rel rel
+                 inner join file_info f on f.ID = rel.FILE_ID
         where rel.ARTICLE_ID = #{id}
     </select>
 </mapper>

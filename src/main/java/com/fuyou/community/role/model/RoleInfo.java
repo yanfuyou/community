@@ -12,7 +12,7 @@ import lombok.Data;
  * 
  * @TableName ROLE_INFO
  */
-@TableName(value ="ROLE_INFO")
+@TableName(value ="role_info")
 @Data
 public class RoleInfo extends DelBean implements Serializable {
     /**

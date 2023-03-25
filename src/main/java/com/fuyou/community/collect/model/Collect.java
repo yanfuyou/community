@@ -13,7 +13,7 @@ import lombok.Data;
 /**
  * @TableName COLLECT
  */
-@TableName(value = "COLLECT")
+@TableName(value = "collect")
 @Data
 public class Collect extends DelBean implements Serializable {
     /**

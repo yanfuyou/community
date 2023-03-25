@@ -8,7 +8,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@TableName("USER_EDUINFO")
+@TableName("user_eduinfo")
 @ApiModel("用户教育信息")
 @Data
 public class UserEduInfo extends BaseBean implements Serializable {
