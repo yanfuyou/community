@@ -47,9 +47,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentInfoMapper, CommentIn
     @Override
     public ResultVo<List<CommentInfo>> commentTree(String articleId) {
 //        当前文章的所有评论
-        List<CommentInfo> commentInfos = commentInfoMapper.selectList(Wrappers.lambdaQuery(CommentInfo.class)
-                .eq(CommentInfo::getArticleId, articleId)
-                .eq(CommentInfo::getFlag, Constant.Base.NOTDELETED));
+//        List<CommentInfo> commentInfos = commentInfoMapper.selectList(Wrappers.lambdaQuery(CommentInfo.class)
+//                .eq(CommentInfo::getArticleId, articleId)
+//                .eq(CommentInfo::getFlag, Constant.Base.NOTDELETED));
+        List<CommentInfo> commentInfos = commentInfoMapper.articleComment(articleId);
         List<CommentInfo> roots = commentInfos.stream().filter(c -> c.getParentId().equals(Constant.Tree.ROOT)).collect(Collectors.toList());
         roots.stream().forEach(comment -> {
             buildTreeByParentId(comment,commentInfos);

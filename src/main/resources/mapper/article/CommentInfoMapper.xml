@@ -15,4 +15,19 @@
         </where>
         order by ARTICLE_ID
     </select>
+    <select id="articleComment" resultType="com.fuyou.community.article.model.CommentInfo">
+        select c.COMMENT_ID commentId,
+               c.PARENT_ID parentID,
+               c.CONTENT content,
+               c.BIZ_TYPE bizType,
+               c.ARTICLE_ID articleID,
+               c.FLAG flag,
+               u.USER_ALIAS updateBy ,
+               c.CREATE_TIME createTime,
+               c.CREATE_BY createBy,
+               c.UPDATE_TIME updateTime
+        from comment_info c
+        inner join user u on u.USER_NAME = c.CREATE_BY
+        where c.ARTICLE_ID = #{articleId} and c.FLAG = '0'
+    </select>
 </mapper>
