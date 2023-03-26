@@ -13,6 +13,7 @@ import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.UserLabelinfo;
 import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
+import com.fuyou.community.user.model.dto.ChangePwdDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
 import com.fuyou.community.user.model.vo.InfoVo;
@@ -149,4 +150,6 @@ public interface UserService extends IService<User> {
     ResultVo<Page<User>> userMini(PageQueryDto<User> dto);
 
     ResultVo<Page<UserBasicVo>> list(PageQueryDto<UserBasicVo> dto);
+
+    ResultVo<Object> changePwd(ChangePwdDto changePwdDto);
 }

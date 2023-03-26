@@ -1,4 +1,8 @@
 package com.fuyou.community.sys.constant;
+
+import lombok.Data;
+import springfox.documentation.service.ApiListing;
+
 /**
  * @Author yanfuyou
  * @Description 系统的常量类
@@ -71,5 +75,23 @@ public interface Constant {
     class Status{
         public static final String disable = "1";
         public static final String enable = "0";
+    }
+
+    enum Role{
+        ORDINARY("ordinary","f695ab4049294c818ab806a1ffa0af93");
+        private final String roleName;
+        private final String roleId;
+        //平台默认用户
+        Role(String roleName,String roleId){
+            this.roleName=roleName;
+            this.roleId= roleId;
+        }
+
+        public String getRoleName(){
+            return this.roleName;
+        }
+        public String getRoleId(){
+            return this.roleId;
+        }
     }
 }

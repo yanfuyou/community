@@ -99,4 +99,12 @@ public class ArticleController {
                 .set(ArticleInfo::getFlag,'0'));
         return ResultVo.success(2000,"操作成功");
     }
+
+    @PostMapping("/updateContent")
+    public ResultVo<Object> updateContent(@RequestBody ArticleInfo articleInfo){
+        articleService.update(Wrappers.lambdaUpdate(ArticleInfo.class)
+                .eq(ArticleInfo::getId,articleInfo.getId())
+                .set(ArticleInfo::getArticleContent,articleInfo.getArticleContent()));
+        return ResultVo.success(2000,"修改成功");
+    }
 }

@@ -19,6 +19,7 @@ import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.role.model.RoleInfo;
 import com.fuyou.community.role.service.RoleInfoService;
+import com.fuyou.community.sys.constant.Constant;
 import com.fuyou.community.sys.model.PageDto;
 import com.fuyou.community.sys.model.SysLabelinfo;
 import com.fuyou.community.sys.model.dto.DelLabelDto;
@@ -34,6 +35,7 @@ import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.UserLabelinfo;
 import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
+import com.fuyou.community.user.model.dto.ChangePwdDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.*;
 import com.fuyou.community.user.service.UserService;
@@ -100,7 +102,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         if (ObjectUtil.isNotEmpty(old)) {
             return ResultVo.fail(5000, "用户名已存在");
         }
-        user.setId(IdUtil.simpleUUID());
+        String userId = IdUtil.simpleUUID();
+        user.setId(userId);
 //        盐值
         String salt = RandomUtil.randomString(5);
         String excr = PasswordUtil.excr(user.getUserPassword(), salt);
@@ -109,6 +112,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         user.setCreateBy(user.getUserName());
         user.setUpdateBy(user.getUserName());
         int insert = userMapper.insert(user);
+        roleInfoService.addUserRoleRel(userId, Constant.Role.ORDINARY.getRoleId());
         if (insert < 1) {
             return ResultVo.fail(5000, "用户注册失败");
         }
@@ -260,5 +264,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         page.setCurrent(dto.getCurrent()).setSize(dto.getSize()).setOrders(dto.getOrders());
         Page<UserBasicVo> list = userMapper.list(page, dto);
         return ResultVo.success(2000,"用户列表获取成功",list);
+    }
+
+    @Override
+    public ResultVo<Object> changePwd(ChangePwdDto changePwdDto) {
+        User userInfo = userMapper.selectById(changePwdDto.getUserId());
+        String excr = PasswordUtil.excr(userInfo.getUserPassword(), userInfo.getUserSalt());
+        String oldExcr = PasswordUtil.excr(changePwdDto.getOldPwd(), userInfo.getUserSalt());
+        if (!excr.equals(oldExcr)){
+            ResultVo.fail(5000,"旧密码错误");
+        }
+        String newExcr = PasswordUtil.excr(changePwdDto.getNewPwd(), userInfo.getUserSalt());
+        userMapper.update(null,Wrappers.lambdaUpdate(User.class)
+                .eq(User::getId,changePwdDto.getUserId())
+                .set(User::getUserPassword,newExcr));
+        return ResultVo.success(2000,"更新成功");
     }
 }

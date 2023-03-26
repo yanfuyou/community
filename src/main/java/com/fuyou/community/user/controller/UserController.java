@@ -18,6 +18,7 @@ import com.fuyou.community.user.model.UserEduInfo;
 import com.fuyou.community.user.model.UserLabelinfo;
 import com.fuyou.community.user.model.UserWorkinfo;
 import com.fuyou.community.user.model.dto.BaseInfoDto;
+import com.fuyou.community.user.model.dto.ChangePwdDto;
 import com.fuyou.community.user.model.dto.LoginDto;
 import com.fuyou.community.user.model.vo.AvatarVo;
 import com.fuyou.community.user.model.vo.InfoVo;
@@ -27,13 +28,16 @@ import com.fuyou.community.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -207,4 +211,8 @@ public class UserController {
         return ResultVo.success(2000,"已启用");
     }
 
+    @PostMapping("/changePwd")
+    public ResultVo<Object> changePassword(@RequestBody @Validated ChangePwdDto changePwdDto){
+        return userService.changePwd(changePwdDto);
+    }
 }
