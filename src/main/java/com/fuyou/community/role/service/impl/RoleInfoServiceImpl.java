@@ -68,7 +68,9 @@ public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
     @Override
     public ResultVo<Object> addUserRoleRel(String userId, String roleId) {
         roleInfoMapper.delUserRoleRel(userId,roleId);
-        roleInfoMapper.addRel(userId,roleId);
+        if(!"f695ab4049294c818ab806a1ffa0af93".equals(roleId)){
+            roleInfoMapper.addRel(userId,roleId);
+        }
         return ResultVo.success(2000,"添加成功");
     }
 

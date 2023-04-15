@@ -7,6 +7,7 @@
     <select id="getUserLabels" resultType="com.fuyou.community.sys.model.SysLabelinfo">
         SELECT sl.*
         FROM user_labelinfo ul
-                 LEFT JOIN sys_labelinfo sl ON sl.ID = ul.LABEL_ID where sl.flag = '0'
+                 INNER JOIN sys_labelinfo sl ON sl.ID = ul.LABEL_ID
+        where sl.flag = '0' and ul.USER_ID=#{userId}
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.fuyou.community.accusation.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fuyou.community.accusation.model.AccusationInfo;
 import com.fuyou.community.accusation.service.AccusationInfoService;
@@ -8,6 +9,7 @@ import com.fuyou.community.sys.model.dto.PageQueryDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +25,18 @@ public class AccusationController {
     @PostMapping("/add")
     @ApiOperation("添加举报")
     public ResultVo<Object> add(@RequestBody AccusationInfo accusationInfo){
+        if(StrUtil.isBlank(accusationInfo.getReason())){
+            return ResultVo.fail(5000,"理由不能为空");
+        }
         return accusationInfoService.add(accusationInfo);
     }
 
     @PostMapping("/update")
     @ApiOperation("更新举报信息")
     public ResultVo<Object> update(@RequestBody AccusationInfo accusationInfo){
+        if(StrUtil.isBlank(accusationInfo.getReason())){
+            return ResultVo.fail(5000,"理由不能为空");
+        }
         accusationInfoService.updateById(accusationInfo);
         return ResultVo.success(2000,"更新成功");
     }
