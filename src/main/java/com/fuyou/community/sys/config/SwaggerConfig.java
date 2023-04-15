@@ -1,5 +1,6 @@
 package com.fuyou.community.sys.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2WebMvc
+@ConditionalOnProperty(name = "swagger.enable",havingValue = "true")
 public class SwaggerConfig {
     @Bean
     public Docket createRestApi() {

@@ -6,7 +6,7 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 spring:
   servlet:
     multipart:
@@ -136,6 +136,8 @@ community:
   fileHost: http://localhost
 #  fileHost: http://20.100.202.162
   adminAddress: http://192.168.1.104:8090/
+swagger:
+  enable: false
 
 #  忽略拦截目录
 not-match-path:
@@ -168,3 +170,4 @@ not-match-path:
     - /material/downloadCount/**
     - /upload/files/**
     - /user/mail/send
+    - /druid/**
