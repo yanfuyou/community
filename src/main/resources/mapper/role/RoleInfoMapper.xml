@@ -30,7 +30,7 @@
         insert into user_role_rel(USER_ID,ROLE_ID,FLAG) value(#{userId},#{roleId},'0')
     </insert>
     <insert id="beAdmin">
-        insert into user_role_rel(USER_ID,ROLE_ID) value(#{userId},'test')
+        insert into user_role_rel(USER_ID,ROLE_ID,FLAG) value(#{userId},'init','0')
     </insert>
     <delete id="delRel">
         delete
