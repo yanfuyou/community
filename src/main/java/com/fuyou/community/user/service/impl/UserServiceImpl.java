@@ -71,7 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     public ResultVo login(LoginDto dto) {
         User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUserName, dto.getUserName()));
         if (ObjectUtil.isEmpty(user)) {
-            return ResultVo.fail(4000, "用户不存在,请先注册");
+            return ResultVo.fail(5000, "用户不存在,请先注册");
         } else {
             String excr = PasswordUtil.excr(dto.getUserPassword(), user.getUserSalt());
             if (!user.getUserPassword().equals(excr)) {

@@ -20,15 +20,15 @@ spring:
 #      io: 8
 #      worker: 256
   datasource:
-#    url: jdbc:mysql://mysql.sqlpub.com:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
-    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
-    #            username: yanfuyou
+    url: jdbc:mysql://mysql.sqlpub.com:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+#    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: yanfuyou
 #    username: ENC(S//rh+y/XrH6g4GXGEdvFQ==)
-    username: fuyou
+#    username: fuyou
     #            password: d40131522f6ee578
 #    password: ENC(S//rh+y/XrH6g4GXGEdvFQ==)
-#    password: d40131522f6ee578
-    password: fuyou
+    password: d40131522f6ee578
+#    password: fuyou
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -133,9 +133,9 @@ sa-token:
   is-print: false
 
 community:
-  fileHost: http://localhost
-#  fileHost: http://20.100.202.162
-  adminAddress: http://192.168.1.104:8090/
+#  fileHost: http://localhost
+  fileHost: http://20.100.202.162
+  adminAddress: http://20.100.202.162:8090/
 swagger:
   enable: false
 
