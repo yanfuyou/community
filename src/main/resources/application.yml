@@ -12,6 +12,13 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+#  undertow:
+#    max-http-post-size: -1
+#    buffer-size: 512
+#    direct-buffers: true
+#    threads:
+#      io: 8
+#      worker: 256
   datasource:
 #    url: jdbc:mysql://mysql.sqlpub.com:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
     url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8
@@ -86,6 +93,19 @@ spring:
         #        最小空闲连接数
         min-idle: 0
     #        TODO 需要配置集群节点信息,如果使用了集群
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 1839224665@qq.com
+    password: lpkjgmqdzxqqdbfd
+    default-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            port: 587
+            class: javax.net.ssl.SSLSocketFactory
 
 logging:
   config: classpath:logback-spring.xml
@@ -115,6 +135,8 @@ sa-token:
 community:
   fileHost: http://localhost
 #  fileHost: http://20.100.202.162
+  adminAddress: http://192.168.1.104:8090/
+
 #  忽略拦截目录
 not-match-path:
   path-list:
@@ -145,3 +167,4 @@ not-match-path:
     - /upload/**
     - /material/downloadCount/**
     - /upload/files/**
+    - /user/mail/send

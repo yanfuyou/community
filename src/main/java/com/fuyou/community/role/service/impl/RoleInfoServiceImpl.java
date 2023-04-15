@@ -3,17 +3,22 @@ package com.fuyou.community.role.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
 import com.fuyou.community.menu.model.MenuInfo;
+import com.fuyou.community.role.dao.RoleInfoMapper;
 import com.fuyou.community.role.model.RoleInfo;
 import com.fuyou.community.role.service.RoleInfoService;
-import com.fuyou.community.role.dao.RoleInfoMapper;
+import com.fuyou.community.sys.util.EmailUtil;
+import com.fuyou.community.user.dao.UserMapper;
+import com.fuyou.community.user.model.User;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -26,6 +31,12 @@ import java.util.List;
 public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
         implements RoleInfoService {
     private final RoleInfoMapper roleInfoMapper;
+    private final UserMapper userMapper;
+    private final EmailUtil emailUtil;
+
+    @Value("${community.adminAddress}")
+    private String adminAddress;
+
     @Override
     public List<RoleInfo> getRoleList(String userId) {
         return roleInfoMapper.getRoleList(userId);
@@ -66,6 +77,15 @@ public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
         Integer existed = roleInfoMapper.existed(userId);
         if (ObjectUtil.isNotEmpty(existed) && existed > 0){
             throw new ServiceException(5000,"该用户已在管理员行列");
+        }
+        User user = userMapper.selectById(userId);
+        //发送邮件通知
+        if (ObjectUtil.isNotEmpty(user) && StrUtil.isNotBlank(user.getUserEmail())){
+            String topic = "你已成为“醒狮”后台管理员";
+            String content = "恭喜你被评选进入“醒狮”管理员行列\n你可已通过以下链接：\n" + adminAddress
+                    + "\n以及你已有的账户密码，进入后台。" +
+                    "\n如无法进行更多的管理操作，请等待平台为你分配角色。";
+            emailUtil.sendMail(user.getUserEmail(),topic,content,null);
         }
         roleInfoMapper.beAdmin(userId);
         return ResultVo.success(2000,"设置成功");
