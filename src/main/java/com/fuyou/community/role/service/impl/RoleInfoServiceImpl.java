@@ -72,7 +72,7 @@ public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
         roleInfoMapper.delUserRoleRel(userId,roleId);
         if(Constant.Role.ORDINARY.getRoleId().equals(roleId)){
             Integer integer = roleInfoMapper.hasRole(userId, roleId);
-            if (integer.compareTo(1) == 0){
+            if (ObjectUtil.isNotEmpty(integer) && integer.compareTo(1) == 0){
                 return ResultVo.success(2000,"添加成功");
             }
         }

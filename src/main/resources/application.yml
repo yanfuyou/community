@@ -1,4 +1,5 @@
 server:
+  port: 8081
   servlet:
     context-path: /community
 
@@ -8,6 +9,8 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 spring:
+  application:
+    name: community
   servlet:
     multipart:
       max-file-size: 100MB
