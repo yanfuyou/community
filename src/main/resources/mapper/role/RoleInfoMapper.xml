@@ -56,4 +56,7 @@
     <select id="existed" resultType="java.lang.Integer">
         select 1 from user_role_rel where USER_ID=#{userId} and ROLE_ID!='f695ab4049294c818ab806a1ffa0af93'
     </select>
+    <select id="hasRole" resultType="java.lang.Integer">
+        select 1 from user_role_rel where USER_ID=#{userId} and ROLE_ID=#{roleId}
+    </select>
 </mapper>

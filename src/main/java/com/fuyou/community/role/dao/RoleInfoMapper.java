@@ -31,4 +31,6 @@ public interface RoleInfoMapper extends BaseMapper<RoleInfo> {
     int beAdmin(String userId);
 
     Integer existed(String userId);
+
+    Integer hasRole(@Param("userId") String userId,@Param("roleId") String roleId);
 }

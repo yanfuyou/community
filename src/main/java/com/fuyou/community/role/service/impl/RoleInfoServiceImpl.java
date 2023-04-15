@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fuyou.community.common.ResultVo;
 import com.fuyou.community.exception.ServiceException;
@@ -11,6 +12,7 @@ import com.fuyou.community.menu.model.MenuInfo;
 import com.fuyou.community.role.dao.RoleInfoMapper;
 import com.fuyou.community.role.model.RoleInfo;
 import com.fuyou.community.role.service.RoleInfoService;
+import com.fuyou.community.sys.constant.Constant;
 import com.fuyou.community.sys.util.EmailUtil;
 import com.fuyou.community.user.dao.UserMapper;
 import com.fuyou.community.user.model.User;
@@ -68,9 +70,13 @@ public class RoleInfoServiceImpl extends ServiceImpl<RoleInfoMapper, RoleInfo>
     @Override
     public ResultVo<Object> addUserRoleRel(String userId, String roleId) {
         roleInfoMapper.delUserRoleRel(userId,roleId);
-        if(!"f695ab4049294c818ab806a1ffa0af93".equals(roleId)){
-            roleInfoMapper.addRel(userId,roleId);
+        if(Constant.Role.ORDINARY.getRoleId().equals(roleId)){
+            Integer integer = roleInfoMapper.hasRole(userId, roleId);
+            if (integer.compareTo(1) == 0){
+                return ResultVo.success(2000,"添加成功");
+            }
         }
+        roleInfoMapper.addRel(userId,roleId);
         return ResultVo.success(2000,"添加成功");
     }
 
