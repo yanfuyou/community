@@ -139,7 +139,7 @@ sa-token:
 
 community:
 #  fileHost: http://localhost
-  fileHost: http://20.100.202.162
+  fileHost: https://communityapp.azurewebsites.net
   adminAddress: http://20.100.202.162:8090/
 swagger:
   enable: false
