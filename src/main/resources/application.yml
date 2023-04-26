@@ -138,7 +138,7 @@ sa-token:
   is-print: false
 
 community:
-#  fileHost: http://localhost
+#  fileHost: http://localhost:8081
   fileHost: https://communityapp.azurewebsites.net
   adminAddress: http://20.100.202.162:8090/
 swagger:
