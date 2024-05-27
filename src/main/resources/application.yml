@@ -76,11 +76,13 @@ spring:
       matching-strategy: ant-path-matcher
   redis:
     #    主机地址
-    host: 127.0.0.1
+#    host: 127.0.0.1
+    host: 20.100.202.162
     #    端口
     port: 6379
 #    密码
-    password: ENC(AsYtJ2MfsAOLgb4hyICdGQ==)
+#    password: ENC(AsYtJ2MfsAOLgb4hyICdGQ==)
+    password: fuyou
     #    数据库索引（默认为0）
     database: 0
     #    连接超时时间
@@ -136,8 +138,8 @@ sa-token:
   is-print: false
 
 community:
-#  fileHost: http://localhost
-  fileHost: http://20.100.202.162
+#  fileHost: http://localhost:8081
+  fileHost: https://communityapp.azurewebsites.net
   adminAddress: http://20.100.202.162:8090/
 swagger:
   enable: false

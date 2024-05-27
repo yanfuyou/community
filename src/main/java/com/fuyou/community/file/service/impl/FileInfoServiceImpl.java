@@ -67,7 +67,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                 fileInfo.setUserId(userInfo.getId());
                 String originName = file.getOriginalFilename();
                 fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
-                fileInfo.setVisitPath(this.fileHost +":8081/community/upload/" + fileInfo.getSaveName());
+                fileInfo.setVisitPath(this.fileHost +"/community/upload/" + fileInfo.getSaveName());
                 fileInfo.setFileName(originName);
                 int insert = fileInfoMapper.insert(fileInfo);
                 if (insert < 1) {
@@ -114,7 +114,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                     String originName = file.getOriginalFilename();
                     fileInfo.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfo.setFileName(originName);
-                    fileInfo.setVisitPath(this.fileHost +":8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
+                    fileInfo.setVisitPath(this.fileHost +"/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfo.getSaveName());
                     try {
                         File saveFile = new File(savePath, fileInfo.getSaveName());
                         if (!saveFile.getParentFile().exists()) {
@@ -158,7 +158,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                     String originName = file.getOriginalFilename();
                     fileInfoM.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfoM.setFileName(originName);
-                    fileInfoM.setVisitPath(this.fileHost + ":8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfoM.getSaveName());
+                    fileInfoM.setVisitPath(this.fileHost + "/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfoM.getSaveName());
                     fileInfoMapper.insert(fileInfoM);
                     try {
                         File saveFile = new File(savePath, fileInfoM.getSaveName());
@@ -194,7 +194,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                         fileInfoA.setUserId(userInfo.getId());
                         String originName = file.getOriginalFilename();
                         fileInfoA.setSaveName(fileId + "." + originName.split("\\.")[1]);
-                        String visitPath = this.fileHost + ":8081/community/upload/" + fileInfoA.getSaveName();
+                        String visitPath = this.fileHost + "/community/upload/" + fileInfoA.getSaveName();
                         fileInfoA.setVisitPath(visitPath);
                         fileInfoA.setFileName(originName);
                         int insert = fileInfoMapper.insert(fileInfoA);
@@ -234,7 +234,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
                     String originName = file.getOriginalFilename();
                     fileInfoV.setSaveName(fileId + "." + originName.split("\\.")[1]);
                     fileInfoV.setFileName(originName);
-                    fileInfoV.setVisitPath(this.fileHost + ":8081/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfoV.getSaveName());
+                    fileInfoV.setVisitPath(this.fileHost + "/community/upload/files/" + CurrentUtil.getLoginUser().getId() + "/" + fileInfoV.getSaveName());
                     fileInfoV.setBizType(Constant.BizType.VIDEO);
                     fileInfoMapper.insert(fileInfoV);
                     try {
